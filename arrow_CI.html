@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arrow and Continuous Integration</title>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+
+        <h3>
+            <a name="arrow-and-continuous-integration" class="anchor" href="#arrow-and-continuous-integration"><span class="octicon octicon-link"></span></a>Arrow and Continuous Integration</h3>
+
+        <p>
+            Arrow has always had Continuous Integration in mind. Arrow provides you with all of the necessary tools to run in a CI System.
+        </p>
+
+        <h3>
+            <a name="dealing-with-different-environments-or-hosts" class="anchor" href="#dealing-with-different-environments-or-hosts"><span class="octicon octicon-link"></span></a>Dealing With Different Environments or Hosts</h3>
+
+        <p>
+            In all CI systems, you must deal with varying hosts as your code moves through its validation cycle. For example, as you are developing, the host of the application will likely be localhost or perhaps a development machine. Once you commit your code it may go to an integration environment where the host will likely be different. Yet as that code moves to your staging or even production environment, your host will change once more.
+        </p>
+
+        <p>
+            You can manage this using <a href="">test descriptors</a> and <a href="">dimensions files</a>
+        </p>
+
+        <p>
+            You can also manage this by using the <strong>--baseUrl</strong> parameter in your command:
+            arrow <some test or test descriptor> --baseUrl=http://some.base.url.com
+        </p>
+
+        <h3>
+            <a name="reporting" class="anchor" href="#reporting"><span class="octicon octicon-link"></span></a>Reporting</h3>
+
+        <p>
+            As <a href="">described before</a>, Arrow supports two types of reports. If you use multiple test descriptors for your execution, Arrow will merge the results and report all results in one report (of each type).
+        </p>
+
+        <p>
+            To enable reporting simply include the --report=true parameter in your command
+            <pre><code>arrow <some test or test descriptor> --report=true</code></pre>
+        </p>
+
+    </section>
+</div>
+
+<!-- FOOTER  -->
+<div id="footer_wrap" class="outer">
+    <footer class="inner">
+        <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+    </footer>
+</div>
+
+
+
+</body>
+</html>
