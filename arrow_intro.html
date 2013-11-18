@@ -1,81 +1,101 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Arrow Introduction</title>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arrow</title>
 </head>
+
 <body>
 
-<table width="80%" align="center">
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
 
-<tr>
-    <td>
-<h2>What is Arrow?</h2>
-    </td>
-</tr>
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
 
-<tr>
-    <td align="justify">
-Arrow is a test framework designed to promote test-driven JavaScript development. Arrow provides a consistent test creation and execution environment for both developers and quality engineers.<br><br>
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
 
-It aims to completely remove the line between development's Unit tests, and QE's functional and integration tests, by providing a uniform way to create and execute both.<br><br>
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
 
-Arrow itself, is a thin, extensible layer that marriages JavaScript, NodeJS, PhantomJS and Selenium. Arrow allows you to write tests using YUI-Test and execute those tests using NodeJS, PhantomJS or Selenium. Additionally, it provides a rich mechanism for building, organizing and executing tests and test scenarios.<br>
-    </td>
-</tr>
+        <h3>
+            <a name="what-is-arrow" class="anchor" href="#what-is-arrow"><span class="octicon octicon-link"></span></a>What is Arrow?</h3>
 
-<tr>
-    <td align="justify">
-<h2>Why Use Arrow</h2>
-    </td>
-</tr>
+        <p>
+            Arrow is a test framework designed to promote test-driven JavaScript development. Arrow provides a consistent test creation and execution environment for both developers and quality engineers.<br><br>
 
- <tr>
-     <td align="justify">
-Arrow's design is based on the idea that test purpose should not dictate how tests are created or executed. Using Arrow, users can create Unit tests to validate specific units of JavaScript code, create pre-commit Functional tests against a mock page, reuse those tests in post-commit scenarios, while also creating cross-page test scenarios that exercise Integration.
-     </td>
- </tr>
+            It aims to completely remove the line between development's Unit tests, and QE's functional and integration tests, by providing a uniform way to create and execute both.<br><br>
 
-<tr>
-    <td align="justify">
-<h2>What can I do with Arrow?</h2>
-    </td>
-</tr>
+            Arrow itself, is a thin, extensible layer that marriages JavaScript, NodeJS, PhantomJS and Selenium. Arrow allows you to write tests using YUI-Test and execute those tests using NodeJS, PhantomJS or Selenium. Additionally, it provides a rich mechanism for building, organizing and executing tests and test scenarios.<br>
+        </p>
 
-<tr>
-    <td align="justify">
-The answer is simple, anything you can do with JS and NodeJS or Selenium, you can do with Arrow. In addition to unit, functional and integration tests, you can also test web services using NodeJS.
-    </td>
-</tr>
+        <h3>
+            <a name="why-use-arrow" class="anchor" href="#why-use-arrow"><span class="octicon octicon-link"></span></a>Why Use Arrow</h3>
 
-<tr>
-    <td align="justify">
-<h2>Arrow Internals</h2>
-    </td>
-</tr>
+        <p>Arrow's design is based on the idea that test purpose should not dictate how tests are created or executed. Using Arrow, users can create Unit tests to validate specific units of JavaScript code, create pre-commit Functional tests against a mock page, reuse those tests in post-commit scenarios, while also creating cross-page test scenarios that exercise Integration.</p>
 
-<tr>
-    <td align="justify">
-Arrow's architecture is very simple. It is made up of 5 main components. <br>
+        <h3>
+            <a name="what-can-I-do-with-arrow" class="anchor" href="#what-can-I-do-with-arrow"><span class="octicon octicon-link"></span></a>What can I do with Arrow?</h3>
 
-<h3>Core components:</h3>
+        <p>The answer is simple, anything you can do with JS and NodeJS or Selenium, you can do with Arrow. In addition to unit, functional and integration tests, you can also test web services using NodeJS.</p>
 
-<h4>Test Session:</h4> Provides the mechanism for injecting tests onto a page.<br>
-<h4>Driver:</h4> In Arrow's terminology, this is what determines the driver of your tests. Which mechanism do you want injecting your tests. NodeJS, PhantomJS and Selenium are fully supported.<br>
-<h4>Arrow Server:</h4> Arrow sever provides two very important functionalities. First, it's a simple file server used to serve local mock pages when executing your tests using Selenium. Second, it is a reverse-proxy with a Web Driver implementation. This is used as a way to execute tests against browsers and devices not supported by Selenium. With Arrow Server running, ANY device can register itself with a given instance of Arrow Server, and that device can then be used as a test executor.<br>
+        <h3>
+            <a name="arrow-internals" class="anchor" href="#arrow-internals"><span class="octicon octicon-link"></span></a>Arrow Internals</h3>
 
-<h3>User-facing Components:</h3>
+        <p>Arrow's architecture is very simple. It is made up of 5 main components.</p>
 
-<h4>Controllers:</h4> If drivers allow you to dictate where to execute your tests, controllers, or scenario atoms allow you to dictate when to execute your tests. Arrow's default controller or scenario atom opens the page and executes the test. This works well for a large number of tests.However, if you require more complex scenario or more granular control, you can easily create your own controllers and control how and when your tests are executed.<br>
-<h4>Libs:</h4> Libs, or dependencies, are a way to include any necessary dependencies needed by your test. These can be things such as libraries you've created, the source code against which you are testing etc.<br>
-    </td>
-</tr>
 
-<tr>
-    <td align="center">
-<img src="./images/DetailedArchitectureDiagram.jpg"/>
-    </td>
-</tr>
-</table>
+        <h3>
+            <a name="core-components" class="anchor" href="#core-components"><span class="octicon octicon-link"></span></a>Core components</h3>
+
+        <h4>
+            <a name="test-session" class="anchor" href="#test-session"><span class="octicon octicon-link"></span></a>Test Session
+        </h4> <p>Provides the mechanism for injecting tests onto a page.</p>
+
+        <h4>
+            <a name="driver" class="anchor" href="#driver"><span class="octicon octicon-link"></span></a>Driver</h4>
+        <p>In Arrow's terminology, this is what determines the driver of your tests. Which mechanism do you want injecting your tests. NodeJS, PhantomJS and Selenium are fully supported.</p>
+        <a name="arrow-server" class="anchor" href="#arrow-server"><span class="octicon octicon-link"></span></a></h4>
+        <h4>Arrow Server</h4> <p> Arrow sever provides two very important functionalities. First, it's a simple file server used to serve local mock pages when executing your tests using Selenium. Second, it is a reverse-proxy with a Web Driver implementation. This is used as a way to execute tests against browsers and devices not supported by Selenium. With Arrow Server running, ANY device can register itself with a given instance of Arrow Server, and that device can then be used as a test executor.</p>
+
+        <h3><a name="user-facing-components" class="anchor" href="#user-facing-components"><span class="octicon octicon-link"></span></a>User-facing Components</h3>
+
+        <h4>
+            <a name="controllers" class="anchor" href="#controllers"><span class="octicon octicon-link"></span></a>
+            Controllers</h4> <p>If drivers allow you to dictate where to execute your tests, controllers, or scenario atoms allow you to dictate when to execute your tests. Arrow's default controller or scenario atom opens the page and executes the test. This works well for a large number of tests.However, if you require more complex scenario or more granular control, you can easily create your own controllers and control how and when your tests are executed.</p>
+
+        <a name="libs" class="anchor" href="#libs"><span class="octicon octicon-link"></span></a>
+        <h4>Libs</h4> <p>Libs, or dependencies, are a way to include any necessary dependencies needed by your test. These can be things such as libraries you've created, the source code against which you are testing etc.</p>
+
+        <p><img src="./images/DetailedArchitectureDiagram.jpg"/></p>
+
+
+    </section>
+</div>
+
+<!-- FOOTER  -->
+<div id="footer_wrap" class="outer">
+    <footer class="inner">
+        <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+    </footer>
+</div>
+
+
 
 </body>
 </html>
