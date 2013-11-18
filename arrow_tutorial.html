@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arrow Tutorial</title>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+
+        <h3>
+            <a name="arrow-tutorial" class="anchor" href="#arrow-tutorial"><span class="octicon octicon-link"></span></a>Arrow Tutorial</h3>
+
+        <p>
+            This chapter will walk through the various types of tests for which Arrow is <em>normally</em> used; tests such as <a href="#unit-tests">Unit</a>, <a href="#functional-tests">Functional</a> and <a href="#integration-tests">Integration</a>.
+        </p>
+
+        <h3>
+            <a name="prerequisites" class="anchor" href="#prerequisites"><span class="octicon octicon-link"></span></a>Prerequisites</h3>
+
+        <p>
+
+            You must have:
+            <ul>
+                <li><a href="http://pranavparikh.github.io/arrow/arrow_getting_started.html#installation">Installed</a> the Arrow framework</li>
+                <li><a href="https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial">Downloaded</a> Arrow Tutorial from GitHub</li>
+            </ul>
+
+        </p>
+
+        <h3>
+            <a name="unit-tests" class="anchor" href="#unit-tests"><span class="octicon octicon-link"></span></a>Unit Tests</h3>
+
+        <p>
+            The demo includes a <em>unit_test</em> folder and includes two files.</p>
+
+        <p>
+            In the world of JS, unit tests validate JS functions/classes which do not interact with the DOM. Functionality which interacts with the DOM is usually considered to be functional and should be tested as such.
+        </p>
+
+        <h4>
+            <a name="executing-unit-test" class="anchor" href="#executing-unit-test"><span class="octicon octicon-link"></span></a>Executing the Unit Test</h4>
+
+        <p>
+
+            To execute the unit test example do the following:
+
+            <ul>
+                <li>
+                    1. Start arrow_server (leave that prompt open): <pre><code>arrow_server</code></pre> [ Note: This is required only when running the test against PhantomJS or a Selenium-supported browser) ]
+                </li>
+                <li>
+                    2. On a separate command prompt navigate to: <pre><code>~/arrow_tutorial/unit_test/test</code></pre>
+                </li>
+                <li>
+                    3. NodeJS is the default driver for JS unit tests and does not require any configuration. To run against NodeJS, type:
+
+                    <pre><code>./node_modules/.bin/arrow test-unit.js --lib=../src/greeter.js</code></pre>
+
+                    where: --lib= specifies the location of the source code to test.
+                </li>
+            </ul>
+        </p>
+
+        <p>
+
+            To run against PhantomJS or a Selenium-supported browser, enter:
+
+                    <pre><code>
+./node_modules/.bin/arrow test-unit.js --lib=../src/greeter.js --driver=selenium --browser=phantomjs
+
+./node_modules/.bin/arrow test-unit.js --lib=../src/greeter.js --driver=selenium --browser=firefox</code></pre>
+
+        </p>
+
+        <p>
+
+            <strong>Note:</strong> <a href="http://pranavparikh.github.io/arrow/arrow_getting_started.html#confirm-you-can-run-the-arrow-server">Arrow Server</a> and
+            <a href="http://pranavparikh.github.io/arrow/arrow_getting_started.html#confirm-selenium-is-running">Selenium</a> need to be running
+
+        </p>
+
+        <p>
+
+            When you execute using PhantomJS, a screenshot is captured automatically. The screenshot is stored in the location where you executed the test (in this case, <pre><code>unit_test/test/</code></pre>).
+
+        </p>
+
+
+        <h3>
+            <a name="functional-tests" class="anchor" href="#functional-tests"><span class="octicon octicon-link"></span></a>Functional Tests</h3>
+
+        <h4>
+            <a name="src" class="anchor" href="#src"><span class="octicon octicon-link"></span></a>src
+        </h4>
+
+        <p>
+            Functional testing is a broad definition for anything that is <em>not</em> a unit test.
+            This may include tests such as JS UI functional tests and integration tests.
+        </p>
+
+        <p>
+            As in the <em>unit_test</em> demo, under <em>arrow_tutorial</em> there is a folder called <em>func_tests</em>. For the purpose of this demo, we will be working with YUI "multi-tab" module. Furthermore, during this stage of testing, functional, we'll use a mock page to mock our ultimate application.</p>
+        </p>
+
+        <h4>
+            <a name="test" class="anchor" href="#test"><span class="octicon octicon-link"></span></a>test
+        </h4>
+
+        <p>
+            There are are number of <em>test</em> files in our test folder
+         </p>
+
+        <p>
+
+            For now, let's look deeper at the <em>test-func.js</em> file. The tests within are pretty simple, they test:
+
+            <ul>
+                <li>
+                    The tabs are present.
+                </li>
+                <li>
+                    You can select different tabs.
+                </li>
+            </ul>
+
+        </p>
+
+        <h4>
+            <a name="executing-functional-test" class="anchor" href="#executing-functional-test"><span class="octicon octicon-link"></span></a>Executing the Functional Test
+        </h4>
+
+        <p>
+            To execute the func tests do the following:
+
+            <ul>
+                <li>
+                    1. Start arrow_server (leave that prompt open): <pre><code>arrow_server</code></pre>
+                </li>
+
+                <li>
+                    2. On a separate command prompt navigate to <pre><code>~/arrow_tutorial/func_test/test</code></pre>
+                </li>
+
+                <li>
+                    3. Because these tests require a web page, Arrow defaults the driver to FireFox (Note Selenium Server must be running), type:
+                    <pre><code>./node_modules/.bin/arrow test-func.js  --page=testMock.html --lib=test-lib.js</code></pre>
+                    where: <pre><code>--page=..</code></pre> tells Arrow where the mock page resides
+                </li>
+
+            </ul>
+
+            To run against PhantomJS, enter:
+            <pre><code>./node_modules/.bin/arrow test-func.js  --page=testMock.html --lib=test-lib.js  --browser=phantomjs</code></pre>
+            </p>
+
+              <p>
+            <strong>Note</strong> if the <em>--browser</em> parameter is used, Arrow will direct traffic to your instance of <em>Selenium Server</em> or <em>Arrow Server</em>
+             </p>
+
+
+            <p>
+            You do not need to provide the full URL to the mock page; Arrow takes care of that for you.
+            </p>
+
+            <p>
+            <strong>Note</strong> In the commands above, we included our test library file as input in the --lib= param. We did this in order to satisfy test-func.js's dependency on this file.
+            </p>
+
+        </p>
+
+
+        <h3><a name="integration-tests" class="anchor" href="#integration-tests"><span class="octicon octicon-link"></span></a>Integration Tests</h3>
+
+        <p>
+            In Arrow, the difference between a JavaScript UI functional test and a JavaScript UI integration test is minor. From Arrow's perspective, <em>integration tests</em> can be functional tests executed against an HTTP End-Point. An HTTP End-Point can be an integration, staging or production environment.
+        </p>
+
+        <p>In other words, if your JavaScript UI <em>functional_test</em> is constructed smartly, you could use it for integration testing as well.
+        </p>
+
+        <p>
+            Consider the `test-int.js `_ file. It confirms the tabs have specific values. For this simple app, those values <em>would</em> come from a WS or some type of integration with another system.
+        </p>
+
+        <h4>
+            <a name="executing-the-integration-tests" class="anchor" href="#executing-the-integration-tests"><span class="octicon octicon-link"></span></a>
+            Executing the Integration Test</h4>
+        <p>
+
+            For this example, we'll suppose our AUT is hosted elsewhere (perhaps in an integration, testing, or staging environment); <a href="http://www.doctor46.com/tabview.html">http://www.doctor46.com/tabview.html</a>
+        </p>
+
+        <p>
+
+            Execution of the tests follows a familiar theme:
+
+            <ul>
+                <li>
+                    1. Because the AUT is hosted elsewhere, we don't need arrow_server, simply navigate to: ~/arrow_tutorial/func_test/test
+                </li>
+                <li>
+                    2. To execute type:
+                    <pre><code>./node_modules/.bin/arrow test-int.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
+                    </code></pre>
+                </li>
+            </ul>
+
+            <strong>Note:</strong> the --page parameter is now pointing to an HTTP End-Point rather than our mock page
+        </p>
+        <p>
+            <strong>Note:</strong> To run against PhantomJS, enter:
+            <pre><code>./node_modules/.bin/arrow test-int.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js --browser=phantomjs
+            </code></pre>
+
+        Similarly, you can run functional tests (test-func.js) against the HTTP endpoint like this:
+
+        <pre><code>./node_modules/.bin/arrow test-func.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js</code></pre>
+
+        </p>
+
+        <a name="conclusion" class="anchor" href="#conclusion"><span class="octicon octicon-link"></span></a>
+        <h3>Conclusion</h3>
+        <p>As you can see, Arrow allows you to execute all types of tests (unit, functional and integration) using the same methodology.</p>
+         <p>Unlike other frameworks, it does not dictate to you how to execute different tests. As far as Arrow is concerned, tests are just tests.</p>
+
+
+    </section>
+</div>
+
+<!-- FOOTER  -->
+<div id="footer_wrap" class="outer">
+    <footer class="inner">
+        <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+    </footer>
+</div>
+
+
+
+</body>
+</html>
