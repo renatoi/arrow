@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Extending And Developing Arrow</title>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+
+        <h3>
+            <a name="extending-controllers" class="anchor" href="#extending-controllers"><span class="octicon octicon-link"></span></a>Extending Controllers</h3>
+
+        <p>
+            Controllers are a very important part of Arrow. As described in the <a href="">architecture</a>, <em>controllers</em> are a way to control when and where your test will execute. By default, <strong>Arrow</strong> assumes you want to execute your test against the page or <em>HTTP</em> endpoint given in the <strong>--page=</strong> parameter. </p>
+
+        <p>
+            Additionally, Arrow provides the concept of <a href="">complex scenarios</a>, you can create a <em>scenario</em> using a combination of the <em>default</em> and the <a href="">locator controller.</a>
+        </p>
+
+        <p>
+            However, there may still be the case where Arrow's built-in controllers are not sufficient for your needs. In this case, a user can create their own <strong>custom controllers</strong> to satisfy their needs.
+        </p>
+
+        <p>
+            All controllers, including <em>default</em> and <em>locator</em> extend from the same <strong>controller</strong> interface. The <strong>controller</strong> interface provides you the following methods:
+            <ul>
+                <li>setup</li>
+                <li>execute</li>
+                <li>tearDown</li>
+            </ul>
+        </p>
+
+        <h3>
+            <a name="how-to-create-a-custom-controller" class="anchor" href="#how-to-create-a-custom-controller"><span class="octicon octicon-link"></span></a>How To Create A Custom Controller</h3>
+
+        <p>
+            Let's take the example we described in the <a href="">complex scenarios</a> section. In that case we wanted to go to finance.yahoo.com, enter a ticker value and make sure we got to the correct page. We can convert those steps to into a <em>custom controller</em>
+        </p>
+
+        <p>
+            First you need to make sure you can create a custom controller by executing this command:
+            <pre><code>sudo ln -s /usr/local/lib /node_modules</code></pre>
+        </p>
+
+        <p>
+            Now you can begin. Here is a sample implementation of what such a <em>custom controller</em> could look like:
+
+            <pre>
+            <code>
+var util = require("util");
+var log4js = require("arrow").log4js;
+var Controller = require("arrow").controller;
+
+function FinanceCustomController(testConfig,args,driver) {
+   Controller.call(this, testConfig,args,driver);
+
+   this.logger = log4js.getLogger("FinanceCustomController");
+}
+
+/*
+* All controllers MUST implement the Controller interface
+*/
+util.inherits(FinanceCustomController, Controller);
+
+/**
+* In the execute method you get full access to webdriver's methods
+* Additionally, you can get a handle to the parameters in your descriptor
+* file by using this.testParams
+*
+* Lastly, in this case, the last statement is to execute the test
+* You'll note executeTest includes the same parameters as Arrow's CLI
+*/
+FinanceCustomController.prototype.execute = function(callback) {
+   var self = this;
+
+   if(this.driver.webdriver){
+
+       //Get the various parameters needed from the Test Descriptor file
+       var txtLocator =  this.testParams.txtLocator;
+       var typeText =  this.testParams.typeText;
+       var btnLocator =  this.testParams.btnLocator;
+       var page = this.testParams.page;
+
+       //Get a handle of the WebDriver Object
+       var webdriver = this.driver.webdriver;
+
+       //Open the page you want to test
+       webdriver.get(page).then(function() {
+          self.logger.info(self.config);
+
+          //Navigate the page as necessary
+          webdriver.findElement(webdriver.By.css(txtLocator)).sendKeys(typeText);
+          webdriver.findElement(webdriver.By.css(btnLocator)).click();
+          self.testParams.page=null;
+          webdriver.getTitle().then(function(title) {
+
+          //Execute the test
+          self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
+          callback();
+       });
+     });
+   });
+ }else{
+   this.logger.fatal("Custom Controllers are currently only supported on Selenium Browsers");
+  }
+}
+
+module.exports = FinanceCustomController;
+            </code>
+            </pre>
+        </p>
+
+
+<p>
+    Now let's take a look at what the <em>Test Descriptor</em> would look like.
+    <pre>
+        <code>
+[
+   {
+       "settings": [ "master" ],
+       "name": "controllers",
+        "config": {
+           "baseUrl": "http://finance.yahoo.com"
+        },
+        "dataprovider" : {
+
+        "Test YHOO Ticker using Finance Controller" : {
+           "group" : "func",
+            "params" :{
+              "scenario": [
+              {
+                  "controller": "finance-controller.js",
+                  "params": {
+                  "page" : "$$config.baseUrl$$",
+                  "txtLocator": "#txtQuotes",
+                  "typeText": "yhoo",
+                  "btnLocator": "#btnQuotes",
+                  "test": "test-quote.js",
+                   "quote": "Yahoo! Inc. (YHOO)"
+             }
+            }
+          ]
+         }
+       }
+          }
+        },
+        {
+          "settings": [ "environment:development" ]
+         }
+       ]
+        </code>
+    </pre>
+</p>
+
+        <p>
+            The <em>Test Descriptor</em> includes all of the information the controller will need; all under the <strong>params</strong> node
+        </p>
+
+        <p>
+            <strong>Note:</strong> if the controller directory is scanned by --shareLibPath, you can use package_name.controller_name in <strong>controller</strong> node, as below:
+
+            <pre><code>"controller": "FinanceCustomController.finance-controller"</code></pre>
+        </p>
+
+        <h4>
+            <a name="how-to-execute" class="anchor" href="#how-to-execute"><span class="octicon octicon-link"></span></a>How To Execute</h4>
+
+        <p>
+            <pre><code>arrow &lt;name of the test descriptor&gt; --driver=selenium</code></pre>
+        </p>
+
+        <h3>
+            <a name="developing-arrow" class="anchor" href="#developing-arrow"><span class="octicon octicon-link"></span></a>How To Get Started</h3>
+
+        <p>
+            Obviously, the first step will be to <a href="">download the source code</a>
+        </p>
+
+        <p>
+            Once you have become familiar with Arrow, you'll probably want to make small changes to see them reflected locally.
+        </p>
+
+        <p>
+            To force NodeJS to look at your local instance of Arrow do the following:
+            <ul>
+                <li>1. Navigate to the location where Arrow's source code resides</li>
+                <li>2. Look for a file called package.json, it will be under: path_to_arrow_source/arrow/package.json)</li>
+                <li>3. From within the arrow folder, link your local instance of arrow to node by typing:
+                    <pre><code>sudo npm link</code></pre>
+                </li>
+           </ul>
+        </p>
+
+        <p>
+            You can confirm if the link was successful by changing Arrow version in package.json ( under arrow/) to 0.0.0
+            <pre><code>"version": "0.0.0",</code></pre>
+        </p>
+
+        <p>
+            Doing arrow --version, you should get:
+            <pre><code>0.0.0</code></pre>
+        </p>
+
+        <h3>
+            <a name="how-to-submit-a-patch" class="anchor" href="#how-to-submit-a-patch"><span class="octicon octicon-link"></span></a>How To Submit a Patch</h3>
+
+        <p>
+            Submit a pull request to <a href="https://github.com/yahoo/arrow">https://github.com/yahoo/arrow</a> when you want to submit your code. Your changes will merge with the master branch after review.
+        </p>
+
+        <h3><a name="how-to-run-unit-tests" class="anchor" href="#how-to-run-unit-tests"><span class="octicon octicon-link"></span></a>How to Run Unit/Functional Tests?</h3>
+
+        <p>
+            Get the <a href="https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial/unit_test">unit tests</a>.
+        </p>
+
+        <p>
+            Navigate to the unit tests -  /arrow_tutorial/unit_test/test.
+        </p>
+
+        <p>
+
+            Run the following command and make sure it passes
+
+            <pre><code>arrow test-unit.js --lib=../src/greeter.js</code></pre>
+        </p>
+
+        <h4>
+            <a name="how-to-run-functional-tests" class="anchor" href="#how-to-run-functional-tests"><span class="octicon octicon-link"></span></a>
+            WIP</h4>
+
+        <p>
+            Get the <a href="https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial/func_test">functional tests</a>.
+        </p>
+
+        <p>
+            Navigate to the functional tests -  /arrow_tutorial/func_test/test.
+        </p>
+
+
+        <p>
+            Run following command and make sure it passes
+            <pre><code>npm test</code></pre>
+        </p>
+
+    </section>
+</div>
+
+<!-- FOOTER  -->
+<div id="footer_wrap" class="outer">
+    <footer class="inner">
+        <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+    </footer>
+</div>
+
+
+
+</body>
+</html>
