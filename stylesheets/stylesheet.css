@@ -265,6 +265,15 @@ Full-Width Styles
   margin: 0 auto;
 }
 
+.floating-menu{
+    position: fixed;
+    background:#f2f2f2;
+    text-align:left;
+    width:25%;
+    z-index:300;
+
+}
+
 #forkme_banner {
   display: block;
   position: absolute;

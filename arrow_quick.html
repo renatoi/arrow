@@ -1,51 +1,63 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
     <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
 
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
     <title>Arrow Quick Installation</title>
 </head>
+
 <body>
 
-<table width="80%" align="center">
 
-    <tr>
-        <td align="center">
-<h2>Mac Installation</h2>
-        </td>
-    </tr>
-    <tr>
-        <td align="justify">
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+
+        <h3>
+            <a name="mac-installation" class="anchor" href="#mac-installation"><span class="octicon octicon-link"></span></a>Mac Installation</h3>
+
+        <p>
             It is assumed that user has already installed Nodejs and Phantomjs. For installing them please refer <a href="here">https://github.com/yahoo/arrow/blob/master/docs/arrow_cookbook/arrow_getting_started.rst#mac-installation</a>
             <br>Here we are installing Arrow locally.
-        </td>
+        </p>
 
-    </tr>
+        <p>
+            <ul>
+                <li>
+                    1.   This will create ./node_modules folder where you run the below command and will put yahoo-arrow inside - sudo npm install yahoo-arrow
+                </li>
 
+                <li>
+                    2.   Make sure Arrow got installed properly.The command given below will show the Arrow version you have installed.
+                    <pre><code>./node_modules/.bin/arrow --version</code></pre>
+                </li>
 
-    <tr>
-        <td align="justify">
-            1.   This will create ./node_modules folder where you run the below command and will put yahoo-arrow inside - sudo npm install yahoo-arrow
-        </td>
-    </tr>
-
-
-    <tr>
-
-        <td align="justify">
-            2.   Make sure Arrow got installed properly.The command given below will show the Arrow version you have installed.
-
-            ./node_modules/.bin/arrow --version
-
-        </td>
-    </tr>
-    <tr>
-        <td align="justify">
-            3.   Create a simple unit test- test-unit.js
-            <pre>
+                 <li>
+                     3.   Create a simple unit test- test-unit.js
+            <pre><code>
             YUI.add("unit-tests", function (Y) {
             //Create a basic test suite
             //We're calling it "unit test suite"
@@ -64,68 +76,65 @@
             //Arrow will take care of that. We simply need to "add" it to the runner
             Y.Test.Runner.add(suite);
             }, "0.1", {requires:["test"]});
-            </pre>
-        </td>
-    </tr>
+            </code></pre>
 
-    <tr>
-        <td align="justify">
-            4.   Run the test
+                 </li>
 
-            ./node_modules/.bin/arrow test-unit.js
-        </td>
-    </tr>
+                <li>
 
-    <tr>
-        <td align="justify">
-            5.   The output
-            <pre>
+                    4.   Run the test
+
+                    <pre><code>./node_modules/.bin/arrow test-unit.js</code></pre>
+
+                </li>
+
+                <li>
+                    5.   The output
+            <pre><code>
             Passed unit test suite onnodejs
             1 Passed, 0 Failed , 0 skipped
-                </pre>
-        </td>
-    </tr>
+            </code></pre>
+
+                </li>
+            </ul>
 
 
-    <tr>
-        <td align="center">
-        <h2>Linux Installation</h2>
-        </td>
-    </tr>
+        </p>
 
-    <tr>
-        <td align="justify">
-            It is assumed that user has already installed Nodejs, npm and Phantomjs. For installing them please refer <a href="here">https://github.com/yahoo/arrow/blob/master/docs/arrow_cookbook/arrow_getting_started.rst#linux-installation</a>
-        <td>
-    </tr>
 
-    <tr>
-        <td align="justify">
-            Here we are installing arrow locally.<br>
+        <h3>
+            <a name="linux-installation" class="anchor" href="#linux-installation"><span class="octicon octicon-link"></span></a>Linux Installation</h3>
 
-            1.    This will create ./node_modules folder where you run the below command and will put yahoo-arrow inside - sudo ynpm install yahoo-arrow
-        </td>
-    </tr>
+         <p>
+             It is assumed that user has already installed Nodejs, npm and Phantomjs. For installing them please refer <a href="here">https://github.com/yahoo/arrow/blob/master/docs/arrow_cookbook/arrow_getting_started.rst#linux-installation</a>
+         </p>
 
-    <tr>
-        <td align="justify">
-            2.    Configure Arrow to allow for custom controllers
 
-            sudo ln -s /home/y/lib/node_modules/ /node_modules
-        </td>
-    </tr>
+          <p>
+              <ul>
+                <li>
+                    Here we are installing arrow locally.<br>
 
-    <tr>
-        <td align="justify">
-            3.    Make sure Arrow got installed properly.The command given below will show the Arrow version you have installed.
-            ./node_modules/.bin/arrow --version
-        </td>
-    </tr>
+                    1.    This will create ./node_modules folder where you run the below command and will put yahoo-arrow inside - sudo ynpm install yahoo-arrow
 
-    <tr>
-        <td align="justify">
-            4.    Create a simple unit test- test-unit.js
-            <pre>
+                </li>
+                <li>
+                    2.    Configure Arrow to allow for custom controllers
+
+                    sudo ln -s /home/y/lib/node_modules/ /node_modules
+
+                </li>
+
+                <li>
+                    3.    Make sure Arrow got installed properly.The command given below will show the Arrow version you have installed.
+                    ./node_modules/.bin/arrow --version
+
+                </li>
+
+                <li>
+
+                    4.    Create a simple unit test- test-unit.js
+            <pre><code>
             YUI.add("unit-tests", function (Y) {
             //Create a basic test suite
             //We're calling it "unit test suite"
@@ -144,34 +153,41 @@
             //Arrow will take care of that. We simply need to "add" it to the runner
             Y.Test.Runner.add(suite);
             }, "0.1", {requires:["test"]});
-                </pre>
-        </td>
-    </tr>
+            </code></pre>
 
-    <tr>
-        <td align="justify">
-            5.   Run the test
+                </li>
 
-            ./node_modules/.bin/arrow test-unit.js
-        </td>
-    </tr>
+                <li>
+                    5.   Run the test
 
-    <tr>
+                    ./node_modules/.bin/arrow test-unit.js
 
-    <tr>
-        <td align="justify">
-            6.    The output
-            <pre>
+                </li>
+
+                <li>
+                    6.    The output
+            <pre><code>
 
             Passed unit test suite onnodejs
             1 Passed, 0 Failed , 0 skipped
-            </pre>
-
-        </td>
-    </tr>
+            </code></pre>
 
 
+                </li>
+              </ul>
 
-</table>
+          </p>
+
+    </section>
+</div>
+
+<!-- FOOTER  -->
+<div id="footer_wrap" class="outer">
+    <footer class="inner">
+        <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+    </footer>
+</div>
+
 </body>
 </html>
