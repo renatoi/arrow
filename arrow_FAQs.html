@@ -111,17 +111,17 @@ at Module.require (module.js:357:17)</code></pre></p>
 node.js:201
 throw e; // process.nextTick error, or 'error' event on first tick
 ^
-            SyntaxError: Unexpected token }
-            at Object.parse (native)
-            at DataProvider.getTestData (/usr/local/lib/node_modules/arrow/lib/util/dataprovider.js:21:31)
-            at SessionFactory.runAllTestSessions (/usr/local/lib/node_modules/arrow/lib/session/sessionfactory.js:55:12)
-            at Object.&lt;anonymous&gt; (/usr/local/lib/node_modules/arrow/index.js:56:16)
-                at Module._compile (module.js:432:26)
-                at Object..js (module.js:450:10)
-                at Module.load (module.js:351:31)
-                at Function._load (module.js:310:12)
-                at Array.0 (module.js:470:10)
-                at EventEmitter._tickCallback (node.js:192:40)</code></pre></p>
+SyntaxError: Unexpected token }
+at Object.parse (native)
+at DataProvider.getTestData (/usr/local/lib/node_modules/arrow/lib/util/dataprovider.js:21:31)
+at SessionFactory.runAllTestSessions (/usr/local/lib/node_modules/arrow/lib/session/sessionfactory.js:55:12)
+at Object.&lt;anonymous&gt; (/usr/local/lib/node_modules/arrow/index.js:56:16)
+at Module._compile (module.js:432:26)
+at Object..js (module.js:450:10)
+at Module.load (module.js:351:31)
+at Function._load (module.js:310:12)
+at Array.0 (module.js:470:10)
+at EventEmitter._tickCallback (node.js:192:40)</code></pre></p>
 
             <h4>
                 <a name="error-syntaxerror-unexpected-token-soln" class="anchor" href="#error-syntaxerror-unexpected-token-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
@@ -133,10 +133,11 @@ throw e; // process.nextTick error, or 'error' event on first tick
             <h3>
                 <a name="error-arrow-server-is-not-running" class="anchor" href="#error-arrow-server-is-not-running"><span class="octicon octicon-link"></span></a>Error: Arrow Server is not Running</h3>
 
-            <p><pre><code>node.js:137
-            throw e; // process.nextTick error, or 'error' event on first tick
-            ^
-            arrow_server is not running</code></pre></p>
+            <p><pre><code>
+node.js:137
+throw e; // process.nextTick error, or 'error' event on first tick
+^
+arrow_server is not running</code></pre></p>
 
             <h4>
                 <a name="error-arrow-server-is-not-running-soln" class="anchor" href="#error-arrow-server-is-not-running-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
@@ -166,7 +167,7 @@ throw e; // process.nextTick error, or 'error' event on first tick
             </p>
 
             <h3>
-                <a name="how-can-i-use-the-locator-controller-to-login" class="anchor" href="#how-can-i-use-the-locator-controller-to-login"><span class="octicon octicon-link"></span></a>How do I point Arrow to a Specific Selenium Server</h3>
+                <a name="how-can-i-use-the-locator-controller-to-login" class="anchor" href="#how-can-i-use-the-locator-controller-to-login"><span class="octicon octicon-link"></span></a>How can I use the Locator Controller to Login?</h3>
 
             <p>
                 Built-in, Arrow comes with two controllers, default and locator
@@ -183,44 +184,44 @@ throw e; // process.nextTick error, or 'error' event on first tick
                 <li>2. Execute the test</li>
             </ul>
 
-            <pre><code>[
-                {
-                "settings": [ "master" ],
-                "name": "YahooLogin",
-                "config": {
-                "baseUrl": "http://finance.yahoo.com"
-                },
-                "dataprovider" : {
-
-                "Use Locator to Login" : {
-                "group" : "func",
-                "params" :{
-                "scenario": [
-                {
-                "page": "http://login.yahoo.com/config/login?login=arrowtestuser1@yahoo.com&passwd=123456&.done=$$config.baseUrl$$"
-                },
-                {
-                "page": "$$config.baseUrl$$"
-                },
-                {
-                "test": "test-title.js",
-                "title": "Yahoo! Finance - Business Finance, Stock Market, Quotes, News"
-                }
-                ]
-                }
-                }
-                }
-                },
-                {
-                "settings": [ "environment:development" ]
-                }
-                ]</code></pre>
+            <pre><code>
+[
+   {
+     "settings": [ "master" ],
+     "name": "YahooLogin",
+     "config": {
+       "baseUrl": "http://finance.yahoo.com"
+     },
+     "dataprovider" : {
+       "Use Locator to Login" : {
+       "group" : "func",
+       "params" :{
+          "scenario": [
+          {
+            "page": "http://login.yahoo.com/config/login?login=arrowtestuser1@yahoo.com&passwd=123456&.done=$$config.baseUrl$$"
+          },
+          {
+            "page": "$$config.baseUrl$$"
+          },
+          {
+            "test": "test-title.js",
+            "title": "Yahoo! Finance - Business Finance, Stock Market, Quotes, News"
+          }
+        ]
+      }
+    }
+  }
+ },
+ {
+  "settings": [ "environment:development" ]
+ }
+]</code></pre>
 
             </p>
 
 
             <h3>
-                <a name="how-can-i-install-a-specific-arrow-version" class="anchor" href="#how-can-i-install-a-specific-arrow-version"><span class="octicon octicon-link"></span></a>How do I point Arrow to a Specific Selenium Server</h3>
+                <a name="how-can-i-install-a-specific-arrow-version" class="anchor" href="#how-can-i-install-a-specific-arrow-version"><span class="octicon octicon-link"></span></a>How can I install a specific Arrow version?</h3>
 
             <p>Though we don't encourage this, there may be times when you may need to use a specific version of Arrow.</p>
 
@@ -237,9 +238,9 @@ throw e; // process.nextTick error, or 'error' event on first tick
 
                 e.g
                 <pre><code>
-            "dependencies": {
-                "yahoo-arrow": "0.0.80",
-                ......
+"dependencies": {
+  "yahoo-arrow": "0.0.80",
+  ......
         </code></pre>
             </p>
 
@@ -264,7 +265,7 @@ throw e; // process.nextTick error, or 'error' event on first tick
             <h3>
                 <a name="how-do-i-write-traps"
                    class="anchor" href="#how-do-i-write-traps">
-                    <span class="octicon octicon-link"></span></a>My Project/Tests are using NodeJS 4.x, the new versions of Arrow expect NodeJS 6+. Will I have problems?</h3>
+                    <span class="octicon octicon-link"></span></a>How do I write Traps?</h3>
 
             <p>What guidelines should I follow when writing Traps?</p>
 
@@ -289,23 +290,22 @@ throw e; // process.nextTick error, or 'error' event on first tick
                 Example code:
                 <pre>
                 <code>
-                    YUI.add("photo-ModuleA-tests", function(Y) {
-                    var suite = new Y.Test.Suite("The description of this test suite");
-                    var Assert = Y.Assert;
-                    var lib = Y.Media.Test.Common;   //Include test library
-                    var lib2 = Y.Media.Test.ModuleA  //Include module-specific test library
-                    suite.add(new Y.Test.Case({   //Add tests into test suite
-                    "setUp": function(){},
-                    "testCloseByCloseButton": function(){……}, //All test methods must start with "test"
-                    "testCloseByBlackArea": function(){……}
-                    }));
-                    Y.Test.Runner.add(suite);
-                    }, "0.1", {requires:["arrow", "io", "node", "test” …… //Import all necessary dependencies
-                    "media-test-library-Common", //Import common library
-                    "media-test-library-ModuleA", //Import module-specific library
-                    ]});
-                </code>
-                </pre>
+YUI.add("photo-ModuleA-tests", function(Y) {
+  var suite = new Y.Test.Suite("The description of this test suite");
+  var Assert = Y.Assert;
+  var lib = Y.Media.Test.Common;   //Include test library
+  var lib2 = Y.Media.Test.ModuleA  //Include module-specific test library
+  suite.add(new Y.Test.Case({   //Add tests into test suite
+  "setUp": function(){},
+  "testCloseByCloseButton": function(){……}, //All test methods must start with "test"
+  "testCloseByBlackArea": function(){……}
+  }));
+  Y.Test.Runner.add(suite);
+  }, "0.1", {requires:["arrow", "io", "node", "test” …… //Import all necessary dependencies
+     "media-test-library-Common", //Import common library
+     "media-test-library-ModuleA", //Import module-specific library
+   ]});
+</code></pre>
             </p>
 
 
@@ -336,29 +336,30 @@ throw e; // process.nextTick error, or 'error' event on first tick
                 Example code:
                 <pre>
                 <code>
-                    YUI.add("child-process-tests", function (Y) {
-                    var suite = new Y.Test.Suite("unit test suite");
+YUI.add("child-process-tests", function (Y) {
+   var suite = new Y.Test.Suite("unit test suite");
 
-                    suite.add(new Y.Test.Case({
-                    "test command runner with istanbul instrument": function() {
-                    self = this;
-                    Y.IstanbulCommandRunner.setIstanbulRoot(__dirname + '/lib');
-                    var cp = Y.IstanbulCommandRunner.spawn(__dirname + '/app/child-app.js', ["--foo"]);
-                    cp.on('exit',function(code){
-                    console.log('From parrent: sub exit with ' + code);
-                    });
+   suite.add(new Y.Test.Case({
+     "test command runner with istanbul instrument": function() {
+     self = this;
+     Y.IstanbulCommandRunner.setIstanbulRoot(__dirname + '/lib');
+     var cp = Y.IstanbulCommandRunner.spawn(__dirname + '/app/child-app.js', ["--foo"]);
+     cp.on('exit',function(code){
+       console.log('From parrent: sub exit with ' + code);
+     });
 
-                    // If this test sessinon finished before above spawned child process exit,
-                    // seems the child process would be ended, so, please give enough time to
-                    // wait here
-                    this.wait(function () {}, 2000);
-                    }
-                    }));
+     // If this test sessinon finished before above spawned child process exit,
+     // seems the child process would be ended, so, please give enough time to
+     // wait here
+     this.wait(function () {}, 2000);
+     }
+  }));
 
-                    //Note we are not "running" the suite.
-                    //Arrow will take care of that. We simply need to "add" it to the runner
-                    Y.Test.Runner.add(suite);
-                    }, "0.1", {requires:["test", "istanbul-command-runner"]});                </code>
+   //Note we are not "running" the suite.
+   //Arrow will take care of that. We simply need to "add" it to the runner
+   Y.Test.Runner.add(suite);
+}, "0.1", {requires:["test", "istanbul-command-runner"]});
+                </code>
                 </pre>
             </p>
 
@@ -366,7 +367,7 @@ throw e; // process.nextTick error, or 'error' event on first tick
             <h3>
                 <a name="how-to-create-multiple-selenium-sessions-and-do-interation-testing"
                    class="anchor" href="#how-to-create-multiple-selenium-sessions-and-do-interation-testing">
-                    <span class="octicon octicon-link"></span></a>How to get code coverage on child process?</h3>
+                    <span class="octicon octicon-link"></span></a>How to create multiple selenium sessions and do interation testing?</h3>
 
             <p>
                 For example, to test interaction between 2 Yahoo! Messanger accounts, we need open two selenium sessions to serve page A (for user A), and page B (for user B), then do something like:

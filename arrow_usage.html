@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arrow Usage</title>
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+
+<h3><a name="Arrow Usage" class="anchor" href="#arrow-usage"><span class="octicon octicon-link"></span></a>Arrow Usage</h3>
+
+<h4><a name="Usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h4>
+<table width="100%">
+    <tr>
+        <td data-width="40%">--help</td>
+        <td data-width="60%">display this help page</td>
+    </tr>
+    <tr>
+        <td data-width="40%">--version</td>
+        <td data-width="60%">display installed arrow version</td>
+    </tr>
+    <tr>
+    <td data-width="40%">--lib</td>
+    <td data-width="60%">comma separated list of js files needed by the test</td>
+    </tr>
+    <tr>
+    <td data-width="40%">--shareLibPath</td>
+    <td data-width="60%">comma separated list of directories to be scan for share libraries</td>
+    </tr>
+    <tr>
+    <td data-width="40%">--page</td>
+    <td data-width="60%">(optional) path to the mock or production html page, for example: http://www.yahoo.com or mock.html</td>
+    </tr>
+
+    <tr>
+    <td data-width="40%">--driver</td>
+    <td data-width="60%">(optional) selenium|phantomjs|browser, default: phantomjs</td>
+    </tr>
+    <tr>
+    <td data-width="40%">--browser</td>
+    <td data-width="60%">(optional) firefox|chrome|opera|reuse, default: firefox</td>
+    </tr>
+    <tr>
+    <td data-width="40%">--controller</td>
+    <td data-width="60%">(optional) a custom controller javascript file</td>
+    </tr>
+    <tr>
+    <td data-width="40%">--engine</td>
+    <td data-width="60%">(optional) engine is kind of which test runner you want to use. By default yui testrunner. It also supports mocha,jasmine,qunit</td>
+    </tr>
+    <tr>
+    <td data-width="40%">--engineConfig</td>
+    <td data-width="60%">(optional) the file path to config file or a config string</td>
+    </tr>
+    <tr>
+    <td data-width="40%">--reuseSession</td>
+    <td data-width="60%">(optional) true, Used to run tests in existing sessions managed by selenium. Visit http://selenuim_host/wd/hub to setup sessions</td>
+    </tr>
+    <tr>
+    <td data-width="40%">--report</td>
+    <td data-width="60%">(optional) true, creates report files in junit and json format, and also prints a consolidated test report summary on console.</td>
+    </tr>
+    <tr>
+    <td data-width="40%">--testName</td>
+    <td data-width="60%">(optional) comma separated list of test name(s) defined in test descriptor, all other tests would be ignored.</td>
+    </tr>
+    <tr>
+        <td data-width="40%">--group</td>
+        <td data-width="60%">(optional) comma separated list of group(s) defined in test descriptor, all other groups would be ignored.</td>
+    </tr>
+    <tr>
+        <td data-width="40%">--logLevel</td>
+        <td data-width="60%">(optional) comma separated list of test name(s) defined in test descriptor, all other tests would be ignored.</td>
+    </tr>
+    <tr>
+        <td data-width="40%">--dimension</td>
+        <td data-width="60%">(optional) DEBUG|INFO|WARN|ERROR|FATAL, default: INFO</td>
+    </tr>
+    <tr>
+        <td data-width="40%">--context</td>
+        <td data-width="60%">(optional) name of ycb context</td>
+    </tr>
+</table>
+
+<h4><a name="Examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples</h4>
+
+
+<p>Unit test:</p>
+<pre>arrow test-unit.js   --lib=../src/greeter.js  </pre>
+
+<p>Unit test that load the share library automatically:</p>
+    <pre>arrow test-unit.js --shareLibPath=../src/</pre>
+
+  <p>Unit test with a mock page:</p>
+    <pre>arrow test-unit.js   --page=testMock.html   --lib=./test-lib.js</pre>
+
+  <p>Unit test with selenium:</p>
+    <pre>arrow test-unit.js   --page=testMock.html   --lib=./test-lib.js   --driver=selenium</pre>
+
+  <p>Integration test:</p>
+    <pre>arrow test-int.js   --page=http://www.hostname.com/testpage   --lib=./test-lib.js</pre>
+
+  <p>Integration test:</p>
+    <pre>arrow test-int.js   --page=http://www.hostname.com/testpage   --lib=./test-lib.js   --driver=selenium</pre>
+
+  <p>Custom controller:</p>
+    <pre>arrow   --controller=custom-controller.js   --driver=selenium </pre>
+    </section>
+</div>
+
+<!-- FOOTER  -->
+<div id="footer_wrap" class="outer">
+    <footer class="inner">
+        <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+    </footer>
+</div>
+</body>
+</html>
