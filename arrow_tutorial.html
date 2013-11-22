@@ -46,7 +46,7 @@
 
             You must have:
             <ul>
-                <li><a href="http://yahoo.github.io/arrow/arrow_getting_started.html#installation">Installed</a> the Arrow framework</li>
+                <li><a href="arrow_getting_started.html#installation">Installed</a> the Arrow framework</li>
                 <li><a href="https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial">Downloaded</a> Arrow Tutorial from GitHub</li>
             </ul>
 
@@ -71,7 +71,7 @@
 
             <ul>
                 <li>
-                    1. Start arrow_server (leave that prompt open): <pre><code>arrow_server</code></pre> [ Note: This is required only when running the test against PhantomJS or a Selenium-supported browser) ]
+                    1. Start arrow_server (leave that prompt open): <pre><code>./node_modules/.bin/arrow_server</code></pre> [ Note: This is required only when running the test against Selenium-supported browser) ]
                 </li>
                 <li>
                     2. On a separate command prompt navigate to: <pre><code>~/arrow_tutorial/unit_test/test</code></pre>
@@ -79,7 +79,7 @@
                 <li>
                     3. NodeJS is the default driver for JS unit tests and does not require any configuration. To run against NodeJS, type:
 
-                    <pre><code>./node_modules/.bin/arrow test-unit.js --lib=../src/greeter.js</code></pre>
+                    <pre><code>./node_modules/.bin/arrow unit_test/test/test-unit.js --lib=unit_test/src/greeter.js</code></pre>
 
                     where: --lib= specifies the location of the source code to test.
                 </li>
@@ -91,16 +91,16 @@
             To run against PhantomJS or a Selenium-supported browser, enter:
 
                     <pre><code>
-./node_modules/.bin/arrow test-unit.js --lib=../src/greeter.js --driver=selenium --browser=phantomjs
+            ./node_modules/.bin/arrow unit_test/test/test-unit.js --lib=unit_test/src/greeter.js --driver=selenium --browser=phantomjs
 
-./node_modules/.bin/arrow test-unit.js --lib=../src/greeter.js --driver=selenium --browser=firefox</code></pre>
+            ./node_modules/.bin/arrow unit_test/test/test-unit.js --lib=unit_test/src/greeter.js --driver=selenium --browser=phantomjs</code></pre>
 
         </p>
 
         <p>
 
-            <strong>Note:</strong> <a href="http://yahoo.github.io/arrow/arrow_getting_started.html#confirm-you-can-run-the-arrow-server">Arrow Server</a> and
-            <a href="http://yahoo.github.io/arrow/arrow_getting_started.html#confirm-selenium-is-running">Selenium</a> need to be running
+            <strong>Note:</strong> <a href="arrow_getting_started.html#confirm-you-can-run-the-arrow-server">Arrow Server</a> and
+            <a href="arrow_getting_started.html#confirm-selenium-is-running">Selenium</a> need to be running
 
         </p>
 
@@ -159,7 +159,7 @@
 
             <ul>
                 <li>
-                    1. Start arrow_server (leave that prompt open): <pre><code>arrow_server</code></pre>
+                    1. Start ./node_modules/.bin/arrow_server (leave that prompt open): <pre><code>arrow_server</code></pre>
                 </li>
 
                 <li>
@@ -168,20 +168,19 @@
 
                 <li>
                     3. Because these tests require a web page, Arrow defaults the driver to FireFox (Note Selenium Server must be running), type:
-                    <pre><code>./node_modules/.bin/arrow test-func.js  --page=testMock.html --lib=test-lib.js</code></pre>
+                    <pre><code>./node_modules/.bin/arrow func_test/test/test-func.js --page=testMock.html --lib=func_test/test/test-lib.js</code></pre>
                     where: <pre><code>--page=..</code></pre> tells Arrow where the mock page resides
                 </li>
 
             </ul>
 
             To run against PhantomJS, enter:
-            <pre><code>./node_modules/.bin/arrow test-func.js  --page=testMock.html --lib=test-lib.js  --browser=phantomjs</code></pre>
+            <pre><code>./node_modules/.bin/arrow func_test/test/test-func.js --page=testMock.html --lib=func_test/test/test-lib.js --browser=phantomjs</code></pre>
             </p>
 
               <p>
             <strong>Note</strong> if the <em>--browser</em> parameter is used, Arrow will direct traffic to your instance of <em>Selenium Server</em> or <em>Arrow Server</em>
              </p>
-
 
             <p>
             You do not need to provide the full URL to the mock page; Arrow takes care of that for you.
@@ -204,7 +203,7 @@
         </p>
 
         <p>
-            Consider the `test-int.js `_ file. It confirms the tabs have specific values. For this simple app, those values <em>would</em> come from a WS or some type of integration with another system.
+            Consider the <a href="https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial/unit_test/test/test-int.js">test-int.js</a> file. It confirms the tabs have specific values. For this simple app, those values <em>would</em> come from a WS or some type of integration with another system.
         </p>
 
         <h4>
@@ -225,7 +224,7 @@
                 </li>
                 <li>
                     2. To execute type:
-                    <pre><code>./node_modules/.bin/arrow test-int.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
+                    <pre><code>./node_modules/.bin/arrow func-test/test/test-int.js  --page=http://www.doctor46.com/tabview.html --lib=func_test/test/test-lib.js
                     </code></pre>
                 </li>
             </ul>
@@ -234,12 +233,12 @@
         </p>
         <p>
             <strong>Note:</strong> To run against PhantomJS, enter:
-            <pre><code>./node_modules/.bin/arrow test-int.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js --browser=phantomjs
+            <pre><code>./node_modules/.bin/arrow func-test/test/test-int.js  --page=http://www.doctor46.com/tabview.html --lib=func_test/test/test-lib.js --browser=phantomjs
             </code></pre>
 
         Similarly, you can run functional tests (test-func.js) against the HTTP endpoint like this:
 
-        <pre><code>./node_modules/.bin/arrow test-func.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js</code></pre>
+        <pre><code>./node_modules/.bin/arrow func-test/test/test-func.js  --page=http://www.doctor46.com/tabview.html --lib=func_test/test/test-lib.js</code></pre>
 
         </p>
 
@@ -259,7 +258,6 @@
         <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
     </footer>
 </div>
-
 
 
 </body>
