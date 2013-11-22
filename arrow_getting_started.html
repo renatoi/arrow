@@ -44,6 +44,7 @@
 
         We are working on providing support for Windows.</p>
 
+        <!--
         <p>
         Installation consists of three main steps
         <ul>
@@ -52,16 +53,19 @@
             <li>Setting up Arrow and starting Arrow Server</li>
         </ul>
         </p>
+        -->
 
         <h3>
             <a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h3>
 
         <p>
+
             These instructions assume you do not have NPM and NodeJS installed. If you do, skip step 1
-        <ul>
+
+        <ol>
 
             <li>
-                1. Install NodeJS and NPM
+                Install NodeJS and NPM
                 <p>
                             Go to <a name="download" class="anchor" href="http://nodejs.org/#download"><span class="octicon octicon-link">download</span></a>
                     and follow the installation instructions.
@@ -69,46 +73,35 @@
 
             </li>
 
-            <li>
-
-                2. Due to a bug in PhantomJS v1.5, Arrow's webdriver implementation expects PhantomJS v1.6 or higher. If you are using a version lower than 1.6, please update it. To install/update, please navigate to: <a href="http://phantomjs.org"> http://phantomjs.org/</a> and follow the instructions.
-                <p></p>
-            </li>
-
-            <li>
-                3. Copy the phantomjs binary to
-                    <pre><code>/usr/local/bin</code></pre>
-                <p></p>
-            </li>
-
         <li>
-            4. Make the phantomjs binary executable
-            <pre><code>chmod +x phantomjs</code></pre>
-            <p></p>
-        </li>
-
-        <li>
-            5. Install Arrow Package through NPM
+            Install Arrow Package through NPM
             <pre><code>npm install yahoo-arrow</code></pre>
             <p>
                 <strong>NOTE</strong> - We prefer installing Arrow locally. Also, notice that it will install local Arrow inside ./node_modules/yahoo-arrow folder, right where you executed the above command.
+             </p>
+            <p>
+                 If you already have node_modules or package.json in any of your parent directories, yahoo-arrow will be installed in that directory and <strong>NOT</strong> the current one. To avoid this, we recommend to add dependencies in <strong>package.json</strong>. For more information on package.json, look <a href="https://npmjs.org/doc/json.html">here</a>
             </p>
+
+                <pre>
+                "dependencies": {
+                "yahoo-arrow": "*"
+                }
+                </pre>
+                and do <pre>npm install</pre>
         </li>
 
-        <li>
-            6. Configure Arrow to allow for custom controllers (This step is only needed when you are installing Arrow globally)
-            <pre><code>sudo ln -s /usr/local/lib /node_modules</code></pre>
-        </li>
+        </ol>
 
+            <!--
         <li>
-            7. Start Arrow Server on the command prompt (note, this must be left <strong>ON</strong> or the process will die)
+            Start Arrow Server on the command prompt (note, this must be left <strong>ON</strong> or the process will die)
             <pre><code>./node_modules/.bin/arrow_server</code></pre>
         </li>
+        -->
 
 
-
-    </ul>
-        <p>Now you may proceed to Install Verification.</p>
+        <p>Now you may proceed to <a href="#verifying-the-installation">verify installation.</a></p>
 
         <h3>
             <a name="selenium-server" class="anchor" href="#selenium-server"><span class="octicon octicon-link"></span></a>Selenium Server</h3>
@@ -119,13 +112,13 @@
             <a name="start-selenium" class="anchor" href="#start-selenium"><span class="octicon octicon-link"></span></a>Start Selenium</h4>
 
         To start Selenium Server you simply need to do the following:
-        <ul>
+        <ol>
             <li>
-                1. Download latest standalone selenium server jar from <a href='https://code.google.com/p/selenium/downloads/list'>Selenium Download Page</a>
+                Download latest standalone selenium server jar from <a href='https://code.google.com/p/selenium/downloads/list'>Selenium Download Page</a>
                 <p></p>
             </li>
             <li>
-                2. To <strong>Run</strong> the Selenium executable type this:
+                To <strong>Run</strong> the Selenium executable type this:
                 <p></p>
                 <pre><code>java -jar path/to/selenium-server.jar</code></pre>
                 <p><strong>Note</strong> Selenium Server is <strong>NOT</strong> required for Arrow to work. However, it is strongly recommended.</p>
@@ -135,10 +128,33 @@
                     <pre><code>java -Dwebdriver.chrome.driver=./chromedriver -Dwebdriver.firefox.profile=default -jar selenium-server-standalone-2.xx.0.jar</code></pre>
                 </p>
             </li>
-        </ul>
+        </ol>
 
         <h4>
             <a name="configure-phantomjs" class="anchor" href="#configure-phantomjs"><span class="octicon octicon-link"></span></a>Configure PhantomJs</h4>
+
+        <p>
+            <ol>
+                <li>
+
+                    Arrow's webdriver implementation expects PhantomJS v1.6 or higher. If you are using a version lower than 1.6, please update it. To install/update, please navigate to: <a href="http://phantomjs.org"> http://phantomjs.org/</a> and follow the instructions.
+                    <p></p>
+                </li>
+
+                <li>
+                    Copy the phantomjs binary to
+                    <pre><code>/usr/local/bin</code></pre>
+                    <p></p>
+                </li>
+
+                <li>
+                    Make the phantomjs binary executable
+                    <pre><code>chmod +x phantomjs</code></pre>
+                    <p></p>
+                </li>
+            </ol>
+        </p>
+
 
         <p>To run phantomjs executable type this:
         <pre><code>phantomjs --webdriver=4445</code></pre></p>
@@ -153,7 +169,7 @@
             <a name="check-arrow-help" class="anchor" href="#check-arrow-help"><span class="octicon octicon-link"></span></a>Check Arrow Help</h4>
 
         <p>
-            <pre><code>arrow --help</code></pre>
+            <pre><code>./node_modules/.bin/arrow --help</code></pre>
             <pre><code>OPTIONS :
 --lib : a comma separated list of js files needed by the test
 --page : (optional) path to the mock or production html page
@@ -196,17 +212,14 @@ arrow --controller=custom-controller.js --driver=selenium</code></pre>
         <h4>
             <a name="check-arrow-version" class="anchor" href="#check-arrow-version"><span class="octicon octicon-link"></span></a>Check Arrow Version</h4>
 
-        <p><pre><code>arrow --version</code></pre></p>
+        <p><pre><code>./node_modules/.bin/arrow --version</code></pre></p>
         <p><pre><code>v0.0.86</code></pre></p>
 
         <h4>
             <a name="confirm-you-can-run-the-arrow-server" class="anchor" href="#confirm-you-can-run-the-arrow-server"><span class="octicon octicon-link"></span></a>Confirm you can run the Arrow server</h4>
 
-        <p><pre><code>arrow_server</code></pre></p>
-        <p><pre><code>l2tp-8-16:test ivan$ arrow_server
-        [2012-05-17 12:08:31.322] [INFO] console - Server running at: http://Ivans-MacBook-Air.local:4459
-        [2012-05-17 12:08:32.105] [INFO] console - GhostDriver Running At : http://Ivans-MacBook-Air.local:4460</code></pre></p>
-
+        <p><pre><code>./node_modules/.bin/arrow_server</code></pre></p>
+        <p><pre><code>Server running at: &lt;host&gt;:&lt;port&gt;</code></pre>
         <h4>
             <a name="confirm-selenium-is-running" class="anchor" href="#confirm-selenium-is-running"><span class="octicon octicon-link"></span></a>Confirm Selenium is Running</h4>
 
