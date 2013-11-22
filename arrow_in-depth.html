@@ -42,7 +42,7 @@
 Consider the following scenario:
  </p>
 <p>
-            You have just finished creating a suite of tests that validate the application we discussed in the <a href= "http://pranavparikh.github.io/arrow/arrow_tutorial.html">Arrow Tutorial</a>. <br>
+            You have just finished creating a suite of tests that validate the application we discussed in the <a href= "arrow_tutorial.html">Arrow Tutorial</a>. <br>
         </p>
 
         <p>
@@ -63,13 +63,13 @@ Consider the following scenario:
 
 
             <pre><code>
-./node_modules/.bin/arrow test-func.js  --page=testMock.html --lib=test-lib.js
-./node_modules/.bin/arrow test-func.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
-./node_modules/.bin/arrow test-int.js  --page=http://www.doctor46.com/tabview.html --lib=test-lib.js
+./node_modules/.bin/arrow func_test/test/test-func.js  --page=testMock.html --lib=func_test/test/test-lib.js
+./node_modules/.bin/arrow func_test/test/test-func.js  --page=http://www.doctor46.com/tabview.html --lib=func_test/test/test-lib.js
+./node_modules/.bin/arrow func_test/test/test-int.js  --page=http://www.doctor46.com/tabview.html --lib=func_test/test/test-lib.js
             </code></pre>
 
         <p>
-            Let's pretend we wanted to easily decide which test files executed and which didn't. Test <a href="">descriptors</a> allow you to do this easily and in one location.
+            Let's pretend we wanted to easily decide which test files executed and which didn't. Test <a href="arrow_in-depth.html#test-descriptors">descriptors</a> allow you to do this easily and in one location.
         </p>
 
  <h3><a name="Test Descriptors" class="anchor" href="#test-descriptors"><span class="octicon octicon-link"></span></a>Test Descriptors</h3>
@@ -216,19 +216,19 @@ Consider the following scenario:
  To execute <b>All</b> tests in a given test descriptor file, simply type (remember in this example, the name of our file is <em>test-descriptor.json</em>):
  </p>
 <pre>
- ./node_modules/.bin/arrow test-descriptor.json
+ ./node_modules/.bin/arrow func_test/test/test-descriptor.json
 </pre>
  <p>
  However, if you wanted to <b>only</b> execute tests <em>grouped</em> as <em>func</em>, you would type:
 </p>
 <pre>
- ./node_modules/.bin/arrow test-descriptor.json --group=func
+ ./node_modules/.bin/arrow func_test/test/test-descriptor.json --group=func
 </pre>
  <p>
  Similarly, you can choose to <b>only</b> execute a given test, based on its name. You can do that by typing:
 </p>
 <pre>
- ./node_modules/.bin/arrow test-descriptor.json --testName=dom
+ ./node_modules/.bin/arrow func_test/test/test-descriptor.json --testName=dom
 </pre>
 
 <h3><a name="Test Descriptor Best Practices" class="anchor" href="#test-descriptor-best-practices"><span class="octicon octicon-link"></span></a>Test Descriptor Best Practices</h3>
@@ -270,7 +270,7 @@ Consider the following scenario:
  </p>
 
  <pre>
- ./node_modules/.bin/arrow "**/*-descriptor.json"
+ ./node_modules/.bin/arrow "func_test/**/*-descriptor.json"
  </pre>
  <p>
  Arrow will traverse through all sub-folders, pick up the test descriptors which match <em>"**/*-descriptor.json"</em> glob, and execute them sequentially.
@@ -534,31 +534,70 @@ The descriptor will appear as follows for the given replace.json
 </p>
 
  <h4><a name="Configuration Location" class="anchor" href="#configuration-location"><span class="octicon octicon-link"></span></a>Configuration Location</h4>
-<table border=2>
-    <tr>
-        <td>MAC</td>
-        <td>/usr/local/lib/node_modules/arrow/config/config.js</td>
-    </tr>
-    <tr>
-        <td>Linux</td>
-        <td>TODO... needs to be updated </td>
-    </tr>
-    <tr>
-        <td>WIN</td>
-        <td>`%USERPROFILE%\\AppData\\Roaming\\npm\\node_modules\\arrow\\config\\config.js`</td>
-    </tr>
-
-</table>
  <p>
+ The default configuration file is located under - /node_modules/arrow/config/config.js
  The standard arrow config file looks like this
  </p>
 <pre>
 
- var config = {};
+// User default config
+config.seleniumHost = ""; //example: config.seleniumHost = "http://gridhost:port/wd/hub";
+config.phantomHost = "http://localhost:4445/wd/hub";
+config.context = "";
+config.defaultAppHost = "";
+config.logLevel = "INFO";
+config.browser = "firefox";
+config.parallel = false;
+config.baseUrl = "";
+// Framework config
+config.arrowModuleRoot = global.appRoot + "/";
+config.dimensions = config.arrowModuleRoot + "config/dimensions.json";
+config.defaultTestHost = config.arrowModuleRoot + "lib/client/testHost.html";
+config.defaultAppSeed = "http://yui.yahooapis.com/3.8.0/build/yui/yui-min.js";
+config.autolib = config.arrowModuleRoot + "lib/common";
 
- // User default config
- config.seleniumHost = "";
- //example: config.seleniumHost = "http://gridhost:port/wd/hub";
+//for yui sandbox
+config.useYUISandbox = false;  // when this is set to true,arrow will use an absolute YUI instead of the YUI on (or injected on) the page.
+config.sandboxYUIVersion = '3.8.0'; // please try make this the same with yui npm package version
+config.yuiSandboxRuntime = config.arrowModuleRoot + "lib/client/yui-test-runtime.js";  // default runtime js if download yui modules failed
+
+// for test engine
+config.engine="yui";   // yui, mocha, jasmine or qunit,default to "yui"
+config.engineConfig="";  // config object or fs path to the engine config if supported by engine(like mocha)
+config.testSeed = config.arrowModuleRoot + "lib/client/yuitest-seed.js";
+config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
+
+// config for share lib
+config.shareLibPath = ["./common"];     // Arrow will scan all given path for share lib. Example: [config.arrowModuleRoot + "../"]
+                                  // You can modify this to add multiple share lib path.
+config.scanShareLibPrefix = [];    // Arrow will only scan share lib with given prefix "martini_" if configured as ["martini_"]
+                                  // Or it will scan all folders for share lib under given path if it is empty : []
+                                  // You can modify this to add multiple prefix.
+config.scanShareLibRecursive = true;     // Only scan top level folders for the given prefix and given scan path if false,
+                                         // Otherwise it will scan recursively with the given path.
+config.enableShareLibYUILoader = false;    // Default false , inject all necessary share lib source code into test cases .
+                                           // If true, generate and inject YUI group/modules info and let YUI loader to load modules.
+                                           // the reason we need this is because in yahoo network lot of time
+                                           // lab manager windows VM's don't have access to any non-80 port of hudson slaves.
+                                           // In those scenarios, YUI config would be a blocker and YUI loader wont work.
+
+
+config.descriptorName = "test_descriptor.json";
+config.minPort = 10000;
+config.maxPort = 11000;
+config.coverage = false;
+config.coverageExclude = "";
+config.exitCode = false;
+config.retryCount = 0;
+config.keepIstanbulCoverageJson = false;
+config.color = true;
+config.report = true;
+
+config.testTimeOut = 30000; // if test does not get over in these many ms, Arrow fails the test.
+
+config.ignoreSslErrorsPhantomJs = true;
+
+
  config.context = "";
  config.defaultAppHost = "";
  config.logLevel = "INFO";
@@ -575,7 +614,6 @@ The descriptor will appear as follows for the given replace.json
  config.autolib = config.arrowModuleRoot + "lib/common";
  config.descriptorName = "test_descriptor.json";
 
- module.exports = config;
 </pre>
  <p>
  As you can see there are two types of configuration sections:
@@ -605,16 +643,10 @@ or
 
 <h3><a name="Complex Test Scenarios" class="anchor" href="#complex-test-scenarios"><span class="octicon octicon-link"></span></a>Complex Test Scenarios</h3>
 <p>
- There are situations where the default arrow controller will not allow you to create the type of test scenario you require. If you recall, the default arrow controller assumes the page you load is the page under test. To solve this you can use a different arrow controller called *locator*. The *locator* controller allows you to navigate to the page under test by allowing you to perform actions such as clicking and typing.
+ There are situations where the default arrow controller will not allow you to create the type of test scenario you require. If you recall, the default arrow controller assumes the page you load is the page under test. To solve this you can use a different arrow controller called <strong>locator</strong>. The <strong>locator</strong> controller allows you to navigate to the page under test by allowing you to perform actions such as clicking and typing.
 </p>
 <p>
  The controller samples can be found <a href="https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial/controllers/test">here </a>.
-</p>
-<p>
- .. The controller samples can be found `here. - TODO... need the link to the controller samples (@dmitris)
-</p>
-<p>
- .. TODO... needs to be updated
 </p>
 
  <h4><a name="The Locator Controller" class="anchor" href="#the-locator-controller"><span class="octicon octicon-link"></span></a>The Locator Controller</h4>
@@ -647,14 +679,14 @@ or
                      {
                          "controller": "locator",
                          "params": {
-                             "value": "#txtQuotes",
+                             "value": ".yucs-search-input",
                              "text": "yhoo"
                          }
                      },
                      {
                          "controller": "locator",
                          "params": {
-                             "value": "#btnQuotes",
+                             "value": "#yucs-sprop_button",
                              "click": true
                          }
                      },
@@ -712,7 +744,7 @@ or
      "controller": "locator",
      "params": {
              "using": "xpath",
-             "value": "//*[@id="btnQuotes"]",
+             "value": "//*[@id="yucs-sprop_button"]",
              "click": true
          }
  }
@@ -765,7 +797,7 @@ or
          webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function() {
              self.testParams.page=null;
              self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
-                callback();
+                callback(error);
              });
 
          });
@@ -799,9 +831,9 @@ or
                  "controller":"finance-controller.js",
                  "params":{
                      "page":"$$config.baseUrl$$",
-                     "txtLocator":"#txtQuotes",
+                     "txtLocator":".yucs-search-input",
                      "typeText":"yhoo",
-                     "btnLocator":"#btnQuotes",
+                     "btnLocator":"#yucs-sprop_button",
                      "test":"test-quote.js",
                      "quote":"Yahoo! Inc. (YHOO)"
                  }
@@ -815,10 +847,23 @@ or
 </pre>
  Custom controller best practice
  <ol>
-     <li>1.Make sure to include "var log4js = require("yahoo-arrow").log4js;" and "var Controller = require("yahoo-arrow").controller" to access yahoo-arrow.</li>
-     <li>2.Make sure to include "waitForElementPresent(webdriver.By.css(".title"))" before calling the callback() to return to the test or else sometime, "ARROW is not defined" error will appear since the test try to execute before even loading the page completely.</li>
-     <li>3.Make sure to include "self.testParams.page=null;" if you are on the page you want to be before calling your test</li>
+     <li>Make sure to include "var log4js = require("yahoo-arrow").log4js;" and "var Controller = require("yahoo-arrow").controller" to access yahoo-arrow.</li>
+     <li>Make sure to include "waitForElementPresent(webdriver.By.css(".title"))" before calling the callback() to return to the test or else sometime, "ARROW is not defined" error will appear since the test try to execute before even loading the page completely.</li>
+     <li>Make sure to include "self.testParams.page=null;" if you are on the page you want to be before calling your test</li>
  </ol>
+
+<h4><a name="Sharing test parameters among custom controllers and tests in a scenario node" class="anchor" href="#share-test-param"><span class="octicon octicon-link"></span></a>Sharing test parameters among custom controllers and tests in a scenario node</h4>
+<p>
+    In a complex test scenario, we may need multiple controllers or tests in a scenario node. Arrow provides a way to share variables among the controllers or tests, via this.testParams.shared.
+    Custom controller or test can set a Json object to this.testParams.shared, then it will pass to downstream controllers and tests.
+</p>
+<p>
+    The sample of sharing testParams from a test to another test can be found <a href="https://github.com/yahoo/arrow/tree/master/tests/functional/data/arrow_test/share_test_params/test_params_share-simple.json">here </a>.
+</p>
+<p>
+    The sample of sharing testParams for a custom controller to downstream custom controller and test can be found <a href="https://github.com/yahoo/arrow/tree/master/tests/functional/data/arrow_test/share_test_params/search-descriptor-test-params.json">here</a>.
+</p>
+
 
 
  <h3><a name="Test Engine" class="anchor" href="#test-engine"><span class="octicon octicon-link"></span></a>Test Engine</h3>
@@ -1079,17 +1124,6 @@ Also npm package or http links are supported in engine config.
  It is an absolute YUI instance and doesn't depend (or mess with) the YUI on test page.
  </p>
 
- <h4><a name="Sharing test parameters among custom controllers and tests in a scenario node" class="anchor" href="#share-test-param"><span class="octicon octicon-link"></span></a>Sharing test parameters among custom controllers and tests in a scenario node</h4>
-<p>
- In a complex test scenario, we may need multiple controllers or tests in a scenario node. Arrow provides a way to share variables among the controllers or tests, via this.testParams.shared.
- Custom controller or test can set a Json object to this.testParams.shared, then it will pass to downstream controllers and tests.
-</p>
- <p>
- The sample of sharing testParams from a test to another test can be found <a href="https://github.com/yahoo/arrow/tree/master/tests/functional/data/arrow_test/share_test_params/test_params_share-simple.json">here </a>.
- </p>
- <p>
- The sample of sharing testParams for a custom controller to downstream custom controller and test can be found <a href="https://github.com/yahoo/arrow/tree/master/tests/functional/data/arrow_test/share_test_params/search-descriptor-test-params.json">here</a>.
- </p>
 
  <h3><a name="Re-Using Browser Sessions" class="anchor" href="#re-using-browser-sessions"><span class="octicon octicon-link"></span></a>Re-Using Browser Sessions</h3>
 <p>
@@ -1174,6 +1208,19 @@ Also npm package or http links are supported in engine config.
 
  ./node_modules/.bin/arrow ./int/test-descriptor.json --phantomHost='http://x.x.x.x:4445/wd/hub' --seleniumHost='http://x.x.x.x:4444/wd/hub' --browser=phantomjs,chrome
 </pre>
+
+<h3><a name="Parallelism" class="anchor" href="#parallelism"><span class="octicon octicon-link"></span></a>Parallelism</h3>
+
+Arrow supports parallel execution of tests. By default <b>parallel</b> is set to <em>false</em>. You can update the value to the <em>maximum number</em> of threads you want to use. Keep in mind Arrow will try to create one Browser Session <b>PER</b> parallel count. It is important that you have enough system resources to support this.
+<h4><a name="How To Use?" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a> How To Use?</h4>
+
+ <pre>
+./node_modules/.bin/arrow &lt;some test or test descriptor&gt; --parallel=N
+ or
+./node_modules/.bin/arrow arrow &lt;some test or test descriptor&gt; --parallel=5
+ </pre>
+
+
 
  <h3><a name="Using Proxy" class="anchor" href="#using-proxy"><span class="octicon octicon-link"></span></a>Using Proxy</h3>
  <h4><a name="Features of Arrow Proxy server" class="anchor" href="#features-of-arrow-proxy-server"><span class="octicon octicon-link"></span></a>Features of Arrow Proxy server</h4>
@@ -1525,19 +1572,9 @@ config.scanShareLibPrefix = ["martini_", "dev_"];
  you are testing have access to your host where arrow server runs, you can make enableShareLibYUILoader true to improve performance.
 
  <pre>
- arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/ --enableShareLibYUILoader=true
+ ./node_modules/.bin/arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/ --enableShareLibYUILoader=true
  </pre>
 
- <h3><a name="Parallelism" class="anchor" href="#parallelism"><span class="octicon octicon-link"></span></a>Parallelism</h3>
-
-Arrow supports parallel execution of tests. By default <b>parallel</b> is set to <em>false</em>. You can update the value to the <em>maximum number</em> of threads you want to use. Keep in mind Arrow will try to create one Browser Session <b>PER</b> parallel count. It is important that you have enough system resources to support this.
- <h4><a name="How To Use?" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a> How To Use?</h4>
-
- <pre>
-./node_modules/.bin/arrow &lt;some test or test descriptor&gt; --parallel=N
- or
-./node_modules/.bin/arrow arrow &lt;some test or test descriptor&gt; --parallel=5
- </pre>
 
  <h3><a name="Reporting" class="anchor" href="#reporting"><span class="octicon octicon-link"></span></a>Reporting</h3>
 
