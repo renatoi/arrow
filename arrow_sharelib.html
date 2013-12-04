@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arrow In-Depth</title>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+        <h3><a name="Auto scan share libraries and controllers" class="anchor" href="#share-libraries"><span class="octicon octicon-link"></span></a>Auto scan share libraries and controllers</h3>
+
+        <p> A test case might need use some share libraries. The arrow command line option: "--lib" can be used to load the share lib module, but, for complex test case, it might need load a lot of share lib modules which is installed in many places, it would be hard to maintain such a long "--lib" list.</p>
+        <p>The share library auto scanner makes it simple.   </p>
+
+        <p>Arrow provides a configuration item: config.scanShareLibPath to set scan path, or by command line option: "--shareLibPath", which will override configuration. Use comma to seperate if want to specify more than one directory to scan.
+        </p>
+        Once share lib path is set, when arrow is launched, it will recursively search the YUI module (.js file) under the given path (directory), and follows the subfolder name convention as below:
+
+        <ul>
+            <li>directory name starts with a prefix like "martini_"; </li>
+            <li>subfolder: lib for share libraries;      </li>
+            <li>subfolder: lib/server for share libraries can be loaded on server side;  </li>
+            <li>subfolder: lib/client for share libraries can be loaded on client side;       </li>
+            <li>subfolder: lib/common for share libraries can be loaded on both server side and client side;</li>
+            <li>subfolder: controller for custom controllers;                                                    </li>
+            <li>there can be subfolders under above folders, and arrow will scan them recursively.                    </li>
+        </ul>
+ <pre>
+
+ martini_lib1
+ |-----lib/
+ |      |-----server/
+ |      |       |-----module1
+ |      |       |      |-----xxx.js
+ |      |       |
+ |      |       |-----module2
+ |      |       |      |-----xxx.js
+ |      |
+ |      |-----client/
+ |      |       |-----xxx.js
+ |      |
+ |      |-----common/
+ |              |-----xxx.js
+ |
+ |-----controller/
+ |      |-----my-sample-controller.js
+ |
+ |-----node_modules
+ |-----package.json
+
+ </pre>
+        <p>
+            The module under client directory will be registered as client module, the module under server directory will be registered as server module, the module under common directory will be registered as both client and server module. The controller directory is for custom controller.
+        </p>
+
+        <p>
+            Arrow will register the share libraries which followed above directory layout convention, as server side modules, client side modules, or custom controllers,  then we can still use common methods to load these module as other YUI Gallery modules in our test code, like YUI().use('module') or YUI.add(xxx ... require('module')), arrow would find and load the required module for it.
+        </p>
+
+        <p>
+            For custom controller, arrow will add "package_name." as prefix, like for above sample, then to specify custom controller in test descriptor, we can use controller path, or use "martini_lib1.my-sample-controller" instead.
+
+        <h4><a name="How To Use '--shareLibPath'" class="anchor" href="#how-to-use-sharelib"><span class="octicon octicon-link"></span></a>How To Use '--shareLibPath'</h4>
+        <p>
+            1. Find or create a npm package which has share library and followed above convention, install it locally or globally, for example
+        </p>
+        <pre>  npm install martini_testlib1 -g </pre>
+
+        2. Specify the install path to '--shareLibPath'
+
+        <pre>  ./node_modules/.bin/arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/martini_testlib1  </pre>
+
+        If installed more than one share lib packages globally, like martini_testlib2, we can specify multiple paths to '--shareLibPath', or specify the parent folder to '--shareLibPath'.
+
+ <pre>  ./node_modules/.bin/arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/martini_testlib1,/usr/local/lib/node_modules/martini_testlib2
+  ./node_modules/.bin/arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/
+</pre>
+        3. Use custom controller. In test descriptor, now we can use package_name.controller_name in <strong>controller</strong> node, as below:
+
+<pre>   "controller": "martini_testlib1.my-test-controller"
+</pre>
+
+        <strong>Note:</strong>
+        <p>
+            1. If want to let '--shareLibPath' to scan some directory other than martini_xxx, you can configure it on <em>/path/to/arrow/install/path/config/config.js</em>, for example, to scan dev_xxx directory, you can configure it as below:
+ <pre>
+config.scanShareLibPrefix = ["martini_", "dev_"];
+ </pre>
+        </p>
+
+        2.Another config is config.scanShareLibRecursive.If set to false, arrow will only scan top level folders for the given prefix and given scan path,otherwise it will scan recursively with the given path.</p>
+
+        3.<strong>And the next config: config.enableShareLibYUILoader ,this is important configuration.</strong> </p>
+        By default false ,arrow will inject all necessary share lib source code into test cases . If true, arrow will generate and inject YUI group/modules info and let YUI loader to load modules.To ensure YUI loader to get these modules,arrow will auto detect if arrow server is running and will restart it for YUI loader if not.
+        The reason we need this switch is because in yahoo network lot of time lab manager windows VM's don't have access to any non-80 port of hudson slaves.In those scenarios, YUI config would be a blocker and YUI loader wont work.So if you can make sure the pages
+        you are testing have access to your host where arrow server runs, you can make enableShareLibYUILoader true to improve performance.
+
+ <pre>
+ ./node_modules/.bin/arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/ --enableShareLibYUILoader=true
+ </pre>
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+            <footer class="inner">
+                <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+                <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+            </footer>
+        </div>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arrow In-Depth</title>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+
+        <h3><a name="Configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h3>
+        <p>
+            There are various ways to configure Arrow. Normally, Arrow's configuration file will be installed here
+        </p>
+
+        <h4><a name="Configuration Location" class="anchor" href="#configuration-location"><span class="octicon octicon-link"></span></a>Configuration Location</h4>
+        <p>
+            The default configuration file is located under - /node_modules/arrow/config/config.js
+            The standard arrow config file looks like this
+        </p>
+<pre>
+
+// User default config
+config.seleniumHost = ""; //example: config.seleniumHost = "http://gridhost:port/wd/hub";
+config.phantomHost = "http://localhost:4445/wd/hub";
+config.context = "";
+config.defaultAppHost = "";
+config.logLevel = "INFO";
+config.browser = "firefox";
+config.parallel = false;
+config.baseUrl = "";
+// Framework config
+config.arrowModuleRoot = global.appRoot + "/";
+config.dimensions = config.arrowModuleRoot + "config/dimensions.json";
+config.defaultTestHost = config.arrowModuleRoot + "lib/client/testHost.html";
+config.defaultAppSeed = "http://yui.yahooapis.com/3.8.0/build/yui/yui-min.js";
+config.autolib = config.arrowModuleRoot + "lib/common";
+
+//for yui sandbox
+config.useYUISandbox = false;  // when this is set to true,arrow will use an absolute YUI instead of the YUI on (or injected on) the page.
+config.sandboxYUIVersion = '3.8.0'; // please try make this the same with yui npm package version
+config.yuiSandboxRuntime = config.arrowModuleRoot + "lib/client/yui-test-runtime.js";  // default runtime js if download yui modules failed
+
+// for test engine
+config.engine="yui";   // yui, mocha, jasmine or qunit,default to "yui"
+config.engineConfig="";  // config object or fs path to the engine config if supported by engine(like mocha)
+config.testSeed = config.arrowModuleRoot + "lib/client/yuitest-seed.js";
+config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
+
+// config for share lib
+config.shareLibPath = ["./common"];     // Arrow will scan all given path for share lib. Example: [config.arrowModuleRoot + "../"]
+                                  // You can modify this to add multiple share lib path.
+config.scanShareLibPrefix = [];    // Arrow will only scan share lib with given prefix "martini_" if configured as ["martini_"]
+                                  // Or it will scan all folders for share lib under given path if it is empty : []
+                                  // You can modify this to add multiple prefix.
+config.scanShareLibRecursive = true;     // Only scan top level folders for the given prefix and given scan path if false,
+                                         // Otherwise it will scan recursively with the given path.
+config.enableShareLibYUILoader = false;    // Default false , inject all necessary share lib source code into test cases .
+                                           // If true, generate and inject YUI group/modules info and let YUI loader to load modules.
+                                           // the reason we need this is because in yahoo network lot of time
+                                           // lab manager windows VM's don't have access to any non-80 port of hudson slaves.
+                                           // In those scenarios, YUI config would be a blocker and YUI loader wont work.
+
+
+config.descriptorName = "test_descriptor.json";
+config.minPort = 10000;
+config.maxPort = 11000;
+config.coverage = false;
+config.coverageExclude = "";
+config.exitCode = false;
+config.retryCount = 0;
+config.keepIstanbulCoverageJson = false;
+config.color = true;
+config.report = true;
+
+config.testTimeOut = 30000; // if test does not get over in these many ms, Arrow fails the test.
+
+config.ignoreSslErrorsPhantomJs = true;
+
+
+ config.context = "";
+ config.defaultAppHost = "";
+ config.logLevel = "INFO";
+ config.browser = "firefox";
+ config.parallel = false;
+ config.baseUrl = "";
+ // Framework config
+ config.arrowModuleRoot = global.appRoot + "/";
+ config.dimensions = config.arrowModuleRoot + "config/dimensions.json";
+ config.defaultTestHost = config.arrowModuleRoot + "lib/client/testHost.html";
+ config.defaultAppSeed = "http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js";
+ config.testSeed = config.arrowModuleRoot + "lib/client/yuitest-seed.js";
+ config.testRunner = config.arrowModuleRoot + "lib/client/yuitest-runner.js";
+ config.autolib = config.arrowModuleRoot + "lib/common";
+ config.descriptorName = "test_descriptor.json";
+
+</pre>
+        <p>
+            As you can see there are two types of configuration sections:
+        </p>
+        <ul>
+            <li>User Config: These are configuration parameters which directly affect how your test or test suite will execute</li>
+            <li>Framework Config: These are configuration parameters which indirectly affect how your test or test suite will execute</li>
+        </ul>
+
+        <h4><a name="Overriding Configuration Values" class="anchor" href="#overriding-configuration-values"><span class="octicon octicon-link"></span></a> Overriding Configuration Values</h4>
+        <p>
+            Obviously, you can update the config file to <em>override</em> its settings. However, you can also <em>override</em> individual config parameters on a per-execution basis. Every config parameter can be <em>overridden</em> during execution like this:
+        </p>
+<pre>
+./node_modules/.bin/arrow &lt;some test or test descriptor&gt; --config=value
+or
+./node_modules/.bin/arrow &lt;some test or test descriptor&gt; --seleniumHost=http://some.url.com:1234/wd/hub
+or
+./node_modules/.bin/arrow &lt;some test or test descriptor&gt; --logLevel=debug --baseUrl=http://baseurl.com --browser=chrome
+</pre>
+        <p>
+            You can basically override any config parameter in the command line.
+        </p>
+        <p>
+            You can also <strong>completely</strong> override all configuration values by placing a config.js file at the root of your execution. Arrow always looks at the current directory for config.js file. If it finds one, it will use <strong>that</strong> file over the default configuration.
+        </p>
+<!-- FOOTER  -->
+<div id="footer_wrap" class="outer">
+    <footer class="inner">
+        <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+    </footer>
+</div>
+</body>
+</html>

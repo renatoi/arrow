@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arrow In-Depth</title>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+        <h3><a name="YUI abstraction (YUI sandboxing)" class="anchor" href="#yui-abstraction"><span class="octicon octicon-link"></span></a>YUI abstraction (YUI sandboxing)</h3>
+        <p>
+            Most of yahoo pages are built on YUI, if you are writing YUI test case testing against YUI pages, then YUI sandbox has great benefit with below scenarios:
+        </p>
+        <ul>
+            <li>The testing page builds on a lower YUI version (YUI@2.x or 3.x) .</li>
+            <li>The page has some restriction for YUI loader to fetch external modules (like mojito apps).</li>
+            <li>Simply you don't want to let test case affect the page or the features.</li>
+        </ul>
+
+        Then you can use YUI sandbox to test your code.
+
+        <h4><a name="How to use" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a>How to use</h4>
+
+        You can simply modify arrowRoot/config/config.js to set sandbox to true, or pass from command line:
+
+<pre>
+ config.useYUISandbox = true  or   --useYUISandbox=true  </pre>
+
+
+        Also you can figure whatever YUI version you want by config.sandboxYUIVersion or --sandboxYUIVersion, by default it will use the same version as YUI in arrow/node_modules, and it is what we recommended.
+
+        <h4><a name="Not to use" class="anchor" href="#not-to-use"><span class="octicon octicon-link"></span></a>Not to use</h4>
+
+        However under some situations , you should NOT use YUI sandbox:
+        <ul>
+            <li>Your test cases requires YUI modules only served on the test page, for example:</li>
+        </ul>
+ <pre>
+ YUI.add('example-tests',function(Y){...},'1.0.0', { requires: [ 'node' ] });,
+ </pre>
+
+        And 'example-module' is only served in test-page.html, then the page level YUI should be used instead of YUI in a sandbox.
+
+        <h4><a name="Sandbox detail(Advanced)" class="anchor" href="#sandbox-detail"><span class="octicon octicon-link"></span></a>Sandbox detail(Advanced)</h4>
+        <p>
+            Suppose we have a YUI test case and also have some test libs written as YUI.add(…), then we will wrap all these in IEFF(Immediately Executed Factory Function).
+        </p>
+<pre>
+
+ (function () {
+     var YUI;
+     ... //  1. all yui min/base goes here...
+     YUI.add(...)  // 2. all yui core modules goes here
+     YUI.add/use(...) // 3. custom's yui libs and yui tests goes here
+     YUITest/TestRunner... // 4. yui test runner start.
+ })();
+ </pre>
+        <p>
+            So that this sandbox(IEFF) contains all:  yui seed, yui core modules(auto resolved from test case/test libs), test libs, test cases and test engine.
+            It is an absolute YUI instance and doesn't depend (or mess with) the YUI on test page.
+        </p>
+
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+            <footer class="inner">
+                <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+                <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+            </footer>
+        </div>
+</body>
+</html>

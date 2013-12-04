@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arrow In-Depth</title>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+        <h3><a name="Re-Using Browser Sessions" class="anchor" href="#re-using-browser-sessions"><span class="octicon octicon-link"></span></a>Re-Using Browser Sessions</h3>
+        <p>
+            As you develop your tests, you may find it necessary to <em>test</em> them against a real browser, such as those supported by Selenium. However, one of the disadvantages of this approach is that normally, for each test file, a new browser session is started and stopped. This is time consuming and counter-productive during development.
+        </p>
+        <p>
+            Arrow supports the concept of <b>Session Reuse</b>.
+        </p>
+
+        <h3><a name="Using Session-Reuse" class="anchor" href="#using-session-reuse"><span class="octicon octicon-link"></span></a>Using Session-Reuse</h3>
+
+        Webdriver has a concept of sessions. Once a Selenium/WebDriver server instance is running, you can tell Selenium to <em>reuse</em> a given session. This is a very powerful and helpful idea because:
+        <ul>
+            <li>It expedites execution since a new browser window does not need to be instantiated. This greatly cuts down on execution time and puts <em>real</em> browser test execution time in-par with PhantomJS</li>
+            <li>As a developer, you can tell Selenium to <em>use</em> your preferred <em>profile</em> for the session. This means that if you have special plugins (such firebug, or developer tools, etc) installed, you can make use of them during test execution.</li>
+        </ul>
+        However, one should keep in mind that this approach means your test will have a non-sterile environment as session and cookie information will be <strong>reused</strong>
+
+        To use <em>Session-Reuse</em> do the following:
+
+        <ol>
+            <li>From within the machine running Selenium server go to: http://localhost:4444/wd/hub/static/resource/hub.html</li>
+            <li>Click on <em>create session</em> and choose the browser you want</li>
+            <li>A new Browser will start (that is your session) and set itself to a blank page</li>
+            <li>To tell Arrow to <b>Reuse</b> that session type:</li>
+
+        </ol>
+<pre>
+ ./node_modules/.bin/arrow &ltsome test or test descriptor&gt --reuseSession=true
+</pre>
+        <p>
+            Arrow will contact the Selenium Server in the config and will ask it if there are any <em>reusable</em> sessions. If so, it will direct all tests to them.
+        </p>
+        Note: Arrow will direct all tests to <b>ALL OPEN</b> sessions. If you want to further expedite your test execution time, you can start sessions for different browser and Arrow will execute your tests in parallel against all of them.
+
+        <h3><a name="Using Session-Reuse With Specific Profiles" class="anchor" href="#using-session-reuse-profiles"><span class="octicon octicon-link"></span></a>Using Session-Reuse With Specific Profiles</h3>
+
+        If you want to <em>reuse</em> your default profile, or a specific profile you use for developing simply type this when you start Selenium server.
+
+<pre>
+
+ java -Dwebdriver.firefox.profile=default -jar ./path/to/selenium/sever.jar </pre>
+
+        Or
+
+<pre>
+
+ java -Dwebdriver.firefox.profile=profile_name -jar ./path/to/selenium/sever.jar  </pre>
+
+        Once Selenium is started, the same steps for <em>reusing</em> sessions apply.
+
+        <h3><a name="Running tests using single browser" class="anchor" href="#running-tests-using-single-browser"><span class="octicon octicon-link"></span></a>Running tests using single browser</h3>
+
+        Assuming you have selenium server already running on localhost port 4444.
+
+<pre>
+./node_modules/.bin/arrow ./int/test-descriptor.json --browser=firefox
+./node_modules/.bin/arrow ./int/test-descriptor.json --browser=chrome
+</pre>
+
+        Assuming you have phantomjs already running on localhost port 4445.
+
+ <pre>
+ ./node_modules/.bin/arrow ./int/test-descriptor.json --browser=phantomjs
+ </pre>
+
+        <h3><a name="Running tests using multiple browsers" class="anchor" href="#running-tests-using-multiple-browsers"><span class="octicon octicon-link"></span></a>Running tests using multiple browsers</h3>
+
+ <pre>
+ ./node_modules/.bin/arrow ./int/test-descriptor.json --browser=firefox,chrome
+ ./node_modules/.bin/arrow ./int/test-descriptor.json --browser=chrome,phantomjs
+ </pre>
+
+        <h3><a name="Running tests on remote host" class="anchor" href="#running-tests-on-remote-host"><span class="octicon octicon-link"></span></a>Running tests on remote host</h3>
+
+        All above tests can also run on remote host by specifying "--seleniumHost" and "--phantomHost".
+
+<pre>
+ ./node_modules/.bin/arrow ./int/test-descriptor.json --seleniumHost='http://x.x.x.x:4444/wd/hub' --browser=chrome
+
+ ./node_modules/.bin/arrow ./int/test-descriptor.json --phantomHost='http://x.x.x.x:4445/wd/hub' --browser=phantomjs
+
+ ./node_modules/.bin/arrow ./int/test-descriptor.json --phantomHost='http://x.x.x.x:4445/wd/hub' --seleniumHost='http://x.x.x.x:4444/wd/hub' --browser=phantomjs,chrome
+</pre>
+
+        <h3><a name="Parallelism" class="anchor" href="#parallelism"><span class="octicon octicon-link"></span></a>Parallelism</h3>
+
+        Arrow supports parallel execution of tests. By default <b>parallel</b> is set to <em>false</em>. You can update the value to the <em>maximum number</em> of threads you want to use. Keep in mind Arrow will try to create one Browser Session <b>PER</b> parallel count. It is important that you have enough system resources to support this.
+        <h4><a name="How To Use?" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a> How To Use?</h4>
+
+ <pre>
+./node_modules/.bin/arrow &lt;some test or test descriptor&gt; --parallel=N
+ or
+./node_modules/.bin/arrow arrow &lt;some test or test descriptor&gt; --parallel=5
+ </pre>
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+            <footer class="inner">
+                <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+                <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+            </footer>
+        </div>
+</body>
+</html>

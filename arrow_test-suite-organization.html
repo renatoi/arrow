@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arrow In-Depth</title>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+    <h3><a name="Test Suite Organization" class="anchor" href="#test-suite-organization"><span class="octicon octicon-link"></span></a>Test Suite Organization</h3>
+    <p>Test descriptor files allow you to organize your tests into test suites, while also allowing you to control when and which tests execute at a given phase of your development cycle.
+    </p>
+    <p>
+        Consider the following scenario:
+    </p>
+    <p>
+        You have just finished creating a suite of tests that validate the application we discussed in the <a href= "arrow_tutorial.html">Arrow Tutorial</a>. <br>
+    </p>
+
+    <p>
+        At this point you have the following test files:
+    <ul>
+        <li>Functional Tests</li>
+        <li>Integration Tests</li>
+    </ul>
+    </p>
+
+    <p>
+        For this sample, we'll pretend unit tests are being addressed elsewhere.
+    </p>
+
+    <p>
+        If you recall, to execute the two test files above against our mock and HTTP endpoint, we'd type something like this:
+    </p>
+
+
+            <pre><code>
+                ./node_modules/.bin/arrow func_test/test/test-func.js  --page=testMock.html --lib=func_test/test/test-lib.js
+                ./node_modules/.bin/arrow func_test/test/test-func.js  --page=http://www.doctor46.com/tabview.html --lib=func_test/test/test-lib.js
+                ./node_modules/.bin/arrow func_test/test/test-int.js  --page=http://www.doctor46.com/tabview.html --lib=func_test/test/test-lib.js
+            </code></pre>
+
+    <p>
+        Let's pretend we wanted to easily decide which test files executed and which didn't. Test <a href="arrow_in-depth.html#test-descriptors">descriptors</a> allow you to do this easily and in one location.
+    </p>
+
+    <h3><a name="Test Descriptors" class="anchor" href="#test-descriptors"><span class="octicon octicon-link"></span></a>Test Descriptors</h3>
+    <p>
+        Test descriptors provide a way to describe, organize and factorize your tests. During test development, you'll probably execute each test from the Arrow command line. However, once you have created tests to validate your module, you need a way to organize and factorize the tests.
+    </p>
+    <p>
+        Lets look at this test <a href="https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial/func_test/test/test_descriptor.json">descriptor</a>.
+    </p>
+
+    <pre><code>
+
+        [
+            {
+                "settings": [ "master" ],
+
+                "name" : "tabview",
+
+                "commonlib" : "./test-lib.js",
+
+                "config" :{
+                    "baseUrl" : "http://www.doctor46.com"
+                },
+
+                "dataprovider" : {
+
+                    "dom" : {
+                        "params" : {
+                            "test" : "test-func.js",
+                            "page" : "testMock.html"
+                        },
+                    "group" : "unit"
+                    },
+
+                    "dom_int" : {
+                        "params" : {
+                            "test" : "test-func.js",
+                            "page" : "$$config.baseUrl$$/tabview.html"
+                        },
+                    "group" : "smoke"
+                    },
+
+                    "int" : {
+                        "params" : {
+                            "test" : "test-int.js",
+                            "page" : "$$config.baseUrl$$/tabview.html"
+                         },
+                    "group" : "smoke"
+                     }
+
+                }
+
+            },
+
+            {
+                "settings": [ "environment:development" ]
+            }
+
+        ]
+
+
+    </code></pre>
+
+    <h4><a name="Suite Settings" class="anchor" href="#suite-settings"><span class="octicon octicon-link"></span></a>Suite Settings</h4>
+
+    <p>
+        These settings are accessible by all tests in the suite - name and commonlib
+    </p>
+
+            <pre>
+ "name" : "tabview",
+ "commonlib" : "./test-lib.js",
+            </pre>
+
+    <ul>
+        <li>
+            <em>name:</em> Allows you to give your descriptor a name. In Arrow you can run multiple test descriptors in a single execution. Giving it a name allows you to separate the results.
+        </li>
+        <li>
+            <em>commonlib:</em> Behaves like a suite-level <em>--lib</em> parameter. Rather than calling each necessary dependency or lib in the tests, you can do that here. <em>commonlib</em> is not limited to only one dependency. If you have more than one dependency, you can specify them with commas.
+        </li>
+    </ul>
+
+
+    <h4><a name="Suite Configuration" class="anchor" href="#suite-configuration"><span class="octicon octicon-link"></span></a>Suite Configuration</h4>
+
+    <p>
+        The settings here, allow you to override default config settings and apply to the entire suite.
+    </p>
+
+            <pre>
+"config" :{
+"defaultAppHost" : "http://www.doctor46.com"
+ },
+            </pre>
+    <p>
+        In this example we have a key called <em>defaultAppHost</em>. The value assigned to this key can be picked up using the <em>$$</em> annotation, for example  <em>$$config.defaultAppHost$$</em>.
+    </p>
+
+    <p>
+        This is one way we can parametrize our tests and make them easier to execute/share.
+    </p>
+
+
+    <h4><a name="Individual Test Settings" class="anchor" href="#individual-test-settings"><span class="octicon octicon-link"></span></a>Individual Test Settings</h4>
+
+    <p>
+        This section uses the Suite Settings and the Suite Configuration to create instances of your tests.
+
+    <pre>
+"dom_int" : {
+"params" : {
+   "test" : "test-func.js",
+   "page" :"testMock.html"
+},
+"group" : "unit"
+},
+    </pre>
+
+    </p>
+
+
+    <ul>
+        <li>
+            The first object is the name of the test. In this case, the test name is <em>dom_int</em>.
+        </li>
+        <li>
+            The next object, <em>params</em>, includes the necessary parameters for the test.
+        </li>
+        <li>
+            <em>test</em>: Tells Arrow which file to execute
+        </li>
+        <li>
+            <em>page</em>: Tells Arrow against which page to execute. The <em>page</em> value can be a local mock page served by arrow_server, or an HTTP endpoint
+        </li>
+        <li>
+            <em>group</em>: Allows you to <b>group</b> your tests for execution. Each test <em>file</em> contains a set of tests or assertions. At the time of creation, tests do not have a context (at least not implied). A <em>group</em> gives those test <em>files</em> context, enabling you to execute only a given set of tests during a given execution.
+        </li>
+
+    </ul>
+
+    <h3><a name="Executing using a Test Descriptor" class="anchor" href="#executing-using-a-test-descriptor"><span class="octicon octicon-link"></span></a>Executing using a Test Descriptor</h3>
+
+    <p>
+        To execute <b>All</b> tests in a given test descriptor file, simply type (remember in this example, the name of our file is <em>test-descriptor.json</em>):
+    </p>
+<pre>
+ ./node_modules/.bin/arrow func_test/test/test-descriptor.json
+</pre>
+    <p>
+        However, if you wanted to <b>only</b> execute tests <em>grouped</em> as <em>func</em>, you would type:
+    </p>
+<pre>
+ ./node_modules/.bin/arrow func_test/test/test-descriptor.json --group=func
+</pre>
+    <p>
+        Similarly, you can choose to <b>only</b> execute a given test, based on its name. You can do that by typing:
+    </p>
+<pre>
+ ./node_modules/.bin/arrow func_test/test/test-descriptor.json --testName=dom
+</pre>
+
+    <h3><a name="Test Descriptor Best Practices" class="anchor" href="#test-descriptor-best-practices"><span class="octicon octicon-link"></span></a>Test Descriptor Best Practices</h3>
+    <h4><a name="One Test Descriptor Per Module" class="anchor" href="#One-test-descriptor-per-module"><span class="octicon octicon-link"></span></a>One Test Descriptor Per Module</h4>
+    <p>
+        One test descriptor per module is recommended. You do not need a <em>parent</em> test descriptor file to include multiple modules. There are different tools which do this for you. Given a root directory, Arrow traverses the child directories and picks up the required test descriptor files.
+    </p>
+    <p>
+        For example, suppose you have the following directory structure, and within each module/test folder you have tests and a test descriptor file.
+    </p>
+<pre>
+
+ project1
+ |____ module1
+ |        |_____src
+ |        |_____test
+ |            |_____test-descriptor1.json
+ |
+ |____ module2
+ |        |_____src
+ |        |_____test
+ |            |_____test-descriptor2.json
+ |
+ |____ module3
+ |        |_____src
+ |        |_____test
+ |            |_____test-descriptor3.json
+ |
+ |____ module4
+ |_____src
+ |_____test
+ |_____test-descriptor4.json
+
+ </pre>
+
+    <p>
+
+        To execute <em>All</em> test descriptor files <em>within</em> each module, simply navigate to the project root (in this case <em>project1</em>) and type:
+    </p>
+
+ <pre>
+ ./node_modules/.bin/arrow "func_test/**/*-descriptor.json"
+ </pre>
+    <p>
+        Arrow will traverse through all sub-folders, pick up the test descriptors which match <em>"**/*-descriptor.json"</em> glob, and execute them sequentially.
+    </p>
+
+    <h4><a name="Parametrize Test Descriptors" class="anchor" href="#parametrize-test-descriptors"><span class="octicon octicon-link"></span></a>Parametrize Test Descriptors</h4>
+    <p>
+        There are tests which require parametrization. Specially in <em>Integration</em> tests (int), it is important to have a way to parametrize the host name of your AUT.
+    </p>
+    <p>
+        Test descriptors allow you to parametrize like this:
+    </p>
+
+<pre>
+
+     "dom_int" : {
+     "params" : {
+         "test" : "test-func.js",
+         "page" :"$$config.defaultAppHost$$/tabview.html"
+     },
+     "group" : "smoke"
+     },
+
+     "int" : {
+     "params" : {
+         "test" : "test-int.js",
+         "page" : "$$config.defaultAppHost$$/tabview.html"
+     },
+     "group" : "smoke"
+     }
+
+ </pre>
+    <p>
+        Where <em>"defaultAppHost" : "http://doctor46.com"</em>
+    </p>
+
+    <h3><a name="Test Descriptor Parametrization and Test Environments" class="anchor" href="#test-descriptor-parametrization-and-test-environments"><span class="octicon octicon-link"></span></a>Test Descriptor Parametrization and Test Environments</h3>
+    <p>
+        So far our parametrization examples have only applied to our current file. If we want to run our tests across different environments (with different hostnames), we'd have to create multiple test-descriptor.json files to do this. However, we can use a `dimension` file to give our parameters additional <em>dimension</em> or context.
+    </p>
+    <p>
+        At the bottom of our test descriptor file there was this line:
+    </p>
+<pre>
+
+ {
+ "settings": [ "environment:development" ]
+ }
+</pre>
+    <p>
+        We can make use of the line above, and a <em>dimension</em> file to dynamically change configuration values given a context.
+
+        With this <em>dimension</em> file we can set different contexts in our test descriptor:
+    </p>
+<pre>
+
+ [
+     {
+         "dimensions": [
+             {
+             "environment":
+                 {
+                     "development": {
+                        "test": null
+                     },
+                     "integration": {
+                        "test": null
+                     },
+                     "stage": {
+                        "test": null
+                     },
+                     "production": {
+                         "test": null
+                     }
+                 }
+             }
+         ]
+     }
+ ]
+
+</pre>
+    <p>
+        Now we can update our test descriptor like this</p>
+
+<pre>
+
+ {
+     "settings": [ "environment:development" ],
+
+     "config" :{
+        "defaultAppHost" : "http://development.com"
+     }
+ },
+
+ {
+     "settings": [ "environment:integration" ],
+
+     "config" :{
+        "defaultAppHost" : "http://integration.com"
+     }
+ },
+
+ {
+     "settings": [ "environment:stage" ],
+
+     "config" :{
+        "defaultAppHost" : "http://stage.com"
+     }
+ },
+
+ {
+     "settings": [ "environment:production" ],
+
+     "config" :{
+        "defaultAppHost" : "http://production.com"
+     }
+ }
+ </pre>
+    <p>
+        During execution, we can set the context like this:
+    </p>
+
+ <pre>
+ ./node_modules/.bin/arrow test-descriptor.json --context=environment:development --dimensions=./dimensions.json
+</pre>
+    Or
+ <pre>
+ ./node_modules/.bin/arrow test-descriptor.json --context=environment:stage --dimensions=./dimensions.json
+ </pre>
+    <p>
+        In each case, Arrow will take the <em>context</em> and <em>dimensions</em> file and use those to map the correct <em>config</em> value for the current execution
+    </p>
+    </section>
+</div>
+
+<!-- FOOTER  -->
+<div id="footer_wrap" class="outer">
+    <footer class="inner">
+        <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+    </footer>
+</div>
+</body>
+</html>

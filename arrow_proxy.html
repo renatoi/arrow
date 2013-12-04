@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arrow In-Depth</title>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+    <h3><a name="Using Proxy" class="anchor" href="#using-proxy"><span class="octicon octicon-link"></span></a>Using Proxy</h3>
+    <h4><a name="Features of Arrow Proxy server" class="anchor" href="#features-of-arrow-proxy-server"><span class="octicon octicon-link"></span></a>Features of Arrow Proxy server</h4>
+
+    User will need to use proxy for following reasons,
+
+    <ul>
+        <li>When user wants to redirect page to specific box</li>
+        <li>When user wants to verify that certain calls are happening for a given URL</li>
+        <li>When user wants to manipulate headers, This can be helpful replacing parameter such as user-agent</li>
+    </ul>
+
+    <h4><a name="Using --startProxyServer" class="anchor" href="#using--startProxyServer"><span class="octicon octicon-link"></span></a>Using --startProxyServer</h4>
+    <p>
+        --startProxyServer param is used to start the proxy as soon as the test runs. It is defined at descriptor level.
+    </p>
+    The descriptor will look something like this after adding this param.
+
+    <h4><a name="simple-proxy-descriptor.json" class="anchor" href="#simple-proxy-descriptor.json"><span class="octicon octicon-link"></span></a>simple-proxy-descriptor.json</h4>
+ <pre>
+ [
+     {
+         "settings": [ "master" ],
+
+         "name" : "descriptor",
+
+         "startProxyServer" : true,
+
+         "config" :{
+            "baseUrl" : "http://www.yahoo.com"
+         },
+
+         "dataprovider" : {
+
+             "dom" : {
+                 "params" : {
+                     "test" : "test-yahoo.js",
+                     "page" : "$$config.baseUrl$$"
+                 },
+                 "group" : "int"
+
+             }
+
+         }
+
+     },
+
+     {
+         "settings": [ "environment:development" ],
+         "config": {
+            "baseUrl": "http://news.yahoo.com"
+         }
+     },
+     {
+         "settings": [ "environment:production" ],
+         "config": {
+            "baseUrl": "http://sports.yahoo.com"
+         }
+     }
+ ]
+</pre>
+    <p>
+        Note: This parameter can be passed from the command line, using --startProxyServer=true depending upon your need. Always the one passed from command line will take precedence over the one which is set inside the descriptor
+    </p>
+    This will create a proxy.log file at the descriptor level.
+
+    <h4><a name="Using --routerConfigProxy" class="anchor" href="#using--routerConfigProxy"><span class="octicon octicon-link"></span></a>Using --routerConfigProxy</h4>
+    <p>
+        --routerConfigProxy param is used to route the traffic of a page to a specific host/box. It refers to router.json file which contains the host to which you want to enroute your traffic for a given url.
+    </p>
+    <p>
+        This param is defined inside the descriptor file.
+    </p>
+
+
+    <h4><a name="router-proxy-descriptor.json" class="anchor" href="#router-proxy-descriptor.json"><span class="octicon octicon-link"></span></a>router-proxy-descriptor.json</h4>
+<pre>
+ [
+     {
+         "settings": [ "master" ],
+
+         "name" : "descriptor",
+
+         "startProxyServer" : true,
+
+         "routerProxyConfig" : "./router.json",
+
+         "config" :{
+            "baseUrl" : "http://www.autos.yahoo.com"
+         },
+
+         "dataprovider" : {
+
+             "dom" : {
+                 "params" : {
+                     "test" : "test-one-yahoo.js",
+                     "page" : "$$config.baseUrl$$"
+                 },
+                 "group" : "int"
+
+                 }
+
+             }
+
+     },
+
+     {
+        "settings": [ "environment:development" ],
+        "config": {
+            "baseUrl": "http://news.yahoo.com"
+            }
+     },
+     {
+        "settings": [ "environment:production" ],
+        "config": {
+            "baseUrl": "http://sports.yahoo.com"
+            }
+     }
+ ]
+</pre>
+
+    <h4><a name="router.json" class="anchor" href="#router.json"><span class="octicon octicon-link"></span></a>router.json</h4>
+
+<pre>
+
+ {
+     "autos.yahoo.com" : "x.x.x.x",
+     "yahoo.com" : {
+        "newHost" : "y.y.y.y"
+    }
+ }
+</pre>
+
+    For given descriptor it will route all the requests for http://www.autos.yahoo.com to the host x.x.x.x [ Replace x.x.x.x with actual host name]
+
+    <h4><a name="Using record:true with --routerConfigProxy" class="anchor" href="#using-record:true-with--routerConfigProxy"><span class="octicon octicon-link"></span></a>Using record:true with --routerConfigProxy</h4>
+    <p>
+        Inside router.json file record:true param can be used in cases where user wants to confirm that certain calls are happening while loading some URLs.
+    </p>
+    The descriptor will look like this
+
+    <h4><a name="proxy-record-controller-descriptor.json" class="anchor" href="#proxy-record-controller-descriptor.json"><span class="octicon octicon-link"></span></a>proxy-record-controller-descriptor.json</h4>
+ <pre>
+ [
+     {
+         "settings":[ "master" ],
+
+         "name":"controllers",
+
+         "startProxyServer" : true,
+
+         "routerProxyConfig" : "./data/arrow_test/proxy_test/router.json",
+
+         "config":{
+         "baseUrl":"http://sports.yahoo.com"
+     },
+
+     "dataprovider":{
+
+             "Test proxy Controller":{
+             "group":"func",
+             "controller":"./proxy-controller-record.js",
+             "params":{
+                    "page":"$$config.baseUrl$$",
+
+                    "test":"./test-proxy.js"
+
+                 }
+             }
+          }
+     },
+     {
+         "settings":[ "environment:development" ]
+     }
+ ]
+</pre>
+
+    The only change has to happen in router.json is to include record:true,
+
+    <h4><a name="router2.json" class="anchor" href="#router.json"><span class="octicon octicon-link"></span></a>router.json</h4>
+<pre>
+
+ {
+     "finance.yahoo.com" : {
+         "newHost" : "x.x.x.x",
+         "record" : true
+     }
+ }
+ </pre>
+    <p>
+        The recorded traffic is in JSON format and can be read from the controller using self.getProxyRecord(). The record can be reset by invoking self.resetProxyRecord().
+    </p>
+    <p>
+        <strong>Note:</strong> The proxy record is per routerProxyConfig. If multiple tests use same routerProxyConfig and the tests are run in parallel, using resetProxyRecord() might end up resetting proxy record for other test.
+    </p>
+    Example -
+
+<pre>
+
+ var util = require("util");
+ var log4js = require("yahoo-arrow").log4js;
+ var Controller = require("yahoo-arrow").controller;
+
+ function ProxyCustomController(testConfig,args,driver) {
+     Controller.call(this, testConfig,args,driver);
+     this.logger = log4js.getLogger("ProxyCustomController");
+ }
+
+ util.inherits(ProxyCustomController, Controller);
+
+ ProxyCustomController.prototype.execute = function(callback) {
+     var self = this;
+     self.resetProxyRecord(); // Reset the proxy record
+
+     if(this.driver.webdriver){
+
+             var page = this.testParams.page;
+             var webdriver = this.driver.webdriver;
+
+             webdriver.get(page);
+
+             webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function() {
+
+                 var record = self.getProxyRecord(); // Get the proxy record
+
+                 self.testParams.proxyManagerRecord=record;
+                 self.testParams.page=null;
+                 self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
+                 callback();
+             });
+
+            });
+         }else{
+             this.logger.fatal("Custom Controllers are currently only supported on Selenium Browsers");
+             callback("Custom Controllers are currently only supported on Selenium Browsers");
+        }
+     }
+
+ module.exports = ProxyCustomController;
+</pre>
+
+    <h4><a name="Using header manipulation with --routerConfigProxy" class="anchor" href="#header-manipulation-with-proxy"><span class="octicon octicon-link"></span></a>Using header manipulation with --routerConfigProxy</h4>
+    Sometimes user wants to manipulate headers when calling certain urls. It can be done from router.json as shown below.
+
+    <h4><a name="router-header.json" class="anchor" href="#router-header.json"><span class="octicon octicon-link"></span></a>router-header.json</h4>
+<pre>
+ {
+     "sports.yahoo.com" : {
+     "headers" : [
+        {
+            "param" : "User-Agent",
+            "value" : "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_2_1 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8C148 Safari/6533.18.5"
+        }
+     ],
+     "newHost" : "x.x.x.x",
+     "record" : true
+     }
+ }
+</pre>
+
+    This will pass the value of param 'User-Agent' to the specified value for 'sports.yahoo.com' and runs the test for iphone user-agent.
+
+
+    <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+            <footer class="inner">
+                <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+                <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+            </footer>
+        </div>
+</body>
+</html>

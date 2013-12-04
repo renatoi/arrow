@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arrow In-Depth</title>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+<h3><a name="replaceParamJSON" class="anchor" href="#replaceParamJSON"><span class="octicon octicon-link"></span></a>replaceParamJSON</h3>
+<p>
+    This parameter is optional and can be used when user wants to configure descriptors to replace certain values on the fly.
+</p>
+<p>
+    It could either be passed as .json object or as a string in json format.
+</p>
+<h4><a name="replace.json sample" class="anchor" href="#replace.json-sample"><span class="octicon octicon-link"></span></a>replace.json sample</h4>
+
+<pre>
+ {
+    "property" : "finance"
+ }
+</pre>
+<p>
+    The descriptor will appear as follows for the given replace.json
+</p>
+<h4><a name="descriptor.json sample" class="anchor" href="#descriptor.json-sample"><span class="octicon octicon-link"></span></a>descriptor.json sample</h4>
+<pre>
+ [
+     {
+         "settings":[ "master" ],
+         "name":"descriptor",
+         "config":{
+            "baseUrl": "http://${property}$.yahoo.com"
+         },
+         "dataprovider":{
+         "Test sample":{
+         "params": {
+                "test": "test.js"
+                "page":"$$config.baseUrl$$"
+                }
+            }
+        }
+     }
+ ]
+ </pre>
+Now, if user runs the descriptor
+
+<pre>
+ ./node_modules/.bin/arrow ./descriptor.json --replaceParamJSON=./replace.json --browser=firefox
+ </pre>
+or
+<pre>
+ ./node_modules/.bin/arrow ./descriptor.json --replaceParamJSON='{"property":"finance"}' --browser=firefox
+ </pre>
+<p>
+    The value of 'baseUrl' which is 'http://${property}$.yahoo.com' will become 'http://finance.yahoo.com'
+</p>
+
+<h3><a name="defaultParamJSON" class="anchor" href="#defaultParamJSON"><span class="octicon octicon-link"></span></a>defaultParamJSON</h3>
+<p>
+    This parameter is optional and can be used when user wants to use default values for the parameters which are not specified in replaceParamJSON.
+    If user has specified replaceParamJSON and the value is not found in replaceParamJSON , it looks for the value in defaultParamJSON.
+</p>
+<p>
+    It could either be passed as .json object or as a string in json format.
+</p>
+<h4><a name=" default.json sample" class="anchor" href="#default.json-sample"><span class="octicon octicon-link"></span></a>default.json sample</h4>
+<pre>
+
+{
+     "property" : "finance",
+     "site" : "yahoo"
+}
+
+</pre>
+<h4><a name="replace.json_2 sample" class="anchor" href="#replace.json_2-sample"><span class="octicon octicon-link"></span></a>replace.json sample</h4>
+<pre>
+ {
+    "property" : "news"
+ }
+</pre>
+<p>
+    The descriptor will appear as follows for the given replace.json
+</p>
+<h4><a name="descriptor2.json sample" class="anchor" href="#descriptor2.json-sample"><span class="octicon octicon-link"></span></a>descriptor.json sample</h4>
+<pre>
+
+ [
+     {
+     "settings":[ "master" ],
+     "name":"descriptor",
+     "config":{
+        "baseUrl": "http://${property}$.${site}.com"
+     },
+     "dataprovider":{
+     "Test sample":{
+     "params": {
+                "test": "test.js"
+                "page":"$$config.baseUrl$$"
+                }
+            }
+        }
+     }
+ ]
+</pre>
+<p>
+    Now, if user runs the descriptor
+</p>
+<pre>
+
+ ./node_modules/.bin/arrow --replaceParamJSON=./replace.json --defaultParamJSON=./default.json --browser=firefox
+ or
+ ./node_modules/.bin/arrow --replaceParamJSON='{"property":"news"}' --defaultParamJSON='{"property":"finance","site":"yahoo"}' --browser=firefox
+
+ </pre>
+<p>
+    The value of 'baseUrl' which is 'http://${property}$.${site}.com' will become 'http://news.yahoo.com'.<br/>
+
+    If user only passes defaultParamJSON,
+
+</p>
+
+<pre>
+ ./node_modules/.bin/arrow ./descriptor.json --defaultParamJSON=./default.json --browser=firefox
+ or
+ ./node_modules/.bin/arrow ./descriptor.json --defaultParamJSON='{"property":"finance","site":"yahoo"}' --browser=firefox
+
+ </pre>
+<p>
+    The value of 'baseUrl' which is 'http://${property}$.${site}.com' will become 'http://finance.yahoo.com'
+</p>
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+            <footer class="inner">
+                <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+                <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+            </footer>
+        </div>
+</body>
+</html>

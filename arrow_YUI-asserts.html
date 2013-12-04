@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arrow In-Depth</title>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+        <h3><a name="More YUI Asserts" class="anchor" href="#more-YUI-asserts"><span class="octicon octicon-link"></span></a>More YUI Asserts</h3>
+
+        <h4><a name="Extended version of Assertions" class="anchor" href="#extended-version-of-assertions"><span class="octicon octicon-link"></span></a>Extended version of Assertions</h4>
+
+ <pre>
+ Y.Assert.isUrl - Is a valid URL
+ Y.Assert.isMatch - Match string against supplied Regex
+ Y.Assert.hasKey - Does Object have a specific key
+ Y.Assert.hasValue - Does Object have a specific value
+ Y.Assert.hasDeepKey - Validate key exists in a nested object
+ Y.Assert.hasDeepValue - Validate value exists in a nested object
+ Y.Assert.operator - Compare two values
+ Y.Assert.isNode - Validate a Dom Node exists
+ Y.Assert.nodeTextEquals - Validate text of a Dom node equals expected value
+ Y.Assert.nodeTextExists - Validate Dom node has text in it
+ Y.Assert.nodeCount - Validate selector counts(look at example below)
+ Y.Assert.nodeContains - Validate if given needle is within the HTML of a module
+ Y.Assert.isImage - Validate if Dom node is a valid image
+ Y.Assert.isAnchor - Validate if Dom node is a valid anchor
+</pre>
+
+        <h4><a name="How to use the above assertions?" class="anchor" href="#how-to-use-assertions"><span class="octicon octicon-link"></span></a>How to use the above assertions?</h4>
+        <p>Create a test which includes libraries 'html-module-lib' and 'dom-lib'
+        </p>
+        Use test-assert-1.js as a test case where user checks for Y.Assert.isNode and Y.Assert.nodeCount
+
+<pre>
+
+ YUI.add("MyAwesomeModule-tests", function (Y) {
+ 'use strict';
+
+     var suite = new Y.Test.Suite("Assertion Tests 1");
+
+     suite.add(new Y.Test.Module({
+
+         "name" : "Assertion Test 1",
+         "id": "yuhead-com-links",
+
+         "asserts" : {
+             "Logo Present" : {
+             "locator" : ".yuhead-com-link-item",
+             "type" : "isNode"
+            },
+            "Test Greater than" : {
+             "locator" : ".yuhead-com-link-item",
+             "type" : "nodeCount",
+             "expected" : ">1",
+             "message" : "There should be more than 1 list items with class yuhead-com-link-item"
+            },
+            "Test Less than" : {
+             "locator" : ".yuhead-com-link-item",
+             "type" : "nodeCount",
+             "expected" : "<5",
+             "message" : "There should be more than 5 list items with class yuhead-com-link-item"
+            },
+             "Test Equals" : {
+             "locator" : ".yuhead-com-link-item",
+             "type" : "nodeCount",
+             "expected" : "=3",
+             "message" : "There should be 3 list items with class yuhead-com-link-item"
+            }
+
+         }
+     }));
+
+    Y.Test.Runner.add(suite);
+
+ }, "0.1", {requires : ["test", "node", "html-module-lib", "dom-lib"]});
+</pre>
+
+        Use test-descriptor-1.json as a descriptor to run above test
+
+<pre>
+ [
+     {
+         "settings": [ "master" ],
+
+         "name" : "tabview",
+
+         "config" :{
+            "baseUrl" : "http://finance.yahoo.com"
+         },
+
+        "dataprovider" : {
+
+            "dom_int" : {
+                "params" : {
+                            "test" : "test-assert-1.js",
+                            "page" : "$$config.baseUrl$$"
+                            },
+                "group" : "smoke"
+            }
+
+        }
+
+     },
+
+     {
+     "settings": [ "environment:development" ]
+     }
+
+ ]
+</pre>
+        Run the test in usual way using,
+
+ <pre>
+ arrow test-descriptor-1.json --browser=chrome
+ </pre>
+        <p>
+            Make sure it passes
+        </p>
+        Note: More such examples are provided in test-assert-2.js and test-descriptor-2.json
+
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+            <footer class="inner">
+                <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+                <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+            </footer>
+        </div>
+</body>
+</html>

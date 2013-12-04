@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arrow In-Depth</title>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+        <h3><a name="Code Coverage" class="anchor" href="#code-coverage"><span class="octicon octicon-link"></span></a>Code Coverage</h3>
+
+        <h4><a name="Node side code coverage" class="anchor" href="#node-code-coverage"><span class="octicon octicon-link"></span></a>Node side code coverage</h4>
+
+        To tell Arrow you would like to create code coverage report simply type:
+
+<pre> arrow &lt;some test or test descriptor&gt; --coverage=true
+</pre>
+        By default all js files are (and it's require files) parsed from cmd line : --lib or test descriptor: commonLib/lib will get instrumented and generate code coverage report after all tests done.
+        <p>And two more optional params to use for coverage:
+<pre>
+ --coverageExclude : (optional) string. comma-separated list of files to exclude from coverage reports"
+ --keepIstanbulCoverageJson : (optional) true/false. if set to true, it does not delete Istanbul coverage json files. (default: false)
+</pre>
+
+        <h4><a name="Client side code coverage" class="anchor" href="#client-code-coverage"><span class="octicon octicon-link"></span></a>Client side code coverage</h4>
+        <p>
+            If you want to collect client(browser) side code coverage(thus,some libs served on the test page),then you will use arrow proxy server.
+        </p> In your test descriptor you can config like :
+
+<pre>
+
+ {
+     "settings": [ "master" ],
+     "name": "client side test",
+     "config": {
+     },
+
+     "startProxyServer": true,
+     "routerProxyConfig": "./proxy_config.json",
+
+     "dataprovider": {
+
+         "iframe_client": {
+             "group": "client",
+             "params": {
+                 "test": "test-client.js",
+                 "page": "url/to/the/test/page"
+             }
+         }
+     }
+ }
+</pre>
+
+        Make sure you have set "startProxyServer" to true and add a config for proxy - proxy_config.json:
+
+<pre>
+ {
+     "router": {
+         "news.yahoo.com": {
+         "newHost": "x.x.x.x (your new host ip/name)",
+         "headers": [
+             {
+                "param": "&lt;param&gt;",
+                "value": "&lt;val&gt;"
+             }
+         ],
+         "record": true
+         }
+     },
+     "coverage": {
+         "clientSideCoverage": true,
+         "coverageExclude": ["^http://yui.yahooapis.com.*\\.js$"],
+         "timeout": 5000
+     }
+ }
+ </pre>
+
+        <p>In this proxy_config ,the "router" defines router table where you can modify the test page with new host and new headers for all calls being made by browser.Also supports recording of select url calls if set "record" to true.
+        </p>In coverage field you can set "clientSideCoverage" to true and add a filter to ignore some js files in "coverageExclude".And if your page has multiple cross-domain frames and you can enlarge the timeout seconds waiting for coverage data
+        collecting.
+        <p>
+            Then in arrow cmd you can type:
+
+        <pre>arrow test_descriptor.json --browser=chrome --logLevel=debug --coverage=true</pre>
+
+        You can see that all js file except those defined in "coverageExclude" will get instrumented and generate code coverage.
+
+        <h4><a name="Client side code coverage Notes" class="anchor" href="#client-code-coverage-notes"><span class="octicon octicon-link"></span></a>Client side code coverage Notes</h4>
+
+        1. If you have multiple test(session) and multiple page run in one descriptor, then all libs coverage data in these pages(even if the lib are
+        loaded from different page but with same source url , like yui-min file) will be merged and generate one report.
+
+ <pre>
+
+ "news": {
+     "group": "client",
+     "params": {
+         "test": "testnews.js",
+         "page": "http://news.yahoo.com"
+     }
+ },
+ "finance": {
+     "group": "client",
+     "params": {
+         "test": "testfinance.js",
+         "page": "http://finance.yahoo.com"
+     }
+ }
+ </pre>
+        2. If you have one test (session) but with multiple pages, for example,you first launch yahoo news page then go to finance page, then only the libs on finance page will
+        get collected (because when switch to to another page,the previous page coverage data was lost).
+
+<pre>
+
+ "multiple-page" : {
+     "params" :{
+         "scenario": [
+             {
+                "page": "http://news.yahoo.com"
+             },
+             {
+                 "controller": "locator",
+                 "params": {
+                     "value": "#mediasearchform-submit",
+                     "click": true
+                 }
+             },
+             {
+                "page": "http://finance.yahoo.com"
+             },
+             {
+                 "test": "test-title.js",
+                 "title": "Yahoo! Finance - Business Finance, Stock Market, Quotes, News"
+             }
+         ]
+     }
+ }
+</pre>
+        3.For some pages like yahoo login page, we can't proxy it in arrow proxy server due to some strict restriction policy. But you can add router to route to another mocked login page or
+        just add a filter to  "coverageExclude" in page level:
+
+<pre>
+
+ "coverage": {
+     "clientSideCoverage": true,
+     "coverageExclude": ["^http://login.yahoo.com$"]
+ }
+</pre>
+        Then login page won't be instrumented and collect coverage. <p></p>
+
+        4.Https pages are not supported yet.
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+            <footer class="inner">
+                <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+                <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+            </footer>
+        </div>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arrow In-Depth</title>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+    <h3><a name="Complex Test Scenarios" class="anchor" href="#complex-test-scenarios"><span class="octicon octicon-link"></span></a>Complex Test Scenarios</h3>
+    <p>
+        There are situations where the default arrow controller will not allow you to create the type of test scenario you require. If you recall, the default arrow controller assumes the page you load is the page under test. To solve this you can use a different arrow controller called <strong>locator</strong>. The <strong>locator</strong> controller allows you to navigate to the page under test by allowing you to perform actions such as clicking and typing.
+    </p>
+    <p>
+        The controller samples can be found <a href="https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial/controllers/test">here </a>.
+    </p>
+
+    <h4><a name="The Locator Controller" class="anchor" href="#the-locator-controller"><span class="octicon octicon-link"></span></a>The Locator Controller</h4>
+    <p>
+        To use the <em>locator</em> controller you need to use a test descriptor with an additional node, <b>scenario</b>.
+    </p>
+    <p>
+        Suppose you wanted to test finance.yahoo.com's ticker quotes engine. To do that, you would build a scenario like this:
+    </p>
+    <ul>
+        <ol>1. Open <a href="">http://finance.yahoo.com</a></ol>
+        <ol>2. Use the <em>locator</em> controller and look for the <em>ticker</em> input textbox and enter <em>yhoo</em></ol>
+        <ol>3. Use the <em>locator</em> controller and <em>click</em> on the submit button</ol>
+        <ol>4. Wait for the page to load <b>and</b> now test for quotes</ol>
+    </ul>
+    <p>
+        Based on the scenario above, our test descriptor file would look like this:
+    </p>
+ <pre>
+
+ "dataprovider" : {
+
+ "Test YHOO Ticker" : {
+     "group" : "func",
+     "params" :{
+     "scenario": [
+                     {
+                        "page": "$$config.baseUrl$$"
+                     },
+                     {
+                         "controller": "locator",
+                         "params": {
+                             "value": ".yucs-search-input",
+                             "text": "yhoo"
+                         }
+                     },
+                     {
+                         "controller": "locator",
+                         "params": {
+                             "value": "#yucs-sprop_button",
+                             "click": true
+                         }
+                     },
+                     {
+                         "test": "test-quote.js",
+                         "quote": "Yahoo! Inc. (YHOO)"
+                     }
+                  ]
+                }
+     }
+ }
+</pre>
+    <p>
+        Our first step is to open the page (Arrow will use the <em>default</em> controller when none is specified). Secondly we look for an input field with a locator value of <em>#txtQuotes</em> and we enter <em>yhoo</em>. Then we use the <em>locator</em> controller to <em>click</em> on <em>#btnQuotes</em>. Finally we inject our test JS file and using <em>this.params</em> we pass the value in <em>quote</em> to the test file.
+    </p>
+    <p>
+        Our test continues being a simple YUI test which takes input from the test descriptor in order to do its validation.
+    </p>
+<pre>
+
+ YUI({ useBrowserConsole: true }).use("node", "test", function(Y) {
+     var suite = new Y.Test.Suite("Quote Page test of the test");
+     suite.add(new Y.Test.Case({
+         "test quote": function() {
+
+             //In order to parametrize this, instead of having a static quote, we call it from the config
+             var quote = this.testParams["quote"];
+             Y.Assert.areEqual(quote, Y.one(".yfi_rt_quote_summary").one("h2").get('text'));
+         }
+     }));
+
+     Y.Test.Runner.add(suite);
+ });
+</pre>
+
+    To execute we simply type the following:
+
+<pre>
+ ./node_modules/.bin/arrow test-descriptor.json --driver=selenium
+</pre>
+    <p>
+        As you can see, the <em>locator</em> controller is quite powerful. It can take the following <em>params</em>
+    </p>
+    <ul>
+        <li><b>value</b>: locator value</li>
+        <li><b>click</b>: true or false</li>
+        <li><b>text</b>: value ot enter</li>
+        <li><b>using</b>: by default, Arrow will assume you want to use <em>css</em> locators for <em>value</em>. However you can use any <b>By</b> strategy supported by WebDriver: className, id, linkText, name, text, xpath, etc.</li>
+    </ul>
+    For example, you could have the following in your test descriptor
+
+<pre>
+
+ {
+     "controller": "locator",
+     "params": {
+             "using": "xpath",
+             "value": "//*[@id="yucs-sprop_button"]",
+             "click": true
+         }
+ }
+
+</pre>
+
+    <h3><a name="The Custom Controller" class="anchor" href="#the-custom-controller"><span class="octicon octicon-link"></span></a>The Custom Controller</h3>
+    <p>
+        User can write custom controller if the requirement is not getting fulfilled by the locator controller. It does support all the latest webdriver methods.
+    </p><p>
+        For example, given below is the finance-controller.js which does similar to what we just explained in the locator controller sample.
+    </p>
+    <p>
+        Based on the scenario above, our test descriptor file would look like this:
+    </p>
+<pre>
+
+ var util = require("util");
+ var log4js = require("yahoo-arrow").log4js;
+ var Controller = require("yahoo-arrow").controller;
+
+ function FinanceCustomController(testConfig,args,driver) {
+     Controller.call(this, testConfig,args,driver);
+
+     this.logger = log4js.getLogger("FinanceCustomController");
+ }
+
+ util.inherits(FinanceCustomController, Controller);
+
+ FinanceCustomController.prototype.execute = function(callback) {
+     var self = this;
+
+     if(this.driver.webdriver){
+
+         //Get the various parameters needed from the Test Descriptor file
+         var txtLocator =  this.testParams.txtLocator;
+         var typeText =  this.testParams.typeText;
+         var btnLocator =  this.testParams.btnLocator;
+         var page = this.testParams.page;
+
+         //Get a handle of the WebDriver Object
+         var webdriver = this.driver.webdriver;
+
+         //Open the page you want to test
+         webdriver.get(page);
+         webdriver.waitForElementPresent(webdriver.By.css(txtLocator));
+         //Navigate the page as necessary
+         webdriver.findElement(webdriver.By.css(txtLocator)).sendKeys(typeText);
+         webdriver.findElement(webdriver.By.css(btnLocator)).click();
+         webdriver.waitForElementPresent(webdriver.By.css(".title")).then(function() {
+             self.testParams.page=null;
+             self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
+                callback(error);
+             });
+
+         });
+     }else{
+         this.logger.fatal("Custom Controllers are currently only supported on Selenium Browsers");
+         callback("Custom Controllers are currently only supported on Selenium Browsers");
+     }
+ }
+
+ module.exports = FinanceCustomController;
+</pre>
+
+    The descriptor for the custom controller will be little different since we need the params to be passed from it and it looks like,
+
+<pre>
+
+ [
+     {
+         "settings":[ "master" ],
+
+         "name":"controllers",
+
+         "config":{
+            "baseUrl":"http://finance.yahoo.com"
+         },
+
+         "dataprovider":{
+
+             "Test YHOO Ticker using Finance Controller":{
+                 "group":"func",
+                 "controller":"finance-controller.js",
+                 "params":{
+                     "page":"$$config.baseUrl$$",
+                     "txtLocator":".yucs-search-input",
+                     "typeText":"yhoo",
+                     "btnLocator":"#yucs-sprop_button",
+                     "test":"test-quote.js",
+                     "quote":"Yahoo! Inc. (YHOO)"
+                 }
+             }
+         }
+     },
+     {
+        "settings":[ "environment:development" ]
+     }
+ ]
+</pre>
+    Custom controller best practice
+    <ol>
+        <li>Make sure to include "var log4js = require("yahoo-arrow").log4js;" and "var Controller = require("yahoo-arrow").controller" to access yahoo-arrow.</li>
+        <li>Make sure to include "waitForElementPresent(webdriver.By.css(".title"))" before calling the callback() to return to the test or else sometime, "ARROW is not defined" error will appear since the test try to execute before even loading the page completely.</li>
+        <li>Make sure to include "self.testParams.page=null;" if you are on the page you want to be before calling your test</li>
+    </ol>
+
+    <h4><a name="Sharing test parameters among custom controllers and tests in a scenario node" class="anchor" href="#share-test-param"><span class="octicon octicon-link"></span></a>Sharing test parameters among custom controllers and tests in a scenario node</h4>
+    <p>
+        In a complex test scenario, we may need multiple controllers or tests in a scenario node. Arrow provides a way to share variables among the controllers or tests, via this.testParams.shared.
+        Custom controller or test can set a Json object to this.testParams.shared, then it will pass to downstream controllers and tests.
+    </p>
+    <p>
+        The sample of sharing testParams from a test to another test can be found <a href="https://github.com/yahoo/arrow/tree/master/tests/functional/data/arrow_test/share_test_params/test_params_share-simple.json">here </a>.
+    </p>
+    <p>
+        The sample of sharing testParams for a custom controller to downstream custom controller and test can be found <a href="https://github.com/yahoo/arrow/tree/master/tests/functional/data/arrow_test/share_test_params/search-descriptor-test-params.json">here</a>.
+    </p>
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+            <footer class="inner">
+                <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+                <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+            </footer>
+        </div>
+</body>
+</html>

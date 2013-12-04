@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arrow In-Depth</title>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+        <h3><a name="Reporting" class="anchor" href="#reporting"><span class="octicon octicon-link"></span></a>Reporting</h3>
+
+        Arrow supports two reporting formats, the ever-popular JUnit.xml format and Arrow's own JSON format. Reporting is particularly important if you use test descriptors to execute your tests, because each test.js file will have its own set of results. However, using Arrow's reporting feature will merge the individual results into one report.
+
+        <h4><a name="How To Use it?" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a> How To Use?</h4>
+
+        To tell Arrow you would like to create reports simply type:
+
+        <pre>./node_modules/.bin/arrow &lt;some test or test descriptor&gt; --report=true  </pre>
+        <p>
+            After the test executes two files will be created - <em>&lt;descriptor name&gt;-report.xml</em> and <em>&lt;descriptor name&gt;-report.json</em>.
+        </p>
+        <p>
+            Running multiple descriptors using 'arrow "**/*-descriptor.json" --report=true' , will create &lt;descriptor name&gt;-report.xml and &lt;descriptor name&gt;-report.json for each descriptor.
+        </p>
+        If "reportFolder" is passed .eg . --reportFolder=/reportPath/, the reports will be generated under /reportPath/arrow-report. Under "arrow-report", Arrow creates a directory structure similar to that for descriptors. </p>
+        e.g if the descriptors being run are dir1/descriptor1.json and dir2/descriptor.json, the corresponding reports will be stored under /reportPath/arrow-report/dir1/ and /reportPath/arrow-report/dir2/ respectively.</p>
+        A summarized report is also created by the name "arrow-test-summary" in both xml and json formats under /reportPath/arrow-report directory. In addition, a time report is generated in json format which shows the time taken for each descriptor to complete as well as the time taken by each test within the descriptor.
+        </p>
+        <p>
+            If "reportFolder" is not passed, the reports are generated under "arrow-target" directory e.g "arrow-target/arrow-report" wrt the location from which you executed Arrow.
+        </p>
+        <p>Hudson supports report globbing, so you can pass "**/*-report.xml", and it will pick up all your result files.
+        </p><p>
+        If --report is set to true,screenshots are created under "arrow-target/arrow-report/screenshots" directory ( if --reportFolder is not set) or under {reportFolder}/arrow-report/screenshots directory.
+    </p><p>If --report is not set to true, screenshots are created under "screenshots" directory wrt the location where the tests are executed from.
+    </p><p>
+        By default, Arrow deletes the reports directory ( if exists) created from the previous run, before the tests are executed. If you dont want to overwrite the reports from previous run, use --keepTestReport=true.
+        <strong>Note:</strong>This will only keep the reports for a descriptor from the previous run, if that descriptor is not part of current run. The summary and time reports will always be overwritten.
+    </p>
+
+        <h4><a name="report.xml sample" class="anchor" href="#report.xml-sample"><span class="octicon octicon-link"></span></a>report.xml sample</h4>
+ <pre>
+ &lt;testsuite failures='0' time='26.14' errors='0' skipped='0' tests='1' name='controllers'&gt;
+     &lt;properties&gt;
+         &lt;property name='descriptor' value='test-descriptor.json'/&gt;
+     &lt;/properties&gt;
+        &lt;testcase time='10' classname='Test YHOO Ticker.testCaseyui_3_2_0_18_133850857473827' name='test quote'/&gt;
+ &lt;/testsuite&gt;
+ </pre>
+
+        <h4><a name="report.json sample" class="anchor" href="#report.json-sample"><span class="octicon octicon-link"></span></a>report.json sample</h4>
+<pre>
+
+ [
+     {
+         "passed":1,
+         "failed":0,
+         "total":1,
+         "ignored":0,
+         "duration":15,
+         "type":"report",
+         "name":"Quote Page test of the test",
+         "testCaseyui_3_2_0_18_133850857473827":{
+             "passed":1,
+             "failed":0,
+             "total":1,
+             "ignored":0,
+             "duration":10,
+             "type":"testcase",
+             "name":"testCaseyui_3_2_0_18_133850857473827",
+             "test quote":{
+                 "result":"pass",
+                 "message":"Test passed",
+                 "type":"test",
+                 "name":"test quote",
+                 "duration":1
+                }
+         },
+         "timestamp":"Thu May 31 16:56:33 2012",
+         "ua":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:12.0) Gecko/20100101 Firefox/12.0",
+         "testName":"Test YHOO Ticker"
+     }
+ ]
+</pre>
+
+        <h4><a name="timeReport.json sample" class="anchor" href="#timeReport.json-sample"><span class="octicon octicon-link"></span></a>timeReport.json sample</h4>
+<pre>
+
+ { "descriptors":[
+         {
+             "descriptor":"descriptors/test-descriptor-1.json",
+             "time":"9.15 seconds",
+             "tests":[
+                 {
+                 "Testname":"Test YAHOO Search 1",
+                 "Time":"5.21 seconds"
+                 } ,
+                 {
+                     "Testname":"Test YAHOO Search 2",
+                     "Time":"3.94 seconds"
+                 }
+             ]
+         } ,
+         {
+             "descriptor":"descriptors/test-descriptor-2.json",
+             "time":"3.55 seconds",
+             "tests":[
+                 {
+                    "Testname":"Test YAHOO Search 3",
+                    "Time":"3.55 seconds"
+                 }
+             ]
+         } ,
+         {
+             "descriptor":"descriptors/test-descriptor-3.json",
+             "time":"3.33 seconds",
+             "tests":[
+                 {
+                    "Testname":"Test YAHOO Search 4",
+                    "Time":"3.33 seconds"
+                 }
+             ]
+         }
+ ], "Total time":"17.09 seconds"  }
+
+ </pre>
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+            <footer class="inner">
+                <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+                <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+            </footer>
+        </div>
+</body>
+</html>
