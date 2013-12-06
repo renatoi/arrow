@@ -17,7 +17,6 @@ document.write("            <a href=\"arrow_intro.html#arrow-internals\">Arrow I
 document.write("        <\/li>");
 document.write("            </ul>");
 document.write("        <\/li>");
-document.write("");
 document.write("        <li>");
 document.write("            <a href=\"arrow_quick.html\">Arrow Quick Installation<\/a>");
 document.write("        <\/li>");
