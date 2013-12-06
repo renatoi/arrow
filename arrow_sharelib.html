@@ -16,7 +16,9 @@
 
 <!-- MAIN CONTENT -->
 <div id="main_content_wrap" class="outer">
+
     <section id="main_content" class="inner">
+
         <h3><a name="Auto scan share libraries and controllers" class="anchor" href="#share-libraries"><span class="octicon octicon-link"></span></a>Auto scan share libraries and controllers</h3>
 
         <p> A test case might need use some share libraries. The arrow command line option: "--lib" can be used to load the share lib module, but, for complex test case, it might need load a lot of share lib modules which is installed in many places, it would be hard to maintain such a long "--lib" list.</p>
@@ -108,7 +110,11 @@ config.scanShareLibPrefix = ["martini_", "dev_"];
  <pre>
  ./node_modules/.bin/arrow test-unit.js --shareLibPath=/usr/local/lib/node_modules/ --enableShareLibYUILoader=true
  </pre>
-        <!-- FOOTER  -->
+
+    </section>
+</div>
+
+<!-- FOOTER  -->
         <div id="footer_wrap" class="outer">
             <footer class="inner">
                 <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>

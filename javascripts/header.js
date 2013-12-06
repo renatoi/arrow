@@ -2,7 +2,7 @@ document.write("<div id=\"header_wrap\" class=\"outer\">");
 document.write("    <header class=\"inner\">");
 document.write("        <a id=\"forkme_banner\" href=\"https:\/\/github.com\/yahoo\/arrow\">View on GitHub<\/a>");
 document.write("");
-document.write("        <h1 id=\"project_title\">Arrow<\/h1>");
+document.write("        <h1 id=\"project_title\">ArrowXX<\/h1>");
 document.write("        <h2 id=\"project_tagline\">FE Test framework designed to promote TDD<\/h2>");
 document.write("");
 document.write("        <section id=\"downloads\">");
