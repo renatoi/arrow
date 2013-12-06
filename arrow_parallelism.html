@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Arrow In-Depth</title>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+
+        <h3><a name="Parallelism" class="anchor" href="#parallelism"><span class="octicon octicon-link"></span></a>Parallelism</h3>
+
+        Arrow supports parallel execution of tests. By default <b>parallel</b> is set to <em>false</em>. You can update the value to the <em>maximum number</em> of threads you want to use. Keep in mind Arrow will try to create one Browser Session <b>PER</b> parallel count. It is important that you have enough system resources to support this.
+        <h4><a name="How To Use?" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a> How To Use?</h4>
+
+ <pre>
+./node_modules/.bin/arrow &lt;some test or test descriptor&gt; --parallel=N
+ or
+./node_modules/.bin/arrow arrow &lt;some test or test descriptor&gt; --parallel=5
+ </pre>
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+            <footer class="inner">
+                <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+                <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+            </footer>
+        </div>
+</body>
+</html>
