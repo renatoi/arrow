@@ -41,7 +41,7 @@ document.write("                    <a href=\"arrow_configuration.html\">Configu
 document.write("                <\/li>");
 document.write("");
 document.write("                <li>");
-document.write("                    <a href=\"arrow_controller.html\">Complex Test Scenarios<\/a>");
+document.write("                    <a href=\"arrow_controller.html\">Controllers<\/a>");
 document.write("                <\/li>");
 document.write("                <li>");
 document.write("                    <a href=\"arrow_test-engine.html\">Test Engines<\/a>");
