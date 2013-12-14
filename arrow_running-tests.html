@@ -101,17 +101,6 @@
  ./node_modules/.bin/arrow ./int/test-descriptor.json --phantomHost='http://x.x.x.x:4445/wd/hub' --seleniumHost='http://x.x.x.x:4444/wd/hub' --browser=phantomjs,chrome
 </pre>
 
-        <h3><a name="Parallelism" class="anchor" href="#parallelism"><span class="octicon octicon-link"></span></a>Parallelism</h3>
-
-        Arrow supports parallel execution of tests. By default <b>parallel</b> is set to <em>false</em>. You can update the value to the <em>maximum number</em> of threads you want to use. Keep in mind Arrow will try to create one Browser Session <b>PER</b> parallel count. It is important that you have enough system resources to support this.
-        <h4><a name="How To Use?" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a> How To Use?</h4>
-
- <pre>
-./node_modules/.bin/arrow &lt;some test or test descriptor&gt; --parallel=N
- or
-./node_modules/.bin/arrow arrow &lt;some test or test descriptor&gt; --parallel=5
- </pre>
-
     </section>
 </div>
 
