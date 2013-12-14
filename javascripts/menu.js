@@ -61,7 +61,7 @@ document.write("                <\/li>");
 document.write("");
 
 document.write("                <li>");
-document.write("                    <a href=\"arrow_running-tests.html\">Re-Using Browser Sessions<\/a>");
+document.write("                    <a href=\"arrow_running-tests.html\">Running tests in browser<\/a>");
 document.write("                <\/li>");
 document.write("");
 document.write("                <li>");
