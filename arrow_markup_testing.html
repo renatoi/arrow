@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Debugging General Markup Errors</title>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+        <h3><a name="Debugging General Markup Errors" class="anchor" href="#general-markup-errors"><span class="octicon octicon-link"></span></a>Debugging General Markup Errors</h3>
+
+        <h4><a name="What Does It Check?" class="anchor" href="#what-does-it-check"><span class="octicon octicon-link"></span></a>What Does It Check?</h4>
+        Markup is tested against many validation errors, but to give a brief sampling:
+        <ul>
+            <ol>1. IMG tag without a valid SRC attribute.</ol>
+            <ol>2. Class attritubes on any node that are seemingly invalid or non-semantic.</ol>
+            <ol>3. A number of validation checks against TABLE elements and associated children.</ol>
+            <ol>4. Inline styles, inline Javascript.</ol>
+            <ol>5. Deprecated tags.</ol>
+            <ol>6. Improperly nesting of some elements (anchor within another anchor - non-LI immediate child element to a UL or OL, etc).</ol>
+        </ul>
+        To see a full a full list and test suite of rules being checked, visit the <a href="http://yahoo.github.io/debugCSS/">DebugCSS</a> page.
+
+        <h4><a name="Setup" class="anchor" href="#setup"><span class="octicon octicon-link"></span></a>Setup</h4>
+        It is assumed that user has already installed Arrow instance and all requisite software (Node.js and Phantomjs). If you do not have Arrow currently installed, refer to the <a href="https://github.com/yahoo/arrow/blob/master/docs/arrow_cookbook/arrow_getting_started.html">Getting Started With Arrow </a>
+        <br>  Once Arrow is installed and working properly, we can make a test against any accessible page:
+
+        <ul>
+        <ol>1. Reference the <a href="https://github.com/yahoo/arrow/blob/master/demo/test/markup-descriptor.json">markup-descriptor.json </a>which looks like this:   </ol>
+
+        <pre>
+
+        [
+            {
+                "settings": [ "master" ],
+
+                "name" : "markup-test",
+
+                "dataprovider" : {
+                    "Generic Markup Test" : {
+                        "group" : "smoke",
+                        "params" : {
+                            "test" : "../../lib/common/tests/markup-test.js",
+                            "page" : "http://yahoo.com",
+                            "warnOnly" : false
+                        }
+                    }
+                }
+            }
+        ]
+
+         </pre>
+        <ol>2. Make sure your "test" element points to the correct test file. By default, it will live in <a href="https://github.com/yahoo/arrow/blob/master/lib/common/tests/markup-test.js">arrow/lib/common/tests/markup-test.js</a></ol>
+
+
+        <ol>3. Populate the "page" element with the website you'd like to run the markup test against.  You can have the markup test only throw warnings to console - or trigger it to cause assertion failures.</ol>
+
+
+        <ol>4. Make sure phantomjs is running in another terminal:</ol>
+
+        <pre>
+
+        phantomjs --webdriver=4445
+
+        </pre>
+        <ol>5. Execute your markup descriptor file created in steps 1 - 3 (the --logLevel=debug is important here to get all warnings):</ol>
+
+        <pre>
+
+        arrow markup-descriptor.json --browser=phantomjs --logLevel=debug
+        </pre>
+
+        <ol>6. Your test output should look something like this.  It should be color coded (gray is not a big deal, red is more of a concern):</ol>
+
+        <pre>
+
+        [LOG] =========================================================================
+        [LOG] Visit http://yahoo.github.com/debugCSS/ for help debugging these problems
+        [LOG] * Table without summary.
+        [LOG] * tbody as first-child of table (instead of tfoot or thead).
+        [LOG] * Legacy style attribute found on table.
+        [LOG] * Legacy style attribute found on element.
+        [LOG] * Empty element - is it necessary?
+        [LOG] * Img tag missing alt text.
+        [LOG] * Anchor tag with no javascript fall-back link.
+        [LOG] * Anchor tag with inline javascript.  Tsk tsk.
+        [LOG] * Labels should probably specify the for attribute instead of relying on siblings.
+        [LOG] * Block level element within span level element.
+        [LOG] * Form without a fieldset.
+        [LOG] * Use of b or i tags can be bad.  Do you know what you're doing?
+        [LOG] * Some pretty non-semantic / legacy tags being used here.
+        [LOG] * Classname appears potentially non-semantic.
+        [LOG] =========================================================================
+        </pre>
+
+        <ol>7. The above error is handy in seeing that you have problems. It's suggested to use the companion <a href="http://yahoo.github.io/debugCSS/">DebugCSS Bookmarklet</a>  This will point out exactly where in your page the errors have been found - and give suggestions on how to fix them. </ol>
+
+        </ul>
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+            <footer class="inner">
+                <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+                <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+            </footer>
+        </div>
+</body>
+</html>
