@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Locator Controller</title>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/yahoo/arrow">View on GitHub</a>
+
+        <h1 id="project_title">Arrow</h1>
+        <h2 id="project_tagline">FE Test framework designed to promote TDD</h2>
+
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/yahoo/arrow/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/yahoo/arrow/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+
+        <h3><a name="The Locator Controller" class="anchor" href="#the-locator-controller"><span class="octicon octicon-link"></span></a>The Locator Controller</h3>
+        <p>
+            There are situations where the default arrow controller will not allow you to create the type of test scenario you require. If you recall, the default arrow controller assumes the page you load is the page under test. To solve this you can use a different arrow controller called <strong>locator</strong>. The <strong>locator</strong> controller allows you to navigate to the page under test by allowing you to perform actions such as clicking and typing.
+        </p>
+        <p>
+            The controller samples can be found <a href="https://github.com/yahoo/arrow/tree/master/docs/arrow_tutorial/controllers/test">here </a>.
+        </p>
+        <p>
+            To use the <em>locator</em> controller you need to use a test descriptor with an additional node, <b>scenario</b>.
+        </p>
+        <p>
+            Suppose you wanted to test finance.yahoo.com's ticker quotes engine. To do that, you would build a scenario like this:
+        </p>
+<ul>
+    <ol>1. Open <a href="">http://finance.yahoo.com</a></ol>
+    <ol>2. Use the <em>locator</em> controller and look for the <em>ticker</em> input textbox and enter <em>yhoo</em></ol>
+    <ol>3. Use the <em>locator</em> controller and <em>click</em> on the submit button</ol>
+    <ol>4. Wait for the page to load <b>and</b> now test for quotes</ol>
+</ul>
+<p>
+    Based on the scenario above, our test descriptor file would look like this:
+</p>
+ <pre>
+
+ "dataprovider" : {
+
+ "Test YHOO Ticker" : {
+     "group" : "func",
+     "params" :{
+     "scenario": [
+                     {
+                        "page": "$$config.baseUrl$$"
+                     },
+                     {
+                         "controller": "locator",
+                         "params": {
+                             "value": ".yucs-search-input",
+                             "text": "yhoo"
+                         }
+                     },
+                     {
+                         "controller": "locator",
+                         "params": {
+                             "value": "#yucs-sprop_button",
+                             "click": true ,
+                             "waitForElement" : ".yfi_rt_quote_summary"
+                         }
+                     },
+                     {
+                         "test": "test-quote.js",
+                         "quote": "Yahoo! Inc. (YHOO)"
+                     }
+                  ]
+                }
+     }
+ }
+</pre>
+<p>
+    Our first step is to open the page (Arrow will use the <em>default</em> controller when none is specified). Secondly we look for an input field with a locator value of <em>#txtQuotes</em> and we enter <em>yhoo</em>. Then we use the <em>locator</em> controller to <em>click</em> on <em>#btnQuotes</em>. Finally we inject our test JS file and using <em>this.params</em> we pass the value in <em>quote</em> to the test file.
+</p>
+<p>
+    Our test continues being a simple YUI test which takes input from the test descriptor in order to do its validation.
+</p>
+<pre>
+
+ YUI({ useBrowserConsole: true }).use("node", "test", function(Y) {
+     var suite = new Y.Test.Suite("Quote Page test of the test");
+     suite.add(new Y.Test.Case({
+         "test quote": function() {
+
+             //In order to parametrize this, instead of having a static quote, we call it from the config
+             var quote = this.testParams["quote"];
+             Y.Assert.areEqual(quote, Y.one(".yfi_rt_quote_summary").one("h2").get('text'));
+         }
+     }));
+
+     Y.Test.Runner.add(suite);
+ });
+</pre>
+
+To execute we simply type the following:
+
+<pre>
+ ./node_modules/.bin/arrow test-descriptor.json --driver=selenium
+</pre>
+<p>
+    As you can see, the <em>locator</em> controller is quite powerful. It can take the following <em>params</em>
+</p>
+<ul>
+    <li><b>value</b>: locator value</li>
+    <li><b>click</b>: true or false</li>
+    <li><b>text</b>: value ot enter</li>
+    <li><b>waitForElement</b>: waits for given element to load on the page</li>
+    <li><b>waitForElements</b>: waits for multiple elements to load on the page <i>(e.g."waitForElements" : [".yfi_rt_quote_summary, .rtq-separator"])</i></li>
+    <li><b>using</b>: by default, Arrow will assume you want to use <em>css</em> locators for <em>value</em>. However you can use any <b>By</b> strategy supported by WebDriver: className, id, linkText, name, text, xpath, etc.</li>
+</ul>
+For example, you could have the following in your test descriptor
+
+<pre>
+
+ {
+     "controller": "locator",
+     "params": {
+             "using": "xpath",
+             "value": "//*[@id="yucs-sprop_button"]",
+             "click": true
+         }
+ }
+
+</pre>
+
+
+<!-- FOOTER  -->
+<div id="footer_wrap" class="outer">
+    <footer class="inner">
+        <p class="copyright">Arrow maintained by <a href="https://github.com/yahoo">Yahoo</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+    </footer>
+</div>
+</body>
+</html>

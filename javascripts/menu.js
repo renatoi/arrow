@@ -40,9 +40,21 @@ document.write("                <li>");
 document.write("                    <a href=\"arrow_configuration.html\">Configuration<\/a>");
 document.write("                <\/li>");
 document.write("");
+
 document.write("                <li>");
-document.write("                    <a href=\"arrow_controller.html\">Controllers<\/a>");
+document.write("                    Controllers");
+
+document.write("            <ul>");
+document.write("                <li>");
+document.write("                    <a href=\"arrow_locator_controller.html\">Locator Controller<\/a>");
 document.write("                <\/li>");
+document.write("                <li>");
+document.write("                    <a href=\"arrow_custom_controller.html\">Custom Controller<\/a>");
+document.write("                <\/li>");
+document.write("            <\/ul>");
+
+document.write("                <\/li>");
+
 document.write("                <li>");
 document.write("                    <a href=\"arrow_test-engine.html\">Test Engines<\/a>");
 document.write("                <\/li>");
