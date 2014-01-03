@@ -207,7 +207,7 @@
  }
  </pre>
     <p>
-        The recorded traffic is in JSON format and can be read from the controller using self.getProxyRecord(). The record can be reset by invoking self.resetProxyRecord().
+        The recorded traffic can be read from the controller using self.getProxyRecord() as a string. The record can be reset by invoking self.resetProxyRecord().
     </p>
     <p>
         <strong>Note:</strong> The proxy record is per routerProxyConfig. If multiple tests use same routerProxyConfig and the tests are run in parallel, using resetProxyRecord() might end up resetting proxy record for other test.
