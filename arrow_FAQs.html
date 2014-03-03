@@ -424,6 +424,18 @@ YUI.add("child-process-tests", function (Y) {
         <p>1) Opening and killing browser for each test adds up to the overall execution time. To execute your tests faster, you can re-use the same browser session for all the tests. For more details, refer <a href="arrow_running-tests.html#re-using-browser-sessions">here</a>
         <p>2) Alternately, you can also run tests in parallel. For more details, refer <a href="arrow_parallelism.html">here</a>
 
+
+
+        <h3>
+            <a name="how-can-I-reuse-browser" class="anchor" href="#how-can-I-reuse-browser">
+                <span class="octicon octicon-link"></span>How can I reuse browser ?</a>
+        </h3>
+
+        <h4>
+            <a name="how-can-I-reuse-browser-soln" class="anchor" href="#how-can-I-reuse-browser-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+        <p>By specifying --reuseSession=true in Arrow command. e.g --reuseSession=true --browser=firefox. In this case, if a firefox session already exists, it will reuse that session. If not, Arrow will create a new firefox session and execute the tests using that session. For more details, refer <a href="arrow_running-tests.html#re-using-browser-sessions">here</a>
+
+
     </section>
 </div>
 
