@@ -76,16 +76,17 @@
         You can find the examples for importing  <a href="https://github.com/yahoo/arrow/blob/master/demo/mocha/test/import-descriptor-group.json">tests</a> and
         <a href="https://github.com/yahoo/arrow/blob/master/demo/mocha/test/import-descriptor-group.json">group</a> here.
 
-        To run import tests,
+        Command to run import tests demo -
             <pre>
                 arrow 'demo/mocha/test/import-descriptor-test.json' --driver=selenium --engine=mocha --engineConfig=demo/mocha/test/mocha-config.json --logLevel=debug  --group=int
             </pre>
-        To run import group,
+        Command to run import group demo -
             <pre>
                 arrow 'demo/mocha/test/import-descriptor-group.json' --driver=selenium --engine=mocha --engineConfig=demo/mocha/test/mocha-config.json --logLevel=debug
             </pre>
-
-        If you don't specify "test" or "group", all tests are imported from the imported descriptor.
+        If you specify both "test" and "group", "test" will take precedence.
+        <br>
+        If you don't specify "test" or "group", all tests are imported from the imported descriptor. For e.g
             <pre>
                 arrow 'demo/mocha/test/import-descriptor-all.json' --driver=selenium --engine=mocha --engineConfig=demo/mocha/test/mocha-config.json --logLevel=debug
             </pre>
