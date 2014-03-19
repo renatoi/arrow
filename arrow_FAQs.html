@@ -436,6 +436,79 @@ YUI.add("child-process-tests", function (Y) {
         <p>By specifying --reuseSession=true in Arrow command. e.g --reuseSession=true --browser=firefox. In this case, if a firefox session already exists, it will reuse that session. If not, Arrow will create a new firefox session and execute the tests using that session. For more details, refer <a href="arrow_running-tests.html#re-using-browser-sessions">here</a>
 
 
+
+        <h3>
+            <a name="how-can-I-import-tests-from-other-descriptors" class="anchor" href="#how-can-I-import-tests-from-other-descriptors">
+                <span class="octicon octicon-link"></span>How can I import tests from other descriptors?</a>
+        </h3>
+
+        <h4>
+            <a name="how-can-I-import-tests-from-other-descriptors-soln" class="anchor" href="#how-can-I-import-tests-from-other-descriptors-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+        <p> To import tests from other descriptors, you can add "importDescriptor" element in your descriptor.
+
+            <br>For e.g
+            <pre>
+            "importDescriptor":[
+                {
+                    "path" : "../importTests/source-descriptor.json",
+                    "test":["Test To Import"]
+                }
+
+            ]
+            </pre>
+            Here, "path" is the relative path of the descriptor you want to import tests from. "test" is an array of test names you want to import.
+            You can also import tests based on the group. e.g
+            <pre>
+            "importDescriptor":[
+                {
+                    "path" : "../importTests/source-descriptor.json",
+                    "group":["groupToImport"]
+                }
+            ]
+            </pre>
+            "group" is the group of the tests you want to import from your source descriptor.
+
+
+            You can also have other tests in your base or the target descriptor.
+            <pre>
+            "importDescriptor":[
+                {
+                "path" : "../importTests/finance-descriptor.json",
+                "test":["Test YHOO Ticker"]
+                }
+
+            ],
+
+            "dataprovider" : {
+
+                "dummy_test" : {
+                "params" : {
+                "engine" : "mocha",
+                "engineConfig" : "./mocha-config.json",
+                "test" : "test-dummy-mocha.js",
+                "page" : "http://www.yahoo.com"
+                },
+                "group" : "int"
+
+             }
+
+            }
+
+            </pre>
+            You can find the examples for importing  <a href="https://github.com/yahoo/arrow/blob/master/demo/mocha/test/import-descriptor-group.json">tests</a> and
+            <a href="https://github.com/yahoo/arrow/blob/master/demo/mocha/test/import-descriptor-group.json">group</a> here.
+
+            To run import tests,
+            <pre>
+                arrow 'demo/mocha/test/import-descriptor-test.json' --driver=selenium --engine=mocha --engineConfig=demo/mocha/test/mocha-config.json --logLevel=debug  --group=int
+            </pre>
+            To run import tests,
+            <pre>
+                arrow 'demo/mocha/test/import-descriptor-group.json' --driver=selenium --engine=mocha --engineConfig=demo/mocha/test/mocha-config.json --logLevel=debug
+            </pre>
+
+
+
     </section>
 </div>
 
