@@ -456,57 +456,8 @@ YUI.add("child-process-tests", function (Y) {
 
             ]
             </pre>
-            Here, "path" is the relative path of the descriptor you want to import tests from. "test" is an array of test names you want to import.
-            You can also import tests based on the group. e.g
-            <pre>
-            "importDescriptor":[
-                {
-                    "path" : "../importTests/source-descriptor.json",
-                    "group":["groupToImport"]
-                }
-            ]
-            </pre>
-            "group" is the group of the tests you want to import from your source descriptor.
 
-
-            You can also have other tests in your base or the target descriptor.
-            <pre>
-            "importDescriptor":[
-                {
-                "path" : "../importTests/finance-descriptor.json",
-                "test":["Test YHOO Ticker"]
-                }
-
-            ],
-
-            "dataprovider" : {
-
-                "dummy_test" : {
-                "params" : {
-                "engine" : "mocha",
-                "engineConfig" : "./mocha-config.json",
-                "test" : "test-dummy-mocha.js",
-                "page" : "http://www.yahoo.com"
-                },
-                "group" : "int"
-
-             }
-
-            }
-
-            </pre>
-            You can find the examples for importing  <a href="https://github.com/yahoo/arrow/blob/master/demo/mocha/test/import-descriptor-group.json">tests</a> and
-            <a href="https://github.com/yahoo/arrow/blob/master/demo/mocha/test/import-descriptor-group.json">group</a> here.
-
-            To run import tests,
-            <pre>
-                arrow 'demo/mocha/test/import-descriptor-test.json' --driver=selenium --engine=mocha --engineConfig=demo/mocha/test/mocha-config.json --logLevel=debug  --group=int
-            </pre>
-            To run import tests,
-            <pre>
-                arrow 'demo/mocha/test/import-descriptor-group.json' --driver=selenium --engine=mocha --engineConfig=demo/mocha/test/mocha-config.json --logLevel=debug
-            </pre>
-
+            For details, please look <a href="arrow_import_descriptor.html">here</a>
 
 
     </section>

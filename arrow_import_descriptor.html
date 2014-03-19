@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Import Descriptor</title>
+</head>
+<body>
+
+<script type="text/javascript" src="javascripts/header.js"> </script>
+<script type="text/javascript" src="javascripts/menu.js"> </script>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+
+    <h3><a name="Import Descriptor" class="anchor" href="#import-descriptor"><span class="octicon octicon-link"></span></a>Import Descriptor</h3>
+
+
+        <p> To import tests from other descriptors, you can add "importDescriptor" element in your descriptor.
+
+            <br>For e.g
+            <pre>
+            "importDescriptor":[
+                {
+                    "path" : "../importTests/source-descriptor.json",
+                    "test":["Test To Import"]
+                }
+
+            ]
+            </pre>
+        Here, "path" is the relative path of the descriptor you want to import tests from. "test" is an array of test names you want to import.
+        You can also import tests based on the group. e.g
+            <pre>
+            "importDescriptor":[
+                {
+                    "path" : "../importTests/source-descriptor.json",
+                    "group":["groupToImport"]
+                }
+            ]
+            </pre>
+        "group" is the group of the tests you want to import from your source descriptor.
+
+
+        You can also have other tests in your base or the target descriptor.
+            <pre>
+            "importDescriptor":[
+                {
+                "path" : "../importTests/finance-descriptor.json",
+                "test":["Test YHOO Ticker"]
+                }
+
+            ],
+
+            "dataprovider" : {
+
+                "dummy_test" : {
+                "params" : {
+                "engine" : "mocha",
+                "engineConfig" : "./mocha-config.json",
+                "test" : "test-dummy-mocha.js",
+                "page" : "http://www.yahoo.com"
+                },
+                "group" : "int"
+
+             }
+
+            }
+
+            </pre>
+        You can find the examples for importing  <a href="https://github.com/yahoo/arrow/blob/master/demo/mocha/test/import-descriptor-group.json">tests</a> and
+        <a href="https://github.com/yahoo/arrow/blob/master/demo/mocha/test/import-descriptor-group.json">group</a> here.
+
+        To run import tests,
+            <pre>
+                arrow 'demo/mocha/test/import-descriptor-test.json' --driver=selenium --engine=mocha --engineConfig=demo/mocha/test/mocha-config.json --logLevel=debug  --group=int
+            </pre>
+        To run import group,
+            <pre>
+                arrow 'demo/mocha/test/import-descriptor-group.json' --driver=selenium --engine=mocha --engineConfig=demo/mocha/test/mocha-config.json --logLevel=debug
+            </pre>
+
+        If you don't specify "test" or "group", all tests are imported from the imported descriptor.
+            <pre>
+                arrow 'demo/mocha/test/import-descriptor-all.json' --driver=selenium --engine=mocha --engineConfig=demo/mocha/test/mocha-config.json --logLevel=debug
+            </pre>
+
+    </section>
+
+</div>
+
+<script type="text/javascript" src="javascripts/footer.js"> </script>
+
+</body>
+</html>
