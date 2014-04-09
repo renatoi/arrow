@@ -459,6 +459,80 @@ YUI.add("child-process-tests", function (Y) {
 
             For details, please look <a href="arrow_import_descriptor.html">here</a>
 
+        <h3>
+            <a name="how-can-I-resize-my-browser" class="anchor" href="#how-can-I-resize-my-browser">
+                <span class="octicon octicon-link"></span>How can I resize my browser?</a>
+        </h3>
+
+        <h4>
+            <a name="how-can-I-resize-my-browser-soln" class="anchor" href="#how-can-I-resize-my-browser-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+        <p> To resize your browser, you can add "windowSize" as params in your descriptor as shown below.
+
+            <br>
+            <pre>
+
+        "dataprovider" : {
+
+            "Set browser size" : {
+                "group" : "func",
+                "browser":"firefox",
+                "params" :{
+                    "page": "$$config.baseUrl$$",
+                    "test": "test-browser-size.js",
+                    "windowSize": {
+                        "width": "512",
+                        "height": "512"
+                    }
+                }
+            }
+        }
+
+       </pre>
+
+        For full example, please look <a href="https://github.com/yahoo/arrow/blob/master/demo/test/test_window_size_descriptor.json">here</a>
+
+
+        <h3>
+            <a name="how-can-I-pass-my-own-capabilities" class="anchor" href="#how-can-I-pass-my-own-capabilities">
+                <span class="octicon octicon-link"></span>How can I pass my own capabilities?</a>
+        </h3>
+
+        <h4>
+            <a name="how-can-I-pass-my-own-capabilities-soln" class="anchor" href="#how-can-I-pass-my-own-capabilities-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+        <p> If you want to use your own capabilities object, you can pass it to Arrow command as --capabilities=/path/to/json/file. This file should contain your capabilities object in JSON format.
+            For e.g
+
+            <br>
+            <pre>
+
+            {
+                "capabilities": {
+
+                    "mac_firefox_26": {
+                        "browserName": "firefox",
+                        "platform": "MAC",
+                        "version": "26.0"
+                    },
+
+                    "windows_firefox_27": {
+                        "browserName": "firefox",
+                        "platform": "WINDOWS",
+                        "version": "27.0"
+                    }
+
+                },
+                "common_capabilities": {
+                    "javascriptEnabled": "true"
+                }
+            }
+
+           </pre>
+
+        You can define multiple capabilities as shown above. The common capabilities should go under "common_capabilities" section to avoid duplication.
+
+        Then ,from Arrow command, you need to pass --browser=mac_firefox_26 [ Maps to the capability key in your capabilities file ]
+
+        Note: Arrow overrides the capability object when its explicitly passed by the user. So make sure that you include all properties you'll need to pass.
 
     </section>
 </div>
