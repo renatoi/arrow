@@ -499,7 +499,7 @@ YUI.add("child-process-tests", function (Y) {
 
         <h4>
             <a name="how-can-I-pass-my-own-capabilities-soln" class="anchor" href="#how-can-I-pass-my-own-capabilities-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
-        <p> If you want to use your own capabilities object, you can pass it to Arrow command as --capabilities=/path/to/json/file. This file should contain your capabilities object in JSON format.
+        <p> If you want to pass custom capabilities , you can pass it to Arrow command as --capabilities=/path/to/json/file (should contain your capabilities object in JSON format ) or directly as a JSON object.
             For e.g
 
             <br>
@@ -527,12 +527,30 @@ YUI.add("child-process-tests", function (Y) {
             }
 
            </pre>
+        <p>
+
+        For full example, please look <a href="https://github.com/yahoo/arrow/blob/master/demo/test/capabilities.json">here</a>
+        </p>
+        <p>
+        For complete list of webdriver capabilities, pleaes look <a href="http://code.google.com/p/selenium/wiki/DesiredCapabilities">here</a>
+        </p>
 
         You can define multiple capabilities as shown above. The common capabilities should go under "common_capabilities" section to avoid duplication.
 
-        Then ,from Arrow command, you need to pass --browser=mac_firefox_26 [ Maps to the capability key in your capabilities file ]
+        Then ,from Arrow command,based on the above capabilities, you can pass --browser=mac_firefox_26 [ maps to the capability key in your capabilities object ]
 
-        Note: Arrow overrides the capability object when its explicitly passed by the user. So make sure that you include all properties you'll need to pass.
+        The default capabilities provided by Arrow are :
+        <pre>
+        "platform": "ANY",
+        "javascriptEnabled": true,
+        "seleniumProtocol": "WebDriver"
+        </pre>
+        <p>
+        In addition, Arrow sets "device" and "app" capabilities when testing with mobile browsers ( iphone, ipad, android etc )
+        "device":browserName (ipad/iphone/android/androidtablet)
+        "app":"safari" ( for ipad/iphone ) and "app":"browser" ( for android/androidtablet )
+        </p>
+        Note: Arrow merges the capability object when its explicitly passed by the user with the default capabilities. Property in custom capability takes precedence over the default capability.
 
     </section>
 </div>
