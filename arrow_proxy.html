@@ -168,7 +168,7 @@
 
          "startProxyServer" : true,
 
-         "routerProxyConfig" : "./data/arrow_test/proxy_test/router.json",
+         "routerProxyConfig" : "./router.json",
 
          "config":{
          "baseUrl":"http://sports.yahoo.com"
@@ -181,9 +181,7 @@
              "controller":"./proxy-controller-record.js",
              "params":{
                     "page":"$$config.baseUrl$$",
-
                     "test":"./test-proxy.js"
-
                  }
              }
           }
@@ -201,7 +199,6 @@
 
  {
      "finance.yahoo.com" : {
-         "newHost" : "x.x.x.x",
          "record" : true
      }
  }
@@ -243,9 +240,8 @@
                  var record = self.getProxyRecord(); // Get the proxy record
 
                  self.testParams.proxyManagerRecord=record;
-                 self.testParams.page=null;
                  self.driver.executeTest(self.testConfig, self.testParams, function(error, report) {
-                 callback();
+                    callback(error);
              });
 
             });
