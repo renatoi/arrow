@@ -552,6 +552,27 @@ YUI.add("child-process-tests", function (Y) {
         </p>
         Note: Arrow merges the capability object when its explicitly passed by the user with the default capabilities. Property in custom capability takes precedence over the default capability.
 
+
+
+        <h3>
+            <a name="how-can-I-add-comments-in-descriptors" class="anchor" href="#how-can-I-add-comments-in-descriptors">
+                <span class="octicon octicon-link"></span>How can I add comments in descriptors?</a>
+        </h3>
+
+        <h4>
+            <a name="how-can-I-add-comments-in-descriptors-soln" class="anchor" href="#how-can-I-add-comments-in-descriptors-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+        <p>
+            Descriptors are written in JSON format and JSON doesn't allow to write comments.
+            So as a workaround, you can add a field in the descriptor called "comments"
+            e.g "comment":"Test to verify if A == B"
+
+            <br>See example
+            <a href="https://github.com/yahoo/arrow/blob/master/demo/test/finance-controller-descriptor.json#L10">here</a>
+
+            and
+
+            <a href="https://github.com/yahoo/arrow/blob/master/demo/test/finance-scenario-descriptor.json#L10">here</a>
+
     </section>
 </div>
 
