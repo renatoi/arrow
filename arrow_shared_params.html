@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Descriptor Shared Params</title>
+</head>
+<body>
+
+<script type="text/javascript" src="javascripts/header.js"> </script>
+<script type="text/javascript" src="javascripts/menu.js"> </script>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+
+    <h3><a name="Data Driven Descriptor" class="anchor" href="#import-descriptor"><span class="octicon octicon-link"></span></a>Data Driven Descriptor</h3>
+
+
+        <p>
+
+            You can define some parameters in your descriptor and can share them across tests in the same descriptor.
+            To achieve this, you can do
+
+            <pre>
+
+            "config": {
+
+                "descriptorSharedParams" :{
+                    "yhooquote": "Yahoo! Inc. (YHOO)",
+                    "applequote": "Apple Inc. (AAPL)"
+                }
+            }
+
+            </pre>
+            <br>
+            The parameters in "descriptorSharedParams" can be accessed across all tests in the descriptor.
+
+            <pre>
+            [
+                {
+                    "settings": [ "master" ],
+
+                    "name": "controllers",
+
+                    "config": {
+
+                        "descriptorSharedParams" :{
+                            "yhooquote": "Yahoo! Inc. (YHOO)",
+                            "applequote": "Apple Inc. (AAPL)"
+                        }
+                    },
+
+                    "dataprovider" : {
+
+                        "Test YHOO Ticker" : {
+                            "group" : "func",
+
+                            "params" :{
+
+                                "scenario": [
+                                    {
+                                        "page": "http://finance.yahoo.com"
+                                    },
+                                    {
+                                        "controller": "locator",
+                                        "params": {
+                                            "value": "#txtQuotes",
+                                            "text": "yhoo\n"
+                                        }
+                                    },
+                                    {
+                                        "test": "test-quote-yhoo-shared-params.js"
+                                    },
+
+                                    {
+                                        "page": "http://finance.yahoo.com"
+                                    },
+                                    {
+                                        "controller": "locator",
+                                        "params": {
+                                            "value": "#txtQuotes",
+                                            "text": "aapl\n"
+                                        }
+                                    },
+                                    {
+                                        "test": "test-quote-aapl-shared-params.js"
+                                    }
+
+                                ]
+                            }
+
+                        }
+                    }
+                },
+                {
+                    "settings": [ "environment:development" ]
+                }
+
+            ]
+
+            </pre>
+
+            <br>
+            Example <a href="https://github.com/yahoo/arrow/blob/master/demo/test/sharedparams/shared-params-scenario-descriptor.json">here</a>
+
+            From your test file, you can access these shared params as
+
+             <pre>
+var quote = this.testParams.descriptorSharedParams["applequote"];
+             </pre>
+            Example <a href="https://github.com/yahoo/arrow/blob/master/demo/test/sharedparams/test-quote-aapl-shared-params.js">here</a>
+
+            You can put your test data directly in the descriptor or in a separate data file (JSON format)
+            <br>
+            <br>
+
+            1) Putting test data directly in the descriptor
+
+                You can put the test data as an array of config objects in the descriptor as shown below
+
+            <pre>
+                {
+                    "config": [
+                        {
+                            "baseUrl": "http://finance.yahoo.com",
+                            "searchBtnId":"#mnp-search_box"
+                        },
+                        {
+                            "baseUrl": "http://yahoo.com",
+                            "searchBtnId":"#p_13838465-p"
+
+                        }
+                    ]
+
+                }
+            </pre>
+            <br>
+            2) Putting test data in a data file (JSON format)
+
+                You can declare the location of your data driver file in the descriptor as shown below
+                <pre>
+                    "dataDriver" : "./configdata.json",
+                </pre>
+                <br>
+                The configdata.json will look like
+                <pre>
+                    {
+                        "config": [
+                            {
+                                "baseUrl": "http://finance.yahoo.com",
+                                "searchBtnId":"#mnp-search_box"
+                            },
+                            {
+                                "baseUrl": "http://yahoo.com",
+                                "searchBtnId":"#p_13838465-p"
+
+                            }
+                        ]
+                    }
+
+                </pre>
+
+        <br>
+        For the above config data, Arrow will iterate over this descriptor 2 times, once for each array element in the "config" object.
+
+        You can find the examples for data driven descriptor <a href="https://github.com/yahoo/arrow/blob/master/demo/test/datadriven/datadriven-descriptor.json">here</a> and
+        <a href="https://github.com/yahoo/arrow/blob/master/demo/test/datadriven/datadriven-descriptor-config.json">here</a>
+        <br><br>
+        Note: If you're using a context i.e passing --context=environment:qa ( for e.g ) and have defined baseUrl in dimensions file as
+        <pre>
+        [
+
+            {
+            "settings": ["environment:int"],
+                "config": {
+                "baseUrl": "http://int.yahoo.com"
+                }
+            },
+            {
+                "settings": ["environment:qa"],
+                "config": {
+                    "baseUrl": "http://qa.yahoo.com"
+                }
+            }
+        ]
+        </pre>
+        baseUrl from dimensions file will take precedence over the one defined in your config data.
+
+        To summarize, if you're using environment settings from context and data driven descriptor feature,don't put baseUrl in the data driven configuration.
+
+
+    </section>
+
+</div>
+
+<script type="text/javascript" src="javascripts/footer.js"> </script>
+
+</body>
+</html>
