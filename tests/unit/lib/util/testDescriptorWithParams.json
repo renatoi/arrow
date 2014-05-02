@@ -1,7 +1,0 @@
-[
-    {
-        "config": {
-            "baseUrl": "http://${property}$.${site}$.com"
-        }
-    }
-]
