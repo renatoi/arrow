@@ -18,435 +18,435 @@
 
 <!-- MAIN CONTENT -->
 <div id="main_content_wrap" class="outer">
-    <section id="main_content" class="inner">
+<section id="main_content" class="inner">
 
-        <h3>
-            <a name="how-to-run-arrow-tests-from-linux-box-to-windows-machine" class="anchor" href="#how-to-run-arrow-tests-from-linux-box-to-windows-machine">
-                <span class="octicon octicon-link"></span>How to run arrow tests from Linux box to Windows machine?</a></h3>
+<h3>
+    <a name="how-to-run-arrow-tests-from-linux-box-to-windows-machine" class="anchor" href="#how-to-run-arrow-tests-from-linux-box-to-windows-machine">
+        <span class="octicon octicon-link"></span>How to run arrow tests from Linux box to Windows machine?</a></h3>
 
-        <p>
+<p>
 
-            Make sure you have following setup before running arrow tests
+    Make sure you have following setup before running arrow tests
 
-            <ul>
+<ul>
 
-                <li>1. Linux box has arrow installed and it has all the packages listed here (Only start arrow_server if you are running unit tests)</li>
-                <li>2. Windows machine has selenium server up and running (Check http://yourIP:4444/wd/hub is loading fine)</li>
-                <li>3. Now run the arrow test and do not forget to pass the --seleniumHost=http://yourIP:4444/wd/hub while running your tests .e.g
-                    <pre><code>arrow test-descriptor.json --seleniumHost=http://10.10.10.10:4444/wd/hub --browser=firefox</code></pre>
-                </li>
+    <li>1. Linux box has arrow installed and it has all the packages listed here (Only start arrow_server if you are running unit tests)</li>
+    <li>2. Windows machine has selenium server up and running (Check http://yourIP:4444/wd/hub is loading fine)</li>
+    <li>3. Now run the arrow test and do not forget to pass the --seleniumHost=http://yourIP:4444/wd/hub while running your tests .e.g
+        <pre><code>arrow test-descriptor.json --seleniumHost=http://10.10.10.10:4444/wd/hub --browser=firefox</code></pre>
+    </li>
 
-            </ul>
+</ul>
 
-        </p>
+</p>
 
-        <h3>
-            <a name="how-to-debug-failures-for-arrow-failed-to-collect-report-cases" class="anchor" href="#how-to-debug-failures-for-arrow-failed-to-collect-report-cases">
-                <span class="octicon octicon-link"></span>How to debug failures for, "arrow failed to collect report" cases?</a>
-        </h3>
+<h3>
+    <a name="how-to-debug-failures-for-arrow-failed-to-collect-report-cases" class="anchor" href="#how-to-debug-failures-for-arrow-failed-to-collect-report-cases">
+        <span class="octicon octicon-link"></span>How to debug failures for, "arrow failed to collect report" cases?</a>
+</h3>
 
-        <p>
-            Usually this happens when there is some JS error inside your test script. To debug it further:
-            <ul>
-                <li>1. Run selenium with default profile
-                    <pre><code>java -Dwebdriver.firefox.profile=default -jar selenium-server-standalone-2.25.0.jar</code></pre>
-                </li>
-                <li>
-                    2. Now from your firefox, where you are running selenium, open http://yourIP:4444/wd/hub and create a firefox session
-                </li>
-                <li>
-                    3. Open the firebug console for this newly created session
-                </li>
-                <li>
-                    4. Trigger your tests. This will keep the browser window open after the tests fail, and you can see JS errors on the console
-                </li>
-            </ul>
+<p>
+    Usually this happens when there is some JS error inside your test script. To debug it further:
+<ul>
+    <li>1. Run selenium with default profile
+        <pre><code>java -Dwebdriver.firefox.profile=default -jar selenium-server-standalone-2.25.0.jar</code></pre>
+    </li>
+    <li>
+        2. Now from your firefox, where you are running selenium, open http://yourIP:4444/wd/hub and create a firefox session
+    </li>
+    <li>
+        3. Open the firebug console for this newly created session
+    </li>
+    <li>
+        4. Trigger your tests. This will keep the browser window open after the tests fail, and you can see JS errors on the console
+    </li>
+</ul>
 
-        </p>
+</p>
 
-        <h3>
-            <a name="error-cannot-find-module-abbrev" class="anchor" href="#error-cannot-find-module-abbrev">
-                <span class="octicon octicon-link"></span>Error: Cannot find module 'abbrev'</a>
-        </h3>
+<h3>
+    <a name="error-cannot-find-module-abbrev" class="anchor" href="#error-cannot-find-module-abbrev">
+        <span class="octicon octicon-link"></span>Error: Cannot find module 'abbrev'</a>
+</h3>
 
-        <p><pre><code>node.js:201
-throw e; // process.nextTick error, or 'error' event on first tick
-^
-Error: Cannot find module 'abbrev'
-at Function._resolveFilename (module.js:334:11)
-at Function._load (module.js:279:25)
-at Module.require (module.js:357:17)
-at require (module.js:368:17)
-at Object.&lt;anonymous&gt; (/usr/local/lib/node_modules/arrow/lib/nopt/lib/nopt.js:10:14)
-at Module._compile (module.js:432:26)
-at Object..js (module.js:450:10)
-at Module.load (module.js:351:31)
-at Function._load (module.js:310:12)
-at Module.require (module.js:357:17)</code></pre></p>
+<p><pre><code>node.js:201
+    throw e; // process.nextTick error, or 'error' event on first tick
+    ^
+    Error: Cannot find module 'abbrev'
+    at Function._resolveFilename (module.js:334:11)
+    at Function._load (module.js:279:25)
+    at Module.require (module.js:357:17)
+    at require (module.js:368:17)
+    at Object.&lt;anonymous&gt; (/usr/local/lib/node_modules/arrow/lib/nopt/lib/nopt.js:10:14)
+    at Module._compile (module.js:432:26)
+    at Object..js (module.js:450:10)
+    at Module.load (module.js:351:31)
+    at Function._load (module.js:310:12)
+    at Module.require (module.js:357:17)</code></pre></p>
 
-        <h4>
-            <a name="error-cannot-find-module-abbrev-soln" class="anchor" href="#error-cannot-find-module-abbrev-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+<h4>
+    <a name="error-cannot-find-module-abbrev-soln" class="anchor" href="#error-cannot-find-module-abbrev-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
 
-        <p>Install the abbrev module
-            <pre><code>sudo npm install abbrev -g</code></pre>
-        </p>
+<p>Install the abbrev module
+<pre><code>sudo npm install abbrev -g</code></pre>
+</p>
 
-            <h3>
-                <a name="error-syntaxerror-unexpected-token" class="anchor" href="#error-syntaxerror-unexpected-token"><span class="octicon octicon-link"></span>Error: SyntaxError?: Unexpected token }</a></h3>
+<h3>
+    <a name="error-syntaxerror-unexpected-token" class="anchor" href="#error-syntaxerror-unexpected-token"><span class="octicon octicon-link"></span>Error: SyntaxError?: Unexpected token }</a></h3>
 
-            <p><pre><code>SyntaxError?: Unexpected token }
-node.js:201
-throw e; // process.nextTick error, or 'error' event on first tick
-^
-SyntaxError: Unexpected token }
-at Object.parse (native)
-at DataProvider.getTestData (/usr/local/lib/node_modules/arrow/lib/util/dataprovider.js:21:31)
-at SessionFactory.runAllTestSessions (/usr/local/lib/node_modules/arrow/lib/session/sessionfactory.js:55:12)
-at Object.&lt;anonymous&gt; (/usr/local/lib/node_modules/arrow/index.js:56:16)
-at Module._compile (module.js:432:26)
-at Object..js (module.js:450:10)
-at Module.load (module.js:351:31)
-at Function._load (module.js:310:12)
-at Array.0 (module.js:470:10)
-at EventEmitter._tickCallback (node.js:192:40)</code></pre></p>
+<p><pre><code>SyntaxError?: Unexpected token }
+    node.js:201
+    throw e; // process.nextTick error, or 'error' event on first tick
+    ^
+    SyntaxError: Unexpected token }
+    at Object.parse (native)
+    at DataProvider.getTestData (/usr/local/lib/node_modules/arrow/lib/util/dataprovider.js:21:31)
+    at SessionFactory.runAllTestSessions (/usr/local/lib/node_modules/arrow/lib/session/sessionfactory.js:55:12)
+    at Object.&lt;anonymous&gt; (/usr/local/lib/node_modules/arrow/index.js:56:16)
+    at Module._compile (module.js:432:26)
+    at Object..js (module.js:450:10)
+    at Module.load (module.js:351:31)
+    at Function._load (module.js:310:12)
+    at Array.0 (module.js:470:10)
+    at EventEmitter._tickCallback (node.js:192:40)</code></pre></p>
 
-            <h4>
-                <a name="error-syntaxerror-unexpected-token-soln" class="anchor" href="#error-syntaxerror-unexpected-token-soln"><span class="octicon octicon-link"></span>Solution</a></h4>
+<h4>
+    <a name="error-syntaxerror-unexpected-token-soln" class="anchor" href="#error-syntaxerror-unexpected-token-soln"><span class="octicon octicon-link"></span>Solution</a></h4>
 
-                <p>It’s likely you have an extra character in your descriptor JSON file.
-                </p>
-
-
-            <h3>
-                <a name="error-arrow-server-is-not-running" class="anchor" href="#error-arrow-server-is-not-running"><span class="octicon octicon-link"></span>Error: Arrow Server is not Running</a></h3>
-
-            <p><pre><code>
-node.js:137
-throw e; // process.nextTick error, or 'error' event on first tick
-^
-arrow_server is not running</code></pre></p>
-
-            <h4>
-                <a name="error-arrow-server-is-not-running-soln" class="anchor" href="#error-arrow-server-is-not-running-soln"><span class="octicon octicon-link"></span>Solution</a></h4>
-
-            <p>You need to start Arrow server like this. <pre><code>arrow_server</code></pre>
-            </p>
+<p>It’s likely you have an extra character in your descriptor JSON file.
+</p>
 
 
-            <h3>
-                <a name="how-do-i-point-arrow-to-a-specific-selenium-server" class="anchor" href="#how-do-i-point-arrow-to-a-specific-selenium-server"><span class="octicon octicon-link"></span>How do I point Arrow to a Specific Selenium Server</a></h3>
+<h3>
+    <a name="error-arrow-server-is-not-running" class="anchor" href="#error-arrow-server-is-not-running"><span class="octicon octicon-link"></span>Error: Arrow Server is not Running</a></h3>
 
-            <p>There may be situations where the Selenium Server may not be running on the localhost and/or you may be pointing to a Selenium Grid instance.</p>
+<p><pre><code>
+    node.js:137
+    throw e; // process.nextTick error, or 'error' event on first tick
+    ^
+    arrow_server is not running</code></pre></p>
 
-            <h4>
-                <a name="how-do-i-point-arrow-to-a-specific-selenium-server-soln" class="anchor" href="#how-do-i-point-arrow-to-a-specific-selenium-server-soln"><span class="octicon octicon-link"></span>Solution</a></h4>
+<h4>
+    <a name="error-arrow-server-is-not-running-soln" class="anchor" href="#error-arrow-server-is-not-running-soln"><span class="octicon octicon-link"></span>Solution</a></h4>
 
-            <p>
-                You can tell Arrow to point to a specific Selenium Host in two ways
-                <ul>
-                    <li>1. Update the config file's seleniumHost value</li>
-                    <li>2. Use the <strong>--seleniumHost</strong> parameter in your command</li>
-                </ul>
+<p>You need to start Arrow server like this. <pre><code>arrow_server</code></pre>
+</p>
 
-            <strong>Note</strong> you need to include the <strong>FULL</strong> path to Selenium Server like this:
-            <pre><code>seleniumHost=http://url.to.server:port/wd/hub</code></pre>
 
-            </p>
+<h3>
+    <a name="how-do-i-point-arrow-to-a-specific-selenium-server" class="anchor" href="#how-do-i-point-arrow-to-a-specific-selenium-server"><span class="octicon octicon-link"></span>How do I point Arrow to a Specific Selenium Server</a></h3>
 
-            <h3>
-                <a name="how-can-i-use-the-locator-controller-to-login" class="anchor" href="#how-can-i-use-the-locator-controller-to-login"><span class="octicon octicon-link"></span>How can I use the Locator Controller to Login?</a></h3>
+<p>There may be situations where the Selenium Server may not be running on the localhost and/or you may be pointing to a Selenium Grid instance.</p>
 
-            <p>
-                Built-in, Arrow comes with two controllers, default and locator
-            </p>
+<h4>
+    <a name="how-do-i-point-arrow-to-a-specific-selenium-server-soln" class="anchor" href="#how-do-i-point-arrow-to-a-specific-selenium-server-soln"><span class="octicon octicon-link"></span>Solution</a></h4>
 
-            <h4>
-                <a name="how-can-i-use-the-locator-controller-to-login-soln" class="anchor" href="#how-can-i-use-the-locator-controller-to-login-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+<p>
+    You can tell Arrow to point to a specific Selenium Host in two ways
+<ul>
+    <li>1. Update the config file's seleniumHost value</li>
+    <li>2. Use the <strong>--seleniumHost</strong> parameter in your command</li>
+</ul>
 
-            <p>
-                You can use the locator controller to log you into Yahoo should you need it. In this example we'll do the following:
+<strong>Note</strong> you need to include the <strong>FULL</strong> path to Selenium Server like this:
+<pre><code>seleniumHost=http://url.to.server:port/wd/hub</code></pre>
 
-            <ul>
-                <li>1. Open login.yahoo.com with the final URL as the done URL</li>
-                <li>2. Execute the test</li>
-            </ul>
+</p>
+
+<h3>
+    <a name="how-can-i-use-the-locator-controller-to-login" class="anchor" href="#how-can-i-use-the-locator-controller-to-login"><span class="octicon octicon-link"></span>How can I use the Locator Controller to Login?</a></h3>
+
+<p>
+    Built-in, Arrow comes with two controllers, default and locator
+</p>
+
+<h4>
+    <a name="how-can-i-use-the-locator-controller-to-login-soln" class="anchor" href="#how-can-i-use-the-locator-controller-to-login-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+
+<p>
+    You can use the locator controller to log you into Yahoo should you need it. In this example we'll do the following:
+
+<ul>
+    <li>1. Open login.yahoo.com with the final URL as the done URL</li>
+    <li>2. Execute the test</li>
+</ul>
 
             <pre><code>
-[
-   {
-     "settings": [ "master" ],
-     "name": "YahooLogin",
-     "config": {
-       "baseUrl": "http://finance.yahoo.com"
-     },
-     "dataprovider" : {
-       "Use Locator to Login" : {
-       "group" : "func",
-       "params" :{
-          "scenario": [
-          {
-            "page": "http://login.yahoo.com/config/login?login=arrowtestuser1@yahoo.com&passwd=123456&.done=$$config.baseUrl$$"
-          },
-          {
-            "page": "$$config.baseUrl$$"
-          },
-          {
-            "test": "test-title.js",
-            "title": "Yahoo! Finance - Business Finance, Stock Market, Quotes, News"
-          }
-        ]
-      }
-    }
-  }
- },
- {
-  "settings": [ "environment:development" ]
- }
-]</code></pre>
+                [
+                {
+                "settings": [ "master" ],
+                "name": "YahooLogin",
+                "config": {
+                "baseUrl": "http://finance.yahoo.com"
+                },
+                "dataprovider" : {
+                "Use Locator to Login" : {
+                "group" : "func",
+                "params" :{
+                "scenario": [
+                {
+                "page": "http://login.yahoo.com/config/login?login=arrowtestuser1@yahoo.com&passwd=123456&.done=$$config.baseUrl$$"
+                },
+                {
+                "page": "$$config.baseUrl$$"
+                },
+                {
+                "test": "test-title.js",
+                "title": "Yahoo! Finance - Business Finance, Stock Market, Quotes, News"
+                }
+                ]
+                }
+                }
+                }
+                },
+                {
+                "settings": [ "environment:development" ]
+                }
+                ]</code></pre>
 
-            </p>
+</p>
 
 
-            <h3>
-                <a name="how-can-i-install-a-specific-arrow-version" class="anchor" href="#how-can-i-install-a-specific-arrow-version"><span class="octicon octicon-link"></span>How can I install a specific Arrow version?</a></h3>
+<h3>
+    <a name="how-can-i-install-a-specific-arrow-version" class="anchor" href="#how-can-i-install-a-specific-arrow-version"><span class="octicon octicon-link"></span>How can I install a specific Arrow version?</a></h3>
 
-            <p>Though we don't encourage this, there may be times when you may need to use a specific version of Arrow.</p>
+<p>Though we don't encourage this, there may be times when you may need to use a specific version of Arrow.</p>
 
-            <h4>
-                <a name="how-can-i-install-a-specific-arrow-version-soln" class="anchor" href="#how-can-i-install-a-specific-arrow-version-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+<h4>
+    <a name="how-can-i-install-a-specific-arrow-version-soln" class="anchor" href="#how-can-i-install-a-specific-arrow-version-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
 
-            <p>
-                To install version 0.0.80 for e.g, you can do
-                <pre><code>npm install yahoo-arrow@0.0.80</code></pre>
-            </p>
+<p>
+    To install version 0.5.0 for e.g, you can do
+<pre><code>npm install yahoo-arrow@0.5.0</code></pre>
+</p>
 
-            <p>
-                Alternately, you can hard code the version you want in the dependencies section in package.json. This will ensure that npm install will install the version you've specified in the dependencies
+<p>
+    Alternately, you can hard code the version you want in the dependencies section in package.json. This will ensure that npm install will install the version you've specified in the dependencies
 
-                e.g
+    e.g
                 <pre><code>
-"dependencies": {
-  "yahoo-arrow": "0.0.80",
-  ......
-        </code></pre>
-            </p>
+                    "dependencies": {
+                    "yahoo-arrow": "0.5.0",
+                    ......
+                </code></pre>
+</p>
 
 
-            <h3>
-                <a name="my-projecttests-are-using-nodejs-4x-the-new-versions-of-arrow-expect-nodejs-6-will-i-have-problems"
-                   class="anchor" href="#my-projecttests-are-using-nodejs-4x-the-new-versions-of-arrow-expect-nodejs-6-will-i-have-problems">
-                    <span class="octicon octicon-link"></span>My Project/Tests are using NodeJS 6.x, the new versions of Arrow expect NodeJS 8+. Will I have problems?</a></h3>
+<h3>
+    <a name="my-projecttests-are-using-nodejs-4x-the-new-versions-of-arrow-expect-nodejs-6-will-i-have-problems"
+       class="anchor" href="#my-projecttests-are-using-nodejs-4x-the-new-versions-of-arrow-expect-nodejs-6-will-i-have-problems">
+        <span class="octicon octicon-link"></span>My Project/Tests are using NodeJS 6.x, the new versions of Arrow expect NodeJS 8+. Will I have problems?</a></h3>
 
-            <p>After version XXX of Arrow, Arrow will no longer support NodeJS 6.x. How will this affect my tests, and what impact will this have to me?</p>
+<p>After version XXX of Arrow, Arrow will no longer support NodeJS 6.x. How will this affect my tests, and what impact will this have to me?</p>
 
-            <h4>
-                <a name="my-projecttests-are-using-nodejs-4x-the-new-versions-of-arrow-expect-nodejs-6-will-i-have-problems-soln" class="anchor"
-                   href="#my-projecttests-are-using-nodejs-4x-the-new-versions-of-arrow-expect-nodejs-6-will-i-have-problems-soln">
-                    <span class="octicon octicon-link"></span></a>Solution</h4>
+<h4>
+    <a name="my-projecttests-are-using-nodejs-4x-the-new-versions-of-arrow-expect-nodejs-6-will-i-have-problems-soln" class="anchor"
+       href="#my-projecttests-are-using-nodejs-4x-the-new-versions-of-arrow-expect-nodejs-6-will-i-have-problems-soln">
+        <span class="octicon octicon-link"></span></a>Solution</h4>
 
-            <p>
-                Because our dependencies are part of the NPM package, provided you do not upgrade, this should not cause you any problems. In other words, the dependencies for a given version of Arrow are tied to that version. Therefore, you should be able to continue using a previous version of Arrow without any issues.
-            </p>
+<p>
+    Because our dependencies are part of the NPM package, provided you do not upgrade, this should not cause you any problems. In other words, the dependencies for a given version of Arrow are tied to that version. Therefore, you should be able to continue using a previous version of Arrow without any issues.
+</p>
 
 
-            <h3>
-                <a name="how-do-i-write-traps"
-                   class="anchor" href="#how-do-i-write-traps">
-                    <span class="octicon octicon-link"></span>How do I write Traps?</a></h3>
+<h3>
+    <a name="how-do-i-write-traps"
+       class="anchor" href="#how-do-i-write-traps">
+        <span class="octicon octicon-link"></span>How do I write Traps?</a></h3>
 
-            <p>What guidelines should I follow when writing Traps?</p>
+<p>What guidelines should I follow when writing Traps?</p>
 
-            <h4>
-                <a name="how-do-i-write-traps-soln" class="anchor"
-                   href="#how-do-i-write-traps-soln">
-                    <span class="octicon octicon-link"></span></a>Solution</h4>
+<h4>
+    <a name="how-do-i-write-traps-soln" class="anchor"
+       href="#how-do-i-write-traps-soln">
+        <span class="octicon octicon-link"></span></a>Solution</h4>
 
-            <p>
+<p>
 
-                Follow these guidelines when writing Traps:
-                <ul>
-                    <li>The module name of the test script module must end with -tests, for example photo-ModuleA-tests.</li>
-                    <li>The method name of the test must start with test, for example testCloseByCloseButton.</li>
-                    <li>Do NOT write Y.Test.Runner.run() in your test. Use Y.Test.Runner.add(……).</li>
-                    <li>Add ALL necessary dependencies into the requires list.<li></li>
-            </ul>
+    Follow these guidelines when writing Traps:
+<ul>
+    <li>The module name of the test script module must end with -tests, for example photo-ModuleA-tests.</li>
+    <li>The method name of the test must start with test, for example testCloseByCloseButton.</li>
+    <li>Do NOT write Y.Test.Runner.run() in your test. Use Y.Test.Runner.add(……).</li>
+    <li>Add ALL necessary dependencies into the requires list.<li></li>
+</ul>
 
-            </p>
+</p>
 
-            <p>
-                Example code:
+<p>
+    Example code:
                 <pre>
                 <code>
-YUI.add("photo-ModuleA-tests", function(Y) {
-  var suite = new Y.Test.Suite("The description of this test suite");
-  var Assert = Y.Assert;
-  var lib = Y.Media.Test.Common;   //Include test library
-  var lib2 = Y.Media.Test.ModuleA  //Include module-specific test library
-  suite.add(new Y.Test.Case({   //Add tests into test suite
-  "setUp": function(){},
-  "testCloseByCloseButton": function(){……}, //All test methods must start with "test"
-  "testCloseByBlackArea": function(){……}
-  }));
-  Y.Test.Runner.add(suite);
-  }, "0.1", {requires:["arrow", "io", "node", "test” …… //Import all necessary dependencies
-     "media-test-library-Common", //Import common library
-     "media-test-library-ModuleA", //Import module-specific library
-   ]});
-</code></pre>
-            </p>
+                    YUI.add("photo-ModuleA-tests", function(Y) {
+                    var suite = new Y.Test.Suite("The description of this test suite");
+                    var Assert = Y.Assert;
+                    var lib = Y.Media.Test.Common;   //Include test library
+                    var lib2 = Y.Media.Test.ModuleA  //Include module-specific test library
+                    suite.add(new Y.Test.Case({   //Add tests into test suite
+                    "setUp": function(){},
+                    "testCloseByCloseButton": function(){……}, //All test methods must start with "test"
+                    "testCloseByBlackArea": function(){……}
+                    }));
+                    Y.Test.Runner.add(suite);
+                    }, "0.1", {requires:["arrow", "io", "node", "test” …… //Import all necessary dependencies
+                    "media-test-library-Common", //Import common library
+                    "media-test-library-ModuleA", //Import module-specific library
+                    ]});
+                </code></pre>
+</p>
 
 
-            <h3>
-                <a name="how-to-get-code-coverage-on-child-process"
-                   class="anchor" href="#how-to-get-code-coverage-on-child-process">
-                    <span class="octicon octicon-link"></span>How to get code coverage on child process?</a></h3>
+<h3>
+    <a name="how-to-get-code-coverage-on-child-process"
+       class="anchor" href="#how-to-get-code-coverage-on-child-process">
+        <span class="octicon octicon-link"></span>How to get code coverage on child process?</a></h3>
 
-            <p>How to get code coverage on child process, if the test code user child_process.spawn to lunch a child process during testing?</p>
+<p>How to get code coverage on child process, if the test code user child_process.spawn to lunch a child process during testing?</p>
 
-            <h4>
-                <a name="how-to-get-code-coverage-on-child-process-soln" class="anchor"
-                   href="#how-to-get-code-coverage-on-child-process-soln">
-                    <span class="octicon octicon-link"></span></a>Solution</h4>
+<h4>
+    <a name="how-to-get-code-coverage-on-child-process-soln" class="anchor"
+       href="#how-to-get-code-coverage-on-child-process-soln">
+        <span class="octicon octicon-link"></span></a>Solution</h4>
 
-            <p>
+<p>
 
-                Using Arrow built-in YUI module: istanbul-command-runner to spawn child process
-            <ul>
-                <li>It will generate coverage for each process under child_process_coverage directory</li>
-                <li>Please note child_process.fork is not supported for this mock module</li>
-                <li>It only support child process on server side testing</li>
-            </ul>
+    Using Arrow built-in YUI module: istanbul-command-runner to spawn child process
+<ul>
+    <li>It will generate coverage for each process under child_process_coverage directory</li>
+    <li>Please note child_process.fork is not supported for this mock module</li>
+    <li>It only support child process on server side testing</li>
+</ul>
 
-            </p>
+</p>
 
-            <p>
-                Example code:
+<p>
+    Example code:
                 <pre>
                 <code>
-YUI.add("child-process-tests", function (Y) {
-   var suite = new Y.Test.Suite("unit test suite");
+                    YUI.add("child-process-tests", function (Y) {
+                    var suite = new Y.Test.Suite("unit test suite");
 
-   suite.add(new Y.Test.Case({
-     "test command runner with istanbul instrument": function() {
-     self = this;
-     Y.IstanbulCommandRunner.setIstanbulRoot(__dirname + '/lib');
-     var cp = Y.IstanbulCommandRunner.spawn(__dirname + '/app/child-app.js', ["--foo"]);
-     cp.on('exit',function(code){
-       console.log('From parrent: sub exit with ' + code);
-     });
+                    suite.add(new Y.Test.Case({
+                    "test command runner with istanbul instrument": function() {
+                    self = this;
+                    Y.IstanbulCommandRunner.setIstanbulRoot(__dirname + '/lib');
+                    var cp = Y.IstanbulCommandRunner.spawn(__dirname + '/app/child-app.js', ["--foo"]);
+                    cp.on('exit',function(code){
+                    console.log('From parrent: sub exit with ' + code);
+                    });
 
-     // If this test sessinon finished before above spawned child process exit,
-     // seems the child process would be ended, so, please give enough time to
-     // wait here
-     this.wait(function () {}, 2000);
-     }
-  }));
+                    // If this test sessinon finished before above spawned child process exit,
+                    // seems the child process would be ended, so, please give enough time to
+                    // wait here
+                    this.wait(function () {}, 2000);
+                    }
+                    }));
 
-   //Note we are not "running" the suite.
-   //Arrow will take care of that. We simply need to "add" it to the runner
-   Y.Test.Runner.add(suite);
-}, "0.1", {requires:["test", "istanbul-command-runner"]});
+                    //Note we are not "running" the suite.
+                    //Arrow will take care of that. We simply need to "add" it to the runner
+                    Y.Test.Runner.add(suite);
+                    }, "0.1", {requires:["test", "istanbul-command-runner"]});
                 </code>
                 </pre>
-            </p>
+</p>
 
 
-            <h3>
-                <a name="how-to-create-multiple-selenium-sessions-and-do-interation-testing"
-                   class="anchor" href="#how-to-create-multiple-selenium-sessions-and-do-interation-testing">
-                    <span class="octicon octicon-link"></span>How to create multiple selenium sessions and do interation testing?</a></h3>
+<h3>
+    <a name="how-to-create-multiple-selenium-sessions-and-do-interation-testing"
+       class="anchor" href="#how-to-create-multiple-selenium-sessions-and-do-interation-testing">
+        <span class="octicon octicon-link"></span>How to create multiple selenium sessions and do interation testing?</a></h3>
 
-            <p>
-                For example, to test interaction between 2 Yahoo! Messanger accounts, we need open two selenium sessions to serve page A (for user A), and page B (for user B), then do something like:
+<p>
+    For example, to test interaction between 2 Yahoo! Messanger accounts, we need open two selenium sessions to serve page A (for user A), and page B (for user B), then do something like:
 
 
-                    <ul>
-                        <li>
-                            User A login and goes to page A, user B login and goes to page B;
-                        </li>
-                        <li>
-                            User A send a message to user B on page A;
-                        </li>
-                        <li>
-                            Verify on page B, to confirm the message is got by user B;
-                        </li>
-                        <li>
-                            User B make a comment on the message, on Page B;
-                        </li>
-                        <li>
-                            Verify on page A, to confirm user A can get the comment from user B;
-                        </li>
-                    </ul>
+<ul>
+    <li>
+        User A login and goes to page A, user B login and goes to page B;
+    </li>
+    <li>
+        User A send a message to user B on page A;
+    </li>
+    <li>
+        Verify on page B, to confirm the message is got by user B;
+    </li>
+    <li>
+        User B make a comment on the message, on Page B;
+    </li>
+    <li>
+        Verify on page A, to confirm user A can get the comment from user B;
+    </li>
+</ul>
 
-            </p>
+</p>
 
-            <h4>
-                <a name="how-to-create-multiple-selenium-sessions-and-do-interation-testing-soln" class="anchor"
-                   href="#how-to-create-multiple-selenium-sessions-and-do-interation-testing-soln">
-                    <span class="octicon octicon-link"></span></a>Solution</h4>
+<h4>
+    <a name="how-to-create-multiple-selenium-sessions-and-do-interation-testing-soln" class="anchor"
+       href="#how-to-create-multiple-selenium-sessions-and-do-interation-testing-soln">
+        <span class="octicon octicon-link"></span></a>Solution</h4>
 
-            <p>
-                Create a custom controller, and call webdrivermanager.createWebDriver to create webdriver object, like <a href="https://github.com/yahoo/arrow/blob/master/tests/functional/data/arrow_test/multisessions/controller-multisessions.js">this</a>.
+<p>
+    Create a custom controller, and call webdrivermanager.createWebDriver to create webdriver object, like <a href="https://github.com/yahoo/arrow/blob/master/tests/functional/data/arrow_test/multisessions/controller-multisessions.js">this</a>.
 
-            </p>
-            
-            
-            
-                    <h3>
-            <a name="how-can-I-see-screenshoturls-in-report-and-console" class="anchor" href="#how-can-I-see-screenshoturls-in-report-and-console">
-                <span class="octicon octicon-link"></span>How Can I See Screenshot Urls in Report and Console?</a>
-        </h3>
+</p>
 
-        <h4>
-            <a name="how-can-I-see-screenshoturls-in-report-and-console-soln" class="anchor" href="#how-can-I-see-screenshoturls-in-report-and-console-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
 
-        <p>You can pass the CI path till arrow-target directory in "artifactsUrl" ,either from command line or config file. For e.g If your arrow-target directory resides under 
+
+<h3>
+    <a name="how-can-I-see-screenshoturls-in-report-and-console" class="anchor" href="#how-can-I-see-screenshoturls-in-report-and-console">
+        <span class="octicon octicon-link"></span>How Can I See Screenshot Urls in Report and Console?</a>
+</h3>
+
+<h4>
+    <a name="how-can-I-see-screenshoturls-in-report-and-console-soln" class="anchor" href="#how-can-I-see-screenshoturls-in-report-and-console-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+
+<p>You can pass the CI path till arrow-target directory in "artifactsUrl" ,either from command line or config file. For e.g If your arrow-target directory resides under
         <pre>
               &lt;Your CI url&gt;/artifact/tests/arrow/node/  
-        </pre>, you can pass --artifactsUrl=&lt;Your CI url&gt;/artifact/tests/arrow/node/. 
-        </p>
-        
-        <p>
-        This will show the screenshot url for e.g as
-            <br><br>
-        &lt;Your CI url&gt;/artifact/tests/arrow/node/arrow-target/screenshots/smoke/descriptor.json/arrow-descriptor-1.png
+        </pre>, you can pass --artifactsUrl=&lt;Your CI url&gt;/artifact/tests/arrow/node/.
+</p>
 
-        </p>
+<p>
+    This will show the screenshot url for e.g as
+    <br><br>
+    &lt;Your CI url&gt;/artifact/tests/arrow/node/arrow-target/screenshots/smoke/descriptor.json/arrow-descriptor-1.png
 
-
-        <h3>
-            <a name="how-can-I-execute-tests-faster" class="anchor" href="#how-can-I-execute-tests-faster">
-                <span class="octicon octicon-link"></span>How can I execute tests faster ?</a>
-        </h3>
-
-        <h4>
-            <a name="how-can-I-execute-tests-faster-soln" class="anchor" href="#how-can-I-execute-tests-faster-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
-        <p>1) Opening and killing browser for each test adds up to the overall execution time. To execute your tests faster, you can re-use the same browser session for all the tests. For more details, refer <a href="arrow_running-tests.html#re-using-browser-sessions">here</a>
-        <p>2) Alternately, you can also run tests in parallel. For more details, refer <a href="arrow_parallelism.html">here</a>
+</p>
 
 
+<h3>
+    <a name="how-can-I-execute-tests-faster" class="anchor" href="#how-can-I-execute-tests-faster">
+        <span class="octicon octicon-link"></span>How can I execute tests faster ?</a>
+</h3>
 
-        <h3>
-            <a name="how-can-I-reuse-browser" class="anchor" href="#how-can-I-reuse-browser">
-                <span class="octicon octicon-link"></span>How can I reuse browser ?</a>
-        </h3>
-
-        <h4>
-            <a name="how-can-I-reuse-browser-soln" class="anchor" href="#how-can-I-reuse-browser-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
-        <p>By specifying --reuseSession=true in Arrow command. e.g --reuseSession=true --browser=firefox. In this case, if a firefox session already exists, it will reuse that session. If not, Arrow will create a new firefox session and execute the tests using that session. For more details, refer <a href="arrow_running-tests.html#re-using-browser-sessions">here</a>
+<h4>
+    <a name="how-can-I-execute-tests-faster-soln" class="anchor" href="#how-can-I-execute-tests-faster-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+<p>1) Opening and killing browser for each test adds up to the overall execution time. To execute your tests faster, you can re-use the same browser session for all the tests. For more details, refer <a href="arrow_running-tests.html#re-using-browser-sessions">here</a>
+<p>2) Alternately, you can also run tests in parallel. For more details, refer <a href="arrow_parallelism.html">here</a>
 
 
 
-        <h3>
-            <a name="how-can-I-import-tests-from-other-descriptors" class="anchor" href="#how-can-I-import-tests-from-other-descriptors">
-                <span class="octicon octicon-link"></span>How can I import tests from other descriptors?</a>
-        </h3>
+<h3>
+    <a name="how-can-I-reuse-browser" class="anchor" href="#how-can-I-reuse-browser">
+        <span class="octicon octicon-link"></span>How can I reuse browser ?</a>
+</h3>
 
-        <h4>
-            <a name="how-can-I-import-tests-from-other-descriptors-soln" class="anchor" href="#how-can-I-import-tests-from-other-descriptors-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
-        <p> To import tests from other descriptors, you can add "importDescriptor" element in your descriptor.
+<h4>
+    <a name="how-can-I-reuse-browser-soln" class="anchor" href="#how-can-I-reuse-browser-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+<p>By specifying --reuseSession=true in Arrow command. e.g --reuseSession=true --browser=firefox. In this case, if a firefox session already exists, it will reuse that session. If not, Arrow will create a new firefox session and execute the tests using that session. For more details, refer <a href="arrow_running-tests.html#re-using-browser-sessions">here</a>
 
-            <br>For e.g
+
+
+<h3>
+    <a name="how-can-I-import-tests-from-other-descriptors" class="anchor" href="#how-can-I-import-tests-from-other-descriptors">
+        <span class="octicon octicon-link"></span>How can I import tests from other descriptors?</a>
+</h3>
+
+<h4>
+    <a name="how-can-I-import-tests-from-other-descriptors-soln" class="anchor" href="#how-can-I-import-tests-from-other-descriptors-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+<p> To import tests from other descriptors, you can add "importDescriptor" element in your descriptor.
+
+    <br>For e.g
             <pre>
             "importDescriptor":[
                 {
@@ -457,18 +457,18 @@ YUI.add("child-process-tests", function (Y) {
             ]
             </pre>
 
-            For details, please look <a href="arrow_import_descriptor.html">here</a>
+For details, please look <a href="arrow_import_descriptor.html">here</a>
 
-        <h3>
-            <a name="how-can-I-resize-my-browser" class="anchor" href="#how-can-I-resize-my-browser">
-                <span class="octicon octicon-link"></span>How can I resize my browser?</a>
-        </h3>
+<h3>
+    <a name="how-can-I-resize-my-browser" class="anchor" href="#how-can-I-resize-my-browser">
+        <span class="octicon octicon-link"></span>How can I resize my browser?</a>
+</h3>
 
-        <h4>
-            <a name="how-can-I-resize-my-browser-soln" class="anchor" href="#how-can-I-resize-my-browser-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
-        <p> To resize your browser, you can add "windowSize" as params in your descriptor as shown below.
+<h4>
+    <a name="how-can-I-resize-my-browser-soln" class="anchor" href="#how-can-I-resize-my-browser-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+<p> To resize your browser, you can add "windowSize" as params in your descriptor as shown below.
 
-            <br>
+    <br>
             <pre>
 
         "dataprovider" : {
@@ -489,20 +489,20 @@ YUI.add("child-process-tests", function (Y) {
 
        </pre>
 
-        For full example, please look <a href="https://github.com/yahoo/arrow/blob/master/demo/test/test_window_size_descriptor.json">here</a>
+For full example, please look <a href="https://github.com/yahoo/arrow/blob/master/demo/test/test_window_size_descriptor.json">here</a>
 
 
-        <h3>
-            <a name="how-can-I-pass-my-own-capabilities" class="anchor" href="#how-can-I-pass-my-own-capabilities">
-                <span class="octicon octicon-link"></span>How can I pass my own capabilities?</a>
-        </h3>
+<h3>
+    <a name="how-can-I-pass-my-own-capabilities" class="anchor" href="#how-can-I-pass-my-own-capabilities">
+        <span class="octicon octicon-link"></span>How can I pass my own capabilities?</a>
+</h3>
 
-        <h4>
-            <a name="how-can-I-pass-my-own-capabilities-soln" class="anchor" href="#how-can-I-pass-my-own-capabilities-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
-        <p> If you want to pass custom capabilities , you can pass it to Arrow command as --capabilities=/path/to/json/file (should contain your capabilities object in JSON format ) or directly as a JSON object.
-            For e.g
+<h4>
+    <a name="how-can-I-pass-my-own-capabilities-soln" class="anchor" href="#how-can-I-pass-my-own-capabilities-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+<p> If you want to pass custom capabilities , you can pass it to Arrow command as --capabilities=/path/to/json/file (should contain your capabilities object in JSON format ) or directly as a JSON object.
+    For e.g
 
-            <br>
+    <br>
             <pre>
 
             {
@@ -527,53 +527,137 @@ YUI.add("child-process-tests", function (Y) {
             }
 
            </pre>
-        <p>
+<p>
 
-        For full example, please look <a href="https://github.com/yahoo/arrow/blob/master/demo/test/capabilities.json">here</a>
-        </p>
-        <p>
-        For complete list of webdriver capabilities, pleaes look <a href="http://code.google.com/p/selenium/wiki/DesiredCapabilities">here</a>
-        </p>
+    For full example, please look <a href="https://github.com/yahoo/arrow/blob/master/demo/test/capabilities.json">here</a>
+</p>
+<p>
+    For complete list of webdriver capabilities, pleaes look <a href="http://code.google.com/p/selenium/wiki/DesiredCapabilities">here</a>
+</p>
 
-        You can define multiple capabilities as shown above. The common capabilities should go under "common_capabilities" section to avoid duplication.
+You can define multiple capabilities as shown above. The common capabilities should go under "common_capabilities" section to avoid duplication.
 
-        Then ,from Arrow command,based on the above capabilities, you can pass --browser=mac_firefox_26 [ maps to the capability key in your capabilities object ]
+Then ,from Arrow command,based on the above capabilities, you can pass --browser=mac_firefox_26 [ maps to the capability key in your capabilities object ]
 
-        The default capabilities provided by Arrow are :
+The default capabilities provided by Arrow are :
         <pre>
         "platform": "ANY",
         "javascriptEnabled": true,
         "seleniumProtocol": "WebDriver"
         </pre>
-        <p>
-        In addition, Arrow sets "device" and "app" capabilities when testing with mobile browsers ( iphone, ipad, android etc )
-        "device":browserName (ipad/iphone/android/androidtablet)
-        "app":"safari" ( for ipad/iphone ) and "app":"browser" ( for android/androidtablet )
-        </p>
-        Note: Arrow merges the capability object when its explicitly passed by the user with the default capabilities. Property in custom capability takes precedence over the default capability.
+<p>
+    In addition, Arrow sets "device" and "app" capabilities when testing with mobile browsers ( iphone, ipad, android etc )
+    "device":browserName (ipad/iphone/android/androidtablet)
+    "app":"safari" ( for ipad/iphone ) and "app":"browser" ( for android/androidtablet )
+</p>
+Note: Arrow merges the capability object when its explicitly passed by the user with the default capabilities. Property in custom capability takes precedence over the default capability.
 
 
 
-        <h3>
-            <a name="how-can-I-add-comments-in-descriptors" class="anchor" href="#how-can-I-add-comments-in-descriptors">
-                <span class="octicon octicon-link"></span>How can I add comments in descriptors?</a>
-        </h3>
+<h3>
+    <a name="how-can-I-reuse-same-descriptor-with-different-sets-of-data" class="anchor" href="#how-can-I-reuse-same-descriptor-with-different-sets-of-data">
+        <span class="octicon octicon-link"></span>How can I reuse same descriptor with different sets of data?</a>
+</h3>
 
-        <h4>
-            <a name="how-can-I-add-comments-in-descriptors-soln" class="anchor" href="#how-can-I-add-comments-in-descriptors-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
-        <p>
-            Descriptors are written in JSON format and JSON doesn't allow to write comments.
-            So as a workaround, you can add a field in the descriptor called "comments"
-            e.g "comment":"Test to verify if A == B"
+<h4>
+    <a name="how-can-I-reuse-same-descriptor-with-different-sets-of-data-soln" class="anchor" href="#how-can-I-reuse-same-descriptor-with-different-sets-of-data-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+<p> To reuse same descriptor with different data sets, you can use dataDrivers like this.
+    <br>
+    In your descriptor, you can defined dataDriver like
 
-            <br>See example
-            <a href="https://github.com/yahoo/arrow/blob/master/demo/test/finance-controller-descriptor.json#L10">here</a>
+            <pre>
+"dataDriver" : "./configdata.json"
+            </pre>
 
-            and
+You can store your data set in configData.json like
+        <pre>
+{
+    "config": [
+        {
+            "finance": {
+                "baseUrl": "http://finance.yahoo.com",
+                "searchBtnId": "#mnp-search_box"
+            }
+        },
+        {
+            "yahoo": {
+                "baseUrl": "http://yahoo.com",
+                "searchBtnId": "#p_13838465-p"
+            }
+        }
+    ]
+}
 
-            <a href="https://github.com/yahoo/arrow/blob/master/demo/test/finance-scenario-descriptor.json#L10">here</a>
+        </pre>
+<br>
+For details, please refer <a href="arrow_data_driven_descriptor.html">data driven descriptors</a>
 
-    </section>
+
+<br>
+
+<h3>
+    <a name="dataDriven-baseUrl-overridden" class="anchor" href="#dataDriven-baseUrl-overridden">
+        <span class="octicon octicon-link"></span>Why the baseUrl in my data driven config data gets overridden if I'm using dimensions?</a>
+</h3>
+
+<h4>
+    <a name="baseUrl-precedence-soln" class="anchor" href="#baseUrl-precedence-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+
+<br><br>
+Note: If you're using a context i.e passing --context=environment:qa ( for e.g ) and have defined baseUrl in dimensions file as <br><br>
+        <pre>
+        [
+
+            {
+            "settings": ["environment:int"],
+                "config": {
+                "baseUrl": "http://int.yahoo.com"
+                }
+            },
+            {
+                "settings": ["environment:qa"],
+                "config": {
+                    "baseUrl": "http://qa.yahoo.com"
+                }
+            }
+        ]
+        </pre>
+<br>baseUrl from dimensions file will take precedence over the one defined in your config data.
+
+To summarize, if you're using environment settings from context and data driven descriptor feature,don't put baseUrl in the data driven configuration.
+<br>
+<br>
+<h3>
+    <a name="how-can-I-share-params-from-my-descriptor" class="anchor" href="#how-can-I-share-params-from-my-descriptor">
+        <span class="octicon octicon-link"></span>How can I use share parameters with the tests from my descriptor?</a>
+</h3>
+
+<h4>
+    <a name="how-can-I-share-params-from-my-descriptor-soln" class="anchor" href="#how-can-I-share-params-from-my-descriptor-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+<p> To share params from your descriptor, you can declare them under "config" section like
+
+            <pre>
+     "config": {
+
+            "descriptorSharedParams" :{
+                "yhooquote": "Yahoo! Inc. (YHOO)",
+                "applequote": "Apple Inc. (AAPL)"
+            }
+        },
+</pre>
+<br>
+Then, you can directly access these params from your tests like
+<br>
+        <pre>
+     var quote = this.testParams.descriptorSharedParams["yhooquote"];</pre>
+<br>
+For details, please refer <a href="arrow_shared_params.html">Shared Params from descriptor</a>
+
+
+
+
+
+</section>
 </div>
 
 <script type="text/javascript" src="javascripts/footer.js"> </script>

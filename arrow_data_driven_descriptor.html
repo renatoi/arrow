@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Data Driven Descriptor</title>
+</head>
+<body>
+
+<script type="text/javascript" src="javascripts/header.js"> </script>
+<script type="text/javascript" src="javascripts/menu.js"> </script>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+
+    <h3><a name="Data Driven Descriptor" class="anchor" href="#import-descriptor"><span class="octicon octicon-link"></span></a>Data Driven Descriptor</h3>
+
+
+        <p>
+
+            If you've a use case, where you can re-use the same descriptor with different test data, data driven descriptors come handy.
+
+            You can put your test data directly in the descriptor or in a separate data file (JSON format).
+            <br>
+            <br>
+
+            1) Putting test data directly in the descriptor
+
+                You can put the test data as an array of config objects in the descriptor as shown below. ""finance" and "yahoo" are the keys for your data items which needs to be unique.
+
+            <pre>
+
+{
+    "config": [
+        {
+            "finance": {
+                "baseUrl": "http://finance.yahoo.com",
+                "searchBtnId": "#mnp-search_box"
+            }
+        },
+        {
+            "yahoo": {
+                "baseUrl": "http://yahoo.com",
+                "searchBtnId": "#p_13838465-p"
+            }
+        }
+    ]
+}
+            </pre>
+            <br>
+
+            2) Putting test data in a data file (JSON format)
+
+                You can declare the location of your data driver file in the descriptor as shown below
+                <pre>
+                    "dataDriver" : "./configdata.json",
+                </pre>
+                <br>
+                The configdata.json will look like
+                <pre>
+{
+    "config": [
+        {
+            "finance": {
+                "baseUrl": "http://finance.yahoo.com",
+                "searchBtnId": "#mnp-search_box"
+            }
+        },
+        {
+            "yahoo": {
+                "baseUrl": "http://yahoo.com",
+                "searchBtnId": "#p_13838465-p"
+            }
+        }
+    ]
+}
+
+                </pre>
+
+        <br>
+        For the above config data, Arrow will iterate over this descriptor 2 times, once for each array element in the "config" object.
+        <br> <br>
+        Full examples
+
+        <br>
+            1) <a href="https://github.com/yahoo/arrow/blob/master/demo/test/datadriven/datadriven-descriptor.json">Data driven descriptor with path of config data file</a>
+        <br>
+            2) <a href="https://github.com/yahoo/arrow/blob/master/demo/test/datadriven/datadriven-descriptor-config.json">Data driven descriptor with config data </a>
+
+
+
+    </section>
+
+</div>
+
+<script type="text/javascript" src="javascripts/footer.js"> </script>
+
+</body>
+</html>

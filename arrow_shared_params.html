@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Arrow : FE Test framework designed to promote TDD" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Descriptor Shared Params</title>
+</head>
+<body>
+
+<script type="text/javascript" src="javascripts/header.js"> </script>
+<script type="text/javascript" src="javascripts/menu.js"> </script>
+
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
+
+        <h3><a name="Shared Params" class="anchor" href="#import-descriptor"><span class="octicon octicon-link"></span></a>Sharing Params in Descriptor</h3>
+
+
+        <p>
+
+            To share parameters across tests in the same descriptor,you can define them like this
+
+            <pre>
+
+            "config": {
+
+                "descriptorSharedParams" :{
+                    "yhooquote": "Yahoo! Inc. (YHOO)",
+                    "applequote": "Apple Inc. (AAPL)"
+                }
+            }
+
+            </pre>
+        <br>
+        Then, the parameters in "descriptorSharedParams" can be accessed across all tests in the descriptor.
+
+            <pre>
+            [
+                {
+                    "settings": [ "master" ],
+
+                    "name": "controllers",
+
+                    "config": {
+
+                        "descriptorSharedParams" :{
+                            "yhooquote": "Yahoo! Inc. (YHOO)",
+                            "applequote": "Apple Inc. (AAPL)"
+                        }
+                    },
+
+                    "dataprovider" : {
+
+                        "Test YHOO Ticker" : {
+                            "group" : "func",
+
+                            "params" :{
+
+                                "scenario": [
+                                    {
+                                        "page": "http://finance.yahoo.com"
+                                    },
+                                    {
+                                        "controller": "locator",
+                                        "params": {
+                                            "value": "#txtQuotes",
+                                            "text": "yhoo\n"
+                                        }
+                                    },
+                                    {
+                                        "test": "test-quote-yhoo-shared-params.js"
+                                    },
+
+                                    {
+                                        "page": "http://finance.yahoo.com"
+                                    },
+                                    {
+                                        "controller": "locator",
+                                        "params": {
+                                            "value": "#txtQuotes",
+                                            "text": "aapl\n"
+                                        }
+                                    },
+                                    {
+                                        "test": "test-quote-aapl-shared-params.js"
+                                    }
+
+                                ]
+                            }
+
+                        }
+                    }
+                },
+                {
+                    "settings": [ "environment:development" ]
+                }
+
+            ]
+
+            </pre>
+
+        <br>
+        Example of <a href="https://github.com/yahoo/arrow/blob/master/demo/test/sharedparams/shared-params-scenario-descriptor.json">descriptor with shared params</a>
+
+        From your test file, you can access these shared params as
+
+<pre>
+var quote = this.testParams.descriptorSharedParams["applequote"];
+</pre>
+        <br>
+        Example of <a href="https://github.com/yahoo/arrow/blob/master/demo/test/sharedparams/test-quote-aapl-shared-params.js">accessing shared descriptor params from the test</a>
+
+    </section>
+
+</div>
+
+<script type="text/javascript" src="javascripts/footer.js"> </script>
+
+</body>
+</html>
