@@ -17,7 +17,7 @@
 <!-- MAIN CONTENT -->
 <div id="main_content_wrap" class="outer">
     <section id="main_content" class="inner">
-        <h3><a name="Re-Using Browser Sessions" class="anchor" href="#re-using-browser-sessions"><span class="octicon octicon-link"></span></a>Re-Using Browser Sessions</h3>
+        <h3><a name="Re-Using Browser Sessions" class="anchor" href="#re-using-browser-sessions"><span class="octicon octicon-link"></span>Re-Using Browser Sessions</a></h3>
         <p>
             As you develop your tests, you may find it necessary to <em>test</em> them against a real browser, such as those supported by Selenium. However, one of the disadvantages of this approach is that normally, for each test file, a new browser session is started and stopped. This is time consuming and counter-productive during development.
         </p>
@@ -34,7 +34,15 @@
         </ul>
         However, one should keep in mind that this approach means your test will have a non-sterile environment as session and cookie information will be <strong>reused</strong>
 
-        To use <em>Session-Reuse</em> do the following:
+        <p>
+        To use <em>Session-Reuse</em> , you can do
+<pre>./node_modules/.bin/arrow &ltsome test or test descriptor&gt --reuseSession=true --browser=browserName
+e.g  ./node_modules/.bin/arrow &ltsome test or test descriptor&gt --reuseSession=true --browser=firefox
+</pre>
+
+        If a firefox session already exists, Arrow will use that session to execute the tests. If not, Arrow will create a firefox session and will execute tests using that session.
+        <br>
+        Alternately, you can also create the sessions manually like following:
 
         <ol>
             <li>From within the machine running Selenium server go to: http://localhost:4444/wd/hub/static/resource/hub.html</li>
@@ -46,6 +54,7 @@
 <pre>
  ./node_modules/.bin/arrow &ltsome test or test descriptor&gt --reuseSession=true
 </pre>
+        </p>
         <p>
             Arrow will contact the Selenium Server in the config and will ask it if there are any <em>reusable</em> sessions. If so, it will direct all tests to them.
         </p>

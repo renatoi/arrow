@@ -224,7 +224,6 @@
     <ol>
         <li>Make sure to include "var log4js = require("yahoo-arrow").log4js;" and "var Controller = require("yahoo-arrow").controller" to access yahoo-arrow.</li>
         <li>Make sure to include "waitForElementPresent(webdriver.By.css(".title"))" before calling the callback() to return to the test or else sometime, "ARROW is not defined" error will appear since the test try to execute before even loading the page completely.</li>
-        <li>Make sure to include "self.testParams.page=null;" if you are on the page you want to be before calling your test</li>
     </ol>
 
     <h4><a name="Sharing test parameters among custom controllers and tests in a scenario node" class="anchor" href="#share-test-param"><span class="octicon octicon-link"></span></a>Sharing test parameters among custom controllers and tests in a scenario node</h4>

@@ -100,7 +100,6 @@ document.write("                <li>");
 document.write("                    <a href=\"arrow_import_descriptor.html\">Importing tests from other descriptor<\/a>");
 document.write("                <\/li>");
 document.write("");
-
 document.write("                <li>");
 document.write("                    <a href=\"arrow_data_driven_descriptor.html\">Data driven descriptors<\/a>");
 document.write("                <\/li>");
