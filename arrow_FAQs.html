@@ -596,6 +596,38 @@ For details, please refer <a href="arrow_data_driven_descriptor.html">data drive
 <br>
 
 <h3>
+    <a name="dataDriven-baseUrl-overridden" class="anchor" href="#dataDriven-baseUrl-overridden">
+        <span class="octicon octicon-link"></span>Why the baseUrl in my data driven config data gets overridden if I'm using dimensions?</a>
+</h3>
+
+<h4>
+    <a name="baseUrl-precedence-soln" class="anchor" href="#baseUrl-precedence-soln"><span class="octicon octicon-link"></span></a>Solution</h4>
+
+<br><br>
+Note: If you're using a context i.e passing --context=environment:qa ( for e.g ) and have defined baseUrl in dimensions file as <br><br>
+        <pre>
+        [
+
+            {
+            "settings": ["environment:int"],
+                "config": {
+                "baseUrl": "http://int.yahoo.com"
+                }
+            },
+            {
+                "settings": ["environment:qa"],
+                "config": {
+                    "baseUrl": "http://qa.yahoo.com"
+                }
+            }
+        ]
+        </pre>
+<br>baseUrl from dimensions file will take precedence over the one defined in your config data.
+
+To summarize, if you're using environment settings from context and data driven descriptor feature,don't put baseUrl in the data driven configuration.
+<br>
+<br>
+<h3>
     <a name="how-can-I-share-params-from-my-descriptor" class="anchor" href="#how-can-I-share-params-from-my-descriptor">
         <span class="octicon octicon-link"></span>How can I use share same descriptor with different sets of data?</a>
 </h3>
@@ -620,6 +652,10 @@ Then, you can directly access these params from your tests like
      var quote = this.testParams.descriptorSharedParams["yhooquote"];</pre>
 <br>
 For details, please refer <a href="arrow_shared_params.html">Shared Params from descriptor</a>
+
+
+
+
 
 </section>
 </div>

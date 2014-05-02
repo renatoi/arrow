@@ -24,8 +24,7 @@
 
         <p>
 
-            You can define some parameters in your descriptor and can share them across tests in the same descriptor.
-            To achieve this, you can do
+            To share parameters across tests in the same descriptor,you can define them like this
 
             <pre>
 
@@ -39,7 +38,7 @@
 
             </pre>
         <br>
-        The parameters in "descriptorSharedParams" can be accessed across all tests in the descriptor.
+        Then, the parameters in "descriptorSharedParams" can be accessed across all tests in the descriptor.
 
             <pre>
             [
@@ -107,14 +106,15 @@
             </pre>
 
         <br>
-        Example <a href="https://github.com/yahoo/arrow/blob/master/demo/test/sharedparams/shared-params-scenario-descriptor.json">here</a>
+        Example of <a href="https://github.com/yahoo/arrow/blob/master/demo/test/sharedparams/shared-params-scenario-descriptor.json">descriptor with shared params</a>
 
         From your test file, you can access these shared params as
 
-             <pre>
+<pre>
 var quote = this.testParams.descriptorSharedParams["applequote"];
-             </pre>
-        Example <a href="https://github.com/yahoo/arrow/blob/master/demo/test/sharedparams/test-quote-aapl-shared-params.js">here</a>
+</pre>
+        <br>
+        Example of <a href="https://github.com/yahoo/arrow/blob/master/demo/test/sharedparams/test-quote-aapl-shared-params.js">accessing shared descriptor params from the test</a>
 
     </section>
 

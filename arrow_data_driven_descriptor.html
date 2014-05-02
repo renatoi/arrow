@@ -26,31 +26,35 @@
 
             If you've a use case, where you can re-use the same descriptor with different test data, data driven descriptors come handy.
 
-            You can put your test data directly in the descriptor or in a separate data file (JSON format)
+            You can put your test data directly in the descriptor or in a separate data file (JSON format).
             <br>
             <br>
 
             1) Putting test data directly in the descriptor
 
-                You can put the test data as an array of config objects in the descriptor as shown below
+                You can put the test data as an array of config objects in the descriptor as shown below. ""finance" and "yahoo" are the keys for your data items which needs to be unique.
 
             <pre>
-                {
-                    "config": [
-                        {
-                            "baseUrl": "http://finance.yahoo.com",
-                            "searchBtnId":"#mnp-search_box"
-                        },
-                        {
-                            "baseUrl": "http://yahoo.com",
-                            "searchBtnId":"#p_13838465-p"
 
-                        }
-                    ]
-
-                }
+{
+    "config": [
+        {
+            "finance": {
+                "baseUrl": "http://finance.yahoo.com",
+                "searchBtnId": "#mnp-search_box"
+            }
+        },
+        {
+            "yahoo": {
+                "baseUrl": "http://yahoo.com",
+                "searchBtnId": "#p_13838465-p"
+            }
+        }
+    ]
+}
             </pre>
             <br>
+
             2) Putting test data in a data file (JSON format)
 
                 You can declare the location of your data driver file in the descriptor as shown below
@@ -60,49 +64,35 @@
                 <br>
                 The configdata.json will look like
                 <pre>
-                    {
-                        "config": [
-                            {
-                                "baseUrl": "http://finance.yahoo.com",
-                                "searchBtnId":"#mnp-search_box"
-                            },
-                            {
-                                "baseUrl": "http://yahoo.com",
-                                "searchBtnId":"#p_13838465-p"
-
-                            }
-                        ]
-                    }
+{
+    "config": [
+        {
+            "finance": {
+                "baseUrl": "http://finance.yahoo.com",
+                "searchBtnId": "#mnp-search_box"
+            }
+        },
+        {
+            "yahoo": {
+                "baseUrl": "http://yahoo.com",
+                "searchBtnId": "#p_13838465-p"
+            }
+        }
+    ]
+}
 
                 </pre>
 
         <br>
         For the above config data, Arrow will iterate over this descriptor 2 times, once for each array element in the "config" object.
+        <br> <br>
+        Full examples
 
-        You can find the examples for data driven descriptor <a href="https://github.com/yahoo/arrow/blob/master/demo/test/datadriven/datadriven-descriptor.json">here</a> and
-        <a href="https://github.com/yahoo/arrow/blob/master/demo/test/datadriven/datadriven-descriptor-config.json">here</a>
-        <br><br>
-        Note: If you're using a context i.e passing --context=environment:qa ( for e.g ) and have defined baseUrl in dimensions file as
-        <pre>
-        [
+        <br>
+            1) <a href="https://github.com/yahoo/arrow/blob/master/demo/test/datadriven/datadriven-descriptor.json">Data driven descriptor with path of config data file</a>
+        <br>
+            2) <a href="https://github.com/yahoo/arrow/blob/master/demo/test/datadriven/datadriven-descriptor-config.json">Data driven descriptor with config data </a>
 
-            {
-            "settings": ["environment:int"],
-                "config": {
-                "baseUrl": "http://int.yahoo.com"
-                }
-            },
-            {
-                "settings": ["environment:qa"],
-                "config": {
-                    "baseUrl": "http://qa.yahoo.com"
-                }
-            }
-        ]
-        </pre>
-        baseUrl from dimensions file will take precedence over the one defined in your config data.
-
-        To summarize, if you're using environment settings from context and data driven descriptor feature,don't put baseUrl in the data driven configuration.
 
 
     </section>
