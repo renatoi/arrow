@@ -1,5 +1,0 @@
-{
-    "modules": {
-        "common-lib": "sharelib/lib/common/common.js"
-    }
-}
