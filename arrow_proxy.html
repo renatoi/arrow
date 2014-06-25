@@ -275,6 +275,29 @@
 
     This will pass the value of param 'User-Agent' to the specified value for 'sports.yahoo.com' and runs the test for iphone user-agent.
 
+
+    <h4><a name="Enable recording for POST body with --routerConfigProxy" class="anchor" href="#post-body-with-proxy"><span class="octicon octicon-link"></span></a>Enable recording for POST body with --routerConfigProxy</h4>
+    Sometimes user wants to record the POST body. It can be done from router.json as shown below.
+
+    <h4><a name="router-post-body.json" class="anchor" href="#router-post-body.json"><span class="octicon octicon-link"></span></a>router-header.json</h4>
+<pre>
+ {
+     "storeBody" : true,
+     "sizeLimit": 4096,
+     "sports.yahoo.com" : {
+         "newHost" : "x.x.x.x",
+         "record" : true
+     }
+ }
+</pre>
+
+    This will enable the feature of recording the body of POST request with first 4096 bytes. In the script you can access the record by simply:
+
+<pre>
+    var record = self.getProxyRecord(); // Get the proxy record
+    var postBody = record[0].body.text; // Get the body of first record as string.
+</pre>
+
     </section>
 </div>
 
