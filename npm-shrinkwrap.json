@@ -716,8 +716,8 @@
         "from": "saucelabs@"
     },
     "selenium-webdriver": {
-      "version": "2.39.0",
-      "from": "selenium-webdriver@2.39.0"
+      "version": "2.44.0",
+      "from": "selenium-webdriver@2.44.0"
     },
     "uglify-js": {
       "version": "1.3.4",
